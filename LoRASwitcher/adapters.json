@@ -1,0 +1,30 @@
+{
+  "base_model": "Qwen/Qwen3-0.6B",
+  "adapters": [
+    {
+      "name": "tldr",
+      "repo_id": "phh/Qwen3-0.6B-TLDR-Lora",
+      "description": "Summarization adapter"
+    },
+    {
+      "name": "function_calling",
+      "repo_id": "Pelmeshek/qwen3-0.6B-function-calling-lora",
+      "description": "Function-calling format adapter"
+    },
+    {
+      "name": "medical",
+      "repo_id": "heboya8/Qwen-3-0.6B-it-Medical-LoRA",
+      "description": "Medical instruction adapter #1"
+    },
+    {
+      "name": "medical_vi",
+      "repo_id": "MightyOctopus/qwen3-0.6B-lora-medical",
+      "description": "Medical adapter #2"
+    },
+    {
+      "name": "structured_output",
+      "repo_id": "venera-ai/qwen3-0.6b-structured-output-lora",
+      "description": "Structured JSON-style output adapter"
+    }
+  ]
+}
