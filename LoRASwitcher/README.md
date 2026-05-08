@@ -18,10 +18,8 @@ pip install -r requirements.txt
 
 Edit `adapters.json` if you want different adapters.
 
-Current file contains 5 public adapter candidates for pipeline validation.
-
-These adapters are selected for the Qwen3-0.6B family and include adapter files
-(`adapter_config.json`, `adapter_model.safetensors`) for direct LoRA loading.
+Current file is cleaned to one verified adapter (`tldr`) so the baseline can run stably.
+You can add more adapters later after isolated compatibility validation.
 
 ## Run single request (exactly one LoRA)
 
@@ -68,6 +66,27 @@ The script prints per-adapter metrics:
 - `switch_ms`: time spent resolving/downloading/switching adapter
 - `infer_ms`: generation time for that adapter request
 - `ok/fail`: adapter health in current environment
+
+## Run 50-test batched benchmark
+
+This creates synthetic requests split evenly across adapter types in `adapters.json`.
+
+```bash
+python router_demo.py \
+  --doc-type tldr \
+  --prompt "warmup request" \
+  --bench-requests 50 \
+  --bench-batch-size 10 \
+  --max-tokens 64 \
+  --cache-dir ./.hf_cache \
+  --gpu-memory-utilization 0.20 \
+  --max-model-len 768
+```
+
+Current baseline behavior:
+- supports one LoRA per request
+- batches by adapter
+- processes adapter groups sequentially (not parallel adapter execution)
 
 ## If you see cache permission errors
 

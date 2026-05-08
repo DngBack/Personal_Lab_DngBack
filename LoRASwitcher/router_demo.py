@@ -215,6 +215,18 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Run one inference for each configured adapter in one process.",
     )
+    parser.add_argument(
+        "--bench-requests",
+        type=int,
+        default=0,
+        help="Run batched benchmark with this many synthetic requests (example: 50).",
+    )
+    parser.add_argument(
+        "--bench-batch-size",
+        type=int,
+        default=10,
+        help="Batch size used for --bench-requests benchmark.",
+    )
     return parser.parse_args()
 
 
@@ -226,10 +238,8 @@ def run_grouped_benchmark(router: OneLoRARouter, max_tokens: int) -> None:
     """
     sample_requests = [
         InferenceRequest("tldr", "Summarize this quarterly report in 3 bullets."),
-        InferenceRequest("function_calling", "Write a SQL query for top 5 customers by revenue."),
         InferenceRequest("tldr", "Extract risks from this budget statement."),
-        InferenceRequest("medical", "Generate a polite intake follow-up message."),
-        InferenceRequest("structured_output", "Return this customer profile as strict JSON."),
+        InferenceRequest("tldr", "Write a one-line neutral summary for this report."),
     ]
 
     started = time.time()
@@ -240,6 +250,58 @@ def run_grouped_benchmark(router: OneLoRARouter, max_tokens: int) -> None:
     for idx, text in enumerate(outputs):
         snippet = text[:120].replace("\n", " ")
         print(f"[bench][{idx}] {snippet}...")
+
+
+def _build_even_requests(router: OneLoRARouter, total_requests: int) -> List[InferenceRequest]:
+    """Build requests distributed as evenly as possible across configured adapters."""
+    adapter_names = sorted(router.adapters.keys())
+    if not adapter_names:
+        raise ValueError("No adapters configured in adapters.json.")
+
+    per_adapter = total_requests // len(adapter_names)
+    remainder = total_requests % len(adapter_names)
+
+    requests: List[InferenceRequest] = []
+    for idx, adapter_name in enumerate(adapter_names):
+        count = per_adapter + (1 if idx < remainder else 0)
+        for sample_id in range(count):
+            requests.append(
+                InferenceRequest(
+                    doc_type=adapter_name,
+                    prompt=(
+                        f"Adapter={adapter_name}; sample={sample_id}; "
+                        "return one concise sentence."
+                    ),
+                )
+            )
+    return requests
+
+
+def run_batch_benchmark(
+    router: OneLoRARouter,
+    max_tokens: int,
+    total_requests: int,
+    batch_size: int,
+) -> None:
+    """Run batched benchmark with even adapter distribution.
+
+    Adapter groups are processed sequentially in this baseline.
+    """
+    requests = _build_even_requests(router, total_requests)
+    started = time.time()
+    consumed = 0
+    while consumed < len(requests):
+        batch = requests[consumed : consumed + batch_size]
+        _ = router.generate_grouped(batch, max_tokens=max_tokens)
+        consumed += len(batch)
+
+    elapsed = time.time() - started
+    req_per_sec = total_requests / elapsed if elapsed > 0 else 0.0
+    print(
+        f"[bench50] total={total_requests} batch_size={batch_size} "
+        f"elapsed_sec={elapsed:.2f} req_per_sec={req_per_sec:.2f}"
+    )
+    print("[bench50] adapter_parallel=false (sequential per adapter group).")
 
 
 def run_adapter_validation(router: OneLoRARouter, max_tokens: int) -> None:
@@ -295,6 +357,13 @@ def main() -> None:
         run_grouped_benchmark(router, max_tokens=args.max_tokens)
     if args.validate_all_adapters:
         run_adapter_validation(router, max_tokens=args.max_tokens)
+    if args.bench_requests > 0:
+        run_batch_benchmark(
+            router,
+            max_tokens=args.max_tokens,
+            total_requests=args.bench_requests,
+            batch_size=args.bench_batch_size,
+        )
 
 
 if __name__ == "__main__":
