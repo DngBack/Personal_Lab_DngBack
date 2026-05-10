@@ -1,0 +1,60 @@
+{
+    "general_info": {
+      "Title": "",
+      "datetime": "",
+      "company_name": "",
+      "company_code": ""
+    },
+    "FreeText1": "",
+    "Ngày (Date)": "",
+    "THÔNG TIN YÊU CẦU CỦA KHÁCH HÀNG": {
+      "Tên khách hàng": "",
+      "CMND/CCCD/HC": "",
+      "Ngày cấp": "",
+      "CIF": "",
+      "Số tiền gửi": "",
+      "Nơi cấp": "",
+      "Loại tiền": "",
+      "Số tiền bằng chữ": "",
+      "Loại hình sản phẩm": "",
+      "Kỳ hạn": "",
+      "Định kỳ lĩnh lãi": "",
+      "Phương thức gửi tiền": "",
+      "Tài khoản ghi nợ": "",
+      "Tài khoản nhận lãi": "",
+      "Phương thức quay vòng": ""
+    },
+    "BẢNG KẺ TIỀN MẶT (CASH LIST)": {
+      "Table1": [
+        {
+          "Mệnh giá (Denomination)": "",
+          "Số tờ (Quantity)": "",
+          "Thành tiền (Amount)": ""
+        }
+      ],
+      "Tổng cộng (Total)": ""
+    },
+    "FreeText2": "",
+    "Người gửi tiền (ký, ghi rõ họ tên)": "",
+    "PHẦN DÀNH CHO NGÂN HÀNG": {
+      "Số bút toán": "",
+      "Số seri": "",
+      "Ngày mở": "",
+      "Salecode": "",
+      "Company": "",
+      "Lãi suất": "",
+      "Ngày đến hạn": "",
+      "Table2": [
+        {
+          "Số tài khoản": "",
+          "Tên tài khoản": "",
+          "Ghi nợ": "",
+          "Ghi có": "",
+          "Loại tiền": ""
+        }
+      ]
+    },
+    "Giao dịch viên": "",
+    "Kiểm soát viên": ""
+  }
+  

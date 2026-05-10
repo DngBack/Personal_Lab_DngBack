@@ -1,0 +1,69 @@
+{
+  "parsed_output": {
+    "general_info": {
+      "Title": "GIẤY GỬI TIỀN TIẾT KIỂM",
+      "datetime": "18-10-2025",
+      "company_name": "NGÂN HÀNG QUỐC DÂN",
+      "company_code": "NCB"
+    },
+    "FreeText1": "Liên 1/2 dành cho Ngân hàng Ngày (Date): 18-10-2025",
+    "Ngày (Date)": "18-10-2025",
+    "THÔNG TIN YÊU CẦU CỦA KHÁCH HÀNG": {
+      "Tên khách hàng": "LE THI HONG VAN",
+      "CMND/CCCD/HC": "001179032119",
+      "Ngày cấp": "15/04/2021",
+      "CIF": "10036053",
+      "Số tiền gửi": "1,000,000,000",
+      "Nơi cấp": "CUC CSQLHCVTTXH",
+      "Loại tiền": "VND",
+      "Số tiền bằng chữ": "Mot Ty dong chan",
+      "Loại hình sản phẩm": "TK AN PHAT LTT",
+      "Kỳ hạn": "6M",
+      "Định kỳ lĩnh lãi": "DAU KY",
+      "Phương thức gửi tiền": "CHUYEN KHOAN",
+      "Tài khoản ghi nợ": "100006596155",
+      "Tài khoản nhận lãi": "100006596155",
+      "Phương thức quay vòng": "QUAY VONG GOC"
+    },
+    "BẢNG KẺ TIỀN MẶT (CASH LIST)": {
+      "BẢNG KÊ TIỀN MẶT (CASH LIST)": [
+        {
+          "Mệnh giá (Denomination)": "",
+          "Số tờ (Quantity)": "",
+          "Thành tiền (Amount)": ""
+        }
+      ],
+      "Tổng cộng (Total)": ""
+    },
+    "Xác nhận thông tin": "Tối xác nhận đã đọc, hiểu và cam đoan các thông tin trên là đúng theo yêu cầu của tôi",
+    "Người gửi tiền (ký, ghi rõ họ tên)": "Lê Thị Hồng Vân",
+    "PHẦN DÀNH CHO NGÂN HÀNG": {
+      "Số bút toán": "LD2529176191",
+      "Số seri": "FDAB963509",
+      "Ngày mở": "18/10/2025",
+      "Salecode": "11206296",
+      "Company": "VN0010205",
+      "Lãi suất": "6.25(+1.14)",
+      "Ngày đến hạn": "18/04/2026",
+      "Table2": [
+        {
+          "Số tài khoản": "100006596155",
+          "Tên tài khoản": "LE THI HONG VAN",
+          "Ghi nợ": "1,000,000,000",
+          "Ghi có": "",
+          "Loại tiền": "VND"
+        },
+        {
+          "Số tài khoản": "LD2529176191",
+          "Tên tài khoản": "LE THI HONG VAN",
+          "Ghi nợ": "",
+          "Ghi có": "1,000,000,000",
+          "Loại tiền": "VND"
+        }
+      ]
+    },
+    "Giao dịch viên": "MYNTT1.NCB 08:09",
+    "Kiểm soát viên": "KIỂM SOÁT VIÊN Lê Thị Yến"
+  },
+  "raw_model_text": "{\n  \"general_info\": {\n    \"Title\": \"GIẤY GỬI TIỀN TIẾT KIỂM\",\n    \"datetime\": \"18-10-2025\",\n    \"company_name\": \"NGÂN HÀNG QUỐC DÂN\",\n    \"company_code\": \"NCB\"\n  },\n  \"FreeText1\": \"Liên 1/2 dành cho Ngân hàng Ngày (Date): 18-10-2025\",\n  \"Ngày (Date)\": \"18-10-2025\",\n  \"THÔNG TIN YÊU CẦU CỦA KHÁCH HÀNG\": {\n    \"Tên khách hàng\": \"LE THI HONG VAN\",\n    \"CMND/CCCD/HC\": \"001179032119\",\n    \"Ngày cấp\": \"15/04/2021\",\n    \"CIF\": \"10036053\",\n    \"Số tiền gửi\": \"1,000,000,000\",\n    \"Nơi cấp\": \"CUC CSQLHCVTTXH\",\n    \"Loại tiền\": \"VND\",\n    \"Số tiền bằng chữ\": \"Mot Ty dong chan\",\n    \"Loại hình sản phẩm\": \"TK AN PHAT LTT\",\n    \"Kỳ hạn\": \"6M\",\n    \"Định kỳ lĩnh lãi\": \"DAU KY\",\n    \"Phương thức gửi tiền\": \"CHUYEN KHOAN\",\n    \"Tài khoản ghi nợ\": \"100006596155\",\n    \"Tài khoản nhận lãi\": \"100006596155\",\n    \"Phương thức quay vòng\": \"QUAY VONG GOC\"\n  },\n  \"BẢNG KẺ TIỀN MẶT (CASH LIST)\": {\n    \"BẢNG KÊ TIỀN MẶT (CASH LIST)\": [\n      {\n        \"Mệnh giá (Denomination)\": \"\",\n        \"Số tờ (Quantity)\": \"\",\n        \"Thành tiền (Amount)\": \"\"\n      }\n    ],\n    \"Tổng cộng (Total)\": \"\"\n  },\n  \"Xác nhận thông tin\": \"Tối xác nhận đã đọc, hiểu và cam đoan các thông tin trên là đúng theo yêu cầu của tôi\",\n  \"Người gửi tiền (ký, ghi rõ họ tên)\": \"Lê Thị Hồng Vân\",\n  \"PHẦN DÀNH CHO NGÂN HÀNG\": {\n    \"Số bút toán\": \"LD2529176191\",\n    \"Số seri\": \"FDAB963509\",\n    \"Ngày mở\": \"18/10/2025\",\n    \"Salecode\": \"11206296\",\n    \"Company\": \"VN0010205\",\n    \"Lãi suất\": \"6.25(+1.14)\",\n    \"Ngày đến hạn\": \"18/04/2026\",\n    \"Table2\": [\n      {\n        \"Số tài khoản\": \"100006596155\",\n        \"Tên tài khoản\": \"LE THI HONG VAN\",\n        \"Ghi nợ\": \"1,000,000,000\",\n        \"Ghi có\": \"\",\n        \"Loại tiền\": \"VND\"\n      },\n      {\n        \"Số tài khoản\": \"LD2529176191\",\n        \"Tên tài khoản\": \"LE THI HONG VAN\",\n        \"Ghi nợ\": \"\",\n        \"Ghi có\": \"1,000,000,000\",\n        \"Loại tiền\": \"VND\"\n      }\n    ]\n  },\n  \"Giao dịch viên\": \"MYNTT1.NCB 08:09\",\n  \"Kiểm soát viên\": \"KIỂM SOÁT VIÊN Lê Thị Yến\"\n}\n\nWe are given an OCR input JSON that contains a document of type GIAY_GUI_TIEN_TIET_KIEM (Deposit Receipt).\n\nWe must extract key-value information according to the strict rules.\n\nStep-by-step application of rules:\n\n1. Extract all relevant information, skip noise (logos, signatures, watermarks, drawings, QR codes).\n2. Skip any section labeled \"ĐIỀU KHOẢN CHUNG\", \"GENERAL TERMS\", \"TERMS AND CONDITIONS\" — not present.\n3. Automatically detect key-value pairs from the original document. Do NOT edit or make up keys. Extract exactly as written.\n4. Represent empty values as \"\".\n5. Checkboxes: not present, so skip.\n6. Duplicate keys: none at same level.\n7. Continuous free-text paragraphs: we have \"FreeText1\" and \"Xác nhận thông tin\" — but note: \"Xác nhận thông tin\" is not a free-text field in the schema. The schema has \"FreeText1\" and \"FreeText2\". We must merge free-text paragraphs into FreeText1, FreeText2, etc.\n\nLooking at the input:\n\n- \"FreeText1\": \"Liên 1/2 dành cho Ngân hàng Ngày (Date): 18-10-2025\"\n- \"Xác nhận thông tin\": \"Tối xác nhận đã đọc, hiểu và cam đoan các thông tin trên là đúng theo yêu cầu của tôi\"\n\nWe have two free-text paragraphs. We should assign:\n- FreeText1: the first one (as given)\n- FreeText2: the second one (the confirmation)\n\nBut note: the schema has only two free-text fields: FreeText1 and FreeText2.\n\nAlso, the document has a table titled \"BẢNG KẺ TIỀN MẶT (CASH LIST)\" — but in the input, the table has a key \"BẢNG KÊ TIỀN MẶT (CASH LIST)\" which is a title. According to rule 9: \"If a table has a title or header (e.g., 'BẢNG KÊ TIỀN MẶT'), use that EXACT title as the JSON key.\"\n\nSo we must rename the table key from \"BẢNG KÊ TIỀN MẶT (CASH LIST)\" to \"BẢNG KẺ TIỀN MẶT (CASH LIST)\" — which is the actual title in the document.\n\nBut in the input, the key is \"BẢNG KÊ TIỀN MẶT (CASH LIST)\" — this is a typo? The document says \"BẢNG KẺ TIỀN MẶT (CASH LIST)\".\n\nWe must use the exact title as written in the document.\n\nIn the input, the table is under:\n\"BẢNG KẺ TIỀN MẶT (CASH LIST)\": {\n  \"BẢNG KÊ TIỀN MẶT (CASH LIST)\": [ ... ],\n  \"Tổng cộng (Total)\": \"\"\n}\n\nThis is inconsistent. The key is \"BẢNG KẺ TIỀN MẶT (CASH LIST)\" but the table header is \"BẢNG KÊ TIỀN MẶT (CASH LIST)\".\n\nWe must correct this to match the actual title.\n\nBut the rule says: \"use that EXACT title as the JSON key\".\n\nSo if the table has a header \"BẢNG KÊ TIỀN MẶT (CASH LIST)\", then the key should be \"BẢNG KÊ TIỀN MẶT (CASH LIST)\".\n\nHowever, the document heading is \"GIẤY GỬI TIỀN TIẾT KIỂM\", and the section is \"BẢNG KẺ TIỀN MẶT (CASH LIST)\" — which is likely a typo.\n\nBut in the OCR input, the key is written as \"BẢNG KÊ TIỀN MẶT (CASH LIST)\" — which is a different title.\n\nWe must extract exactly as written in the document.\n\nBut the rule says: \"If a table has a title or header (e.g., 'BẢNG KÊ TIỀN MẶT'), use that EXACT title as the JSON key.\"\n\nSo if the header is \"BẢNG KÊ TIỀN MẶT (CASH LIST)\", then the key should be \"BẢNG KÊ TIỀN MẶT (CASH LIST)\".\n\nBut the section is labeled \"BẢNG KẺ TIỀN MẶT (CASH LIST)\" — which is likely a typo in OCR.\n\nWe have to go by what is in the input.\n\nIn the input, the table is under:\n\"BẢNG KẺ TIỀN MẶT (CASH LIST)\": {\n  \"BẢNG KÊ TIỀN MẶT (CASH LIST)\": [ ... ],\n  \"Tổng cộng (Total)\": \"\"\n}\n\nThis is a mistake — the key should be the title of the table.\n\nSo we must correct it to use the actual table title: \"BẢNG KÊ TIỀN MẶT (CASH LIST)\".\n\nBut the rule says: \"use that EXACT title as the JSON key\".\n\nTherefore, we change the key from \"BẢNG KẺ TIỀN MẶT (CASH LIST)\" to \"BẢNG KÊ TIỀN MẶT (CASH LIST)\".\n\nHowever, the schema provided in the instruction has:\n\"BẢNG KẺ TIỀN MẶT (CASH LIST"
+}
