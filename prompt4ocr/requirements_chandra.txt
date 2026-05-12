@@ -1,0 +1,9 @@
+torch>=2.1.0
+transformers>=4.55.0
+accelerate>=0.33.0
+Pillow>=10.0.0
+safetensors>=0.4.0
+PyMuPDF>=1.24.0
+# Optional: official Chandra wrapper (provides `chandra` CLI and parse_markdown).
+# Use only if you want the prompt_type='ocr_layout' built-in flow.
+# chandra-ocr[hf]>=2.0.0
