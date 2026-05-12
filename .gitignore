@@ -220,3 +220,4 @@ __marimo__/
 .hf_cache/
 
 prompt4ocr/data/*
+prompt4ocr/results/*
