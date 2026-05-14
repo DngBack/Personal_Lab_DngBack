@@ -1,37 +1,29 @@
-"""Schema-faithful layout detection on GIẤY GỬI TIỀN TIẾT KIỆM with Chandra OCR 2.
+"""GIẤY GỬI TIỀN TIẾT KIỆM: Chandra OCR 2 layout HTML + schema bbox overlay.
 
 Pipeline (single page):
 
-  1. Render the test PDF/image to a PIL image.
-  2. Run Chandra OCR 2 with the official ``ocr_layout`` prompt to get a list of
-     ``<div data-bbox="..." data-label="...">...inner HTML...</div>`` blocks.
-  3. From those blocks compute an **auto-alignment** offset (in PDF points)
-     between the schema template and the actual scan, by matching:
-       * ``Image`` block at top-left   ↔ schema ``Logo``
-       * the topmost centred ``Section-Header`` ↔ schema ``GIẤY GỬI TIỀN TIẾT KIỆM``
-       * any ``Section-Header`` whose text contains ``BẢNG KÊ TIỀN MẶT`` /
-         ``PHẦN DÀNH CHO NGÂN HÀNG`` ↔ those schema sections
-       * the largest ``Table`` ↔ schema ``Bảng kê ghi số``
-     Median (dx, dy) is applied to every schema bbox.
-  4. The big multi-line ``Text`` block under "THÔNG TIN YÊU CẦU CỦA KHÁCH HÀNG"
-     is split by ``<br/>`` lines. Each line of the form ``Field name: value`` is
-     mapped to the matching schema field; that field's bbox is recomputed from
-     the line's (x0, y0_line, x1, y1_line) inside the Chandra block, so labels
-     follow the actual content positions, not the rigid template grid.
-  5. Signature sections (``Người gửi tiền``, ``Giao dịch viên``,
-     ``Kiểm soát viên``) get their height extended downward to cover the full
-     signature + name + stamp area (configurable via --sig-extend-to-pt).
-  6. Render the visualisation with **smart label placement** so labels never
-     overlap each other and never fall off the right / top edges.
+  1. Render the test PDF/image to a PIL image (PDF page size in pt comes from
+     PyMuPDF; raster inputs default to 596×844 pt for scaling).
+  2. Run Chandra OCR 2 with the official ``ocr_layout`` prompt; by default the
+     **processor** (chat template, tokenizer, image preprocessing) is loaded from
+     ``--model`` even when ``--lora-path`` is set, matching non-finetuned inference
+     and ``train_chandra_layout_lora``. Use ``--processor-from-lora`` only if you
+     intentionally ship a tokenizer/processor inside the adapter directory.
+  3. Draw **schema bboxes only** from ``--layout-json``. Coordinates are treated as
+     authored in ``--schema-template-pt`` (default 596×844) and **linearly scaled**
+     to each document's ``page.rect`` before mapping to pixels (fixes mild mismatch
+     when PDF MediaBox differs). Pass ``--schema-template-pt 0 0`` for legacy behaviour
+     (assume JSON pt already matches each page).
+  4. Optional **prompt append**: ``--giay-gui-tien-layout-guide`` and/or
+     ``--extra-layout-prompt-file`` (UTF-8) after the base OCR layout instructions.
+  5. Render the visualisation with smart label placement (non-overlapping labels).
 
 Outputs (per page) under ``--output-dir``:
-  * ``<unit>_input.jpg``                    : the resized test page.
-  * ``<unit>_chandra_layout.html``          : raw model HTML.
-  * ``<unit>_chandra_blocks.json``          : parsed Chandra blocks.
-  * ``<unit>_schema_layout.json``           : final per-schema-field bboxes (px).
-  * ``<unit>_schema_layout.jpg``            : visualisation (the headline).
-  * ``<unit>_chandra_anchors.json``         : the (schema name, chandra block,
-                                               offset_pt) anchor pairs used.
+  * ``<unit>_input.jpg``            : the resized test page.
+  * ``<unit>_chandra_layout.html``  : raw model HTML.
+  * ``<unit>_chandra_blocks.json``  : parsed Chandra blocks.
+  * ``<unit>_schema_layout.json``   : per-schema-field bboxes (pt + px).
+  * ``<unit>_schema_layout.jpg``   : overlay visualisation.
 """
 
 from __future__ import annotations
@@ -84,6 +76,32 @@ OCR_LAYOUT_PROMPT = (
     "reading order; describe images via the alt attribute; do not invent text."
 )
 
+
+def compose_ocr_layout_prompt(
+    *,
+    extra_file: Path | None,
+    giay_gui_tien_guide: bool,
+) -> str:
+    """Full user text prompt: base OCR layout + optional file + optional GIẤY GỬI hints."""
+    parts: list[str] = [OCR_LAYOUT_PROMPT]
+    if extra_file is not None:
+        if not extra_file.is_file():
+            raise FileNotFoundError(f"extra layout prompt file not found: {extra_file}")
+        parts.append(extra_file.read_text(encoding="utf-8").strip())
+    if giay_gui_tien_guide:
+        from domain_prompt_giay_gui_tien import LAYOUT_FIELD_GUIDE_VI
+
+        parts.append(LAYOUT_FIELD_GUIDE_VI.strip())
+    return "\n\n".join(p for p in parts if p)
+
+
+def schema_template_tuple(args: argparse.Namespace) -> tuple[float | None, float | None]:
+    w, h = args.schema_template_pt
+    if w <= 0.0 or h <= 0.0:
+        return None, None
+    return w, h
+
+
 DIV_RE = re.compile(
     r'<div\b(?P<attrs>[^>]*)>(?P<inner>.*?)</div>',
     re.IGNORECASE | re.DOTALL,
@@ -92,25 +110,6 @@ BBOX_RE = re.compile(r'data-bbox\s*=\s*"([^"]+)"', re.IGNORECASE)
 LABEL_RE = re.compile(r'data-label\s*=\s*"([^"]+)"', re.IGNORECASE)
 BR_RE = re.compile(r'<br\s*/?>', re.IGNORECASE)
 TAG_RE = re.compile(r'<[^>]+>')
-
-# Per-schema-section *target bottom* Y in PDF pt. The schema's original height
-# of these sections often clips the actual signature / stamp content so we
-# extend their y1 to the target. Numbers are tuned for the GIẤY GỬI TIỀN
-# template (A4 portrait, 842 pt tall).
-DEFAULT_SECTION_BOTTOM_PT: dict[str, float] = {
-    "Người gửi tiền":   555.0,   # customer signature + printed name
-    "Giao dịch viên":   832.0,   # bottom-left signature + name + stamp
-    "Kiểm soát viên":   832.0,   # bottom-right signature + name + stamp
-}
-
-# X-axis column boundary in PDF pt: customer/bank info forms use a two-column
-# layout where left fields end around x≈280 and right fields start around x≈285.
-# When the override would otherwise stretch a left field into the right column
-# (because Chandra merged both columns into one Text block), we clip x1.
-LEFT_COLUMN_X1_PT_MAX = 280.0
-RIGHT_COLUMN_X0_PT_MIN = 285.0
-LEFT_COLUMN_LABEL_PAD_PT = 60.0   # how far we extend left fields past schema x1
-RIGHT_COLUMN_LABEL_PAD_PT = 30.0
 
 
 def parse_args() -> argparse.Namespace:
@@ -122,6 +121,21 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--only", type=str, default=None)
     p.add_argument("--output-dir", type=Path, default=default_out)
     p.add_argument("--model", type=str, default=DEFAULT_MODEL)
+    p.add_argument(
+        "--lora-path",
+        type=Path,
+        default=None,
+        help="Optional PEFT adapter dir (e.g. outputs/.../lora_adapter from train_chandra_layout_lora.py).",
+    )
+    p.add_argument(
+        "--processor-from-lora",
+        action=argparse.BooleanOptionalAction,
+        default=False,
+        help="With --lora-path: load AutoProcessor from the adapter if tokenizer_config.json "
+        "exists there. Default is False: always load the processor from --model so the "
+        "chat template and image preprocessing match non-finetuned inference (same as "
+        "train_chandra_layout_lora, which uses the base processor only).",
+    )
     p.add_argument("--device-map", type=str, default="cuda:1")
     p.add_argument(
         "--dtype", type=str, default="bfloat16",
@@ -135,15 +149,34 @@ def parse_args() -> argparse.Namespace:
     )
     p.add_argument("--page-width-pt", type=float, default=596.0)
     p.add_argument("--page-height-pt", type=float, default=844.0)
-    p.add_argument(
-        "--sig-page-margin-pt", type=float, default=10.0,
-        help="Min margin (pt) to keep above page bottom when extending signatures.",
-    )
     p.add_argument("--max-new-tokens", type=int, default=4096)
     p.add_argument("--temperature", type=float, default=0.0)
     p.add_argument(
         "--font-scale", type=float, default=1.0,
         help="Label font size scale.",
+    )
+    p.add_argument(
+        "--schema-template-pt",
+        type=float,
+        nargs=2,
+        metavar=("W", "H"),
+        default=[596.0, 844.0],
+        help="Layout JSON boxes are authored in this page size (PDF pt); scale linearly "
+        "to each file's page rect for overlay. Default 596 844 (sample template). "
+        "Use 0 0 if JSON coordinates are already in each document's page pt (legacy).",
+    )
+    p.add_argument(
+        "--extra-layout-prompt-file",
+        type=Path,
+        default=None,
+        help="UTF-8 text appended after the base OCR layout prompt.",
+    )
+    p.add_argument(
+        "--giay-gui-tien-layout-guide",
+        action=argparse.BooleanOptionalAction,
+        default=False,
+        help="Append Vietnamese zone/field hints for GIẤY GỬI TIỀN TIẾT KIỆM "
+        "(domain_prompt_giay_gui_tien.py).",
     )
     return p.parse_args()
 
@@ -189,12 +222,13 @@ def load_units(path: Path, pdf_dpi: int) -> list[tuple[str, Any, tuple[float, fl
     return [(path.stem, Image.open(path).convert("RGB"), (596.0, 844.0))]
 
 
-def build_messages(test_image: Any) -> list[dict[str, Any]]:
+def build_messages(test_image: Any, layout_prompt: str | None = None) -> list[dict[str, Any]]:
+    text = OCR_LAYOUT_PROMPT if layout_prompt is None else layout_prompt
     return [{
         "role": "user",
         "content": [
             {"type": "image", "image": test_image},
-            {"type": "text", "text": OCR_LAYOUT_PROMPT},
+            {"type": "text", "text": text},
         ],
     }]
 
@@ -246,107 +280,6 @@ def parse_chandra_blocks(html: str) -> list[dict[str, Any]]:
     return blocks
 
 
-def norm_to_pt(bbox_norm: list[float], page_w_pt: float, page_h_pt: float) -> list[float]:
-    return [
-        bbox_norm[0] / 1000.0 * page_w_pt,
-        bbox_norm[1] / 1000.0 * page_h_pt,
-        bbox_norm[2] / 1000.0 * page_w_pt,
-        bbox_norm[3] / 1000.0 * page_h_pt,
-    ]
-
-
-def _norm_text(s: str) -> str:
-    return "".join(ch for ch in s.lower() if ch.isalnum())
-
-
-def find_anchors(
-    blocks: list[dict[str, Any]],
-    page_w_pt: float,
-    page_h_pt: float,
-) -> list[dict[str, Any]]:
-    """Return a list of anchor pairs:
-       [{schema_name, schema_box_pt, chandra_block, chandra_box_pt, dx_pt, dy_pt}].
-    """
-    schema_anchors: dict[str, tuple[list[float], str]] = {
-        "Logo":                          ([58.0,  68.0,  153.0, 101.0], "image"),
-        "GIẤY GỬI TIỀN TIẾT KIỆM":       ([226.0, 87.0,  402.0, 105.0], "title"),
-        "THÔNG TIN YÊU CẦU CỦA KHÁCH HÀNG": ([55.0, 126.0, 253.0, 139.0], "section_header"),
-        "BẢNG KÊ TIỀN MẶT (CASH LIST)":  ([54.0,  343.0, 213.0, 357.0], "section_header"),
-        "Bảng kê tiền mặt":              ([56.0,  364.0, 300.0, 422.0], "table_small"),
-        "PHẦN DÀNH CHO NGÂN HÀNG":       ([52.0,  511.0, 201.0, 524.0], "section_header"),
-        "Bảng kê ghi số":                ([52.0,  600.0, 584.0, 668.0], "table_big"),
-    }
-
-    images = [b for b in blocks if b["label"].lower() == "image"]
-    headers = [b for b in blocks if b["label"].lower() == "section-header"]
-    tables = [b for b in blocks if b["label"].lower() == "table"]
-
-    pairs: list[dict[str, Any]] = []
-
-    def append_pair(name: str, schema_box_pt: list[float], blk: dict[str, Any]) -> None:
-        cb_pt = norm_to_pt(blk["bbox_norm"], page_w_pt, page_h_pt)
-        sx0, sy0, sx1, sy1 = schema_box_pt
-        cx0, cy0, cx1, cy1 = cb_pt
-        dx = ((cx0 + cx1) - (sx0 + sx1)) / 2.0
-        dy = ((cy0 + cy1) - (sy0 + sy1)) / 2.0
-        pairs.append({
-            "schema_name": name,
-            "schema_box_pt": schema_box_pt,
-            "chandra_label": blk["label"],
-            "chandra_box_pt": cb_pt,
-            "chandra_text": blk["inner_text"][:80],
-            "dx_pt": round(dx, 2),
-            "dy_pt": round(dy, 2),
-        })
-
-    if images:
-        top_left = min(images, key=lambda b: (b["bbox_norm"][1], b["bbox_norm"][0]))
-        append_pair("Logo", schema_anchors["Logo"][0], top_left)
-
-    for sec_name in (
-        "GIẤY GỬI TIỀN TIẾT KIỆM",
-        "THÔNG TIN YÊU CẦU CỦA KHÁCH HÀNG",
-        "BẢNG KÊ TIỀN MẶT (CASH LIST)",
-        "PHẦN DÀNH CHO NGÂN HÀNG",
-    ):
-        sec_key = _norm_text(sec_name)
-        match = None
-        for h in headers:
-            hkey = _norm_text(h["inner_text"])
-            if hkey and (sec_key in hkey or hkey in sec_key):
-                match = h
-                break
-        if match is not None:
-            append_pair(sec_name, schema_anchors[sec_name][0], match)
-
-    if tables:
-        big = max(tables, key=lambda b: (
-            (b["bbox_norm"][2] - b["bbox_norm"][0]) *
-            (b["bbox_norm"][3] - b["bbox_norm"][1])
-        ))
-        append_pair("Bảng kê ghi số", schema_anchors["Bảng kê ghi số"][0], big)
-        if len(tables) >= 2:
-            small = min(tables, key=lambda b: (
-                (b["bbox_norm"][2] - b["bbox_norm"][0]) *
-                (b["bbox_norm"][3] - b["bbox_norm"][1])
-            ))
-            if small is not big:
-                append_pair("Bảng kê tiền mặt",
-                            schema_anchors["Bảng kê tiền mặt"][0], small)
-    return pairs
-
-
-def median_offset(pairs: list[dict[str, Any]]) -> tuple[float, float]:
-    if not pairs:
-        return 0.0, 0.0
-    dxs = sorted(p["dx_pt"] for p in pairs)
-    dys = sorted(p["dy_pt"] for p in pairs)
-    mid = len(dxs) // 2
-    dx = dxs[mid] if len(dxs) % 2 else 0.5 * (dxs[mid - 1] + dxs[mid])
-    dy = dys[mid] if len(dys) % 2 else 0.5 * (dys[mid - 1] + dys[mid])
-    return dx, dy
-
-
 def load_schema(path: Path) -> list[dict[str, Any]]:
     data = json.loads(path.read_text(encoding="utf-8"))
     out: list[dict[str, Any]] = []
@@ -365,149 +298,32 @@ def load_schema(path: Path) -> list[dict[str, Any]]:
     return out
 
 
-def split_text_block_by_lines(
-    block: dict[str, Any],
-    page_w_pt: float,
-    page_h_pt: float,
-) -> list[dict[str, Any]]:
-    """Split a multi-line Chandra Text block into one bbox per line in PDF pt.
-
-    Returns list of {text, bbox_pt}.
-    """
-    lines = block["inner_lines"]
-    if not lines:
-        return []
-    x0_pt, y0_pt, x1_pt, y1_pt = norm_to_pt(block["bbox_norm"], page_w_pt, page_h_pt)
-    line_h = (y1_pt - y0_pt) / len(lines)
-    out: list[dict[str, Any]] = []
-    for i, ln in enumerate(lines):
-        out.append({
-            "text": ln,
-            "bbox_pt": [x0_pt, y0_pt + i * line_h,
-                        x1_pt, y0_pt + (i + 1) * line_h],
-        })
-    return out
-
-
-def field_label_from_line(line: str) -> str | None:
-    """Return the field name part of a 'Field: value' line, normalised."""
-    if ":" not in line:
-        return None
-    head = line.split(":", 1)[0].strip()
-    if not head or len(head) > 60:
-        return None
-    return head
-
-
-CUSTOMER_FIELD_NAMES = [
-    "Tên khách hàng", "CMND/CCCD/HC", "Ngày cấp", "CIF", "Số tiền gửi",
-    "Nơi cấp", "Loại tiền", "Số tiền bằng chữ", "Loại hình sản phẩm",
-    "Kỳ hạn", "Định kỳ lĩnh lãi", "Phương thức gửi tiền", "Tài khoản ghi nợ",
-    "Tài khoản nhận lãi", "Phương thức quay vòng",
-]
-BANK_FIELD_NAMES = [
-    "Số bút toán", "Số seri", "Ngày mở", "Salecode",
-    "Company", "Lãi suất", "Ngày đến hạn",
-]
-
-
-def best_match_field(line_head: str, candidates: list[str]) -> str | None:
-    head = _norm_text(line_head)
-    if not head:
-        return None
-    best, best_score = None, 0.0
-    for c in candidates:
-        ck = _norm_text(c)
-        if not ck:
-            continue
-        if head == ck:
-            return c
-        if head in ck or ck in head:
-            score = min(len(head), len(ck)) / max(len(head), len(ck))
-            if score > best_score:
-                best_score = score
-                best = c
-    return best if best_score >= 0.6 else None
-
-
-def assign_lines_to_fields(
-    blocks: list[dict[str, Any]],
-    page_w_pt: float,
-    page_h_pt: float,
-    candidate_fields: list[str],
-) -> dict[str, list[float]]:
-    """Try to map each candidate field to a line bbox extracted from the
-    multi-line Text blocks Chandra detected. Returns {field_name: bbox_pt}.
-    """
-    out: dict[str, list[float]] = {}
-    for blk in blocks:
-        if blk["label"].lower() != "text":
-            continue
-        if not blk["inner_lines"]:
-            continue
-        line_boxes = split_text_block_by_lines(blk, page_w_pt, page_h_pt)
-        for lb in line_boxes:
-            head = field_label_from_line(lb["text"])
-            if not head:
-                continue
-            name = best_match_field(head, candidate_fields)
-            if name and name not in out:
-                out[name] = lb["bbox_pt"]
-    return out
-
-
-def find_signature_blocks(blocks: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    """Chandra marks signature regions with `<img alt="Signature ...">` inside Text."""
-    out = []
-    for b in blocks:
-        if b["label"].lower() != "text":
-            continue
-        if "alt=\"signature" in b["inner_html"].lower():
-            out.append(b)
-    return out
-
-
-def section_box_pt(
+def schema_section_box_pt(
     sec: dict[str, Any],
-    offset: tuple[float, float],
-    section_bottom_pt: dict[str, float],
-    page_margin_pt: float,
-    field_overrides_pt: dict[str, list[float]],
     page_w_pt: float,
     page_h_pt: float,
+    template_w_pt: float | None = None,
+    template_h_pt: float | None = None,
 ) -> list[float]:
-    """Build the final bbox in PDF pt for a schema section.
-
-    For non-override sections, just shift schema by (dx, dy) and optionally
-    extend the bottom for signatures.
-
-    For override sections (field detected by Chandra line splitting), we trust
-    Chandra's **Y** range (line position) but keep **X** from schema with
-    column-aware extension. This avoids the "left field stretches into right
-    column" bug seen when Chandra merges both columns into one Text block.
-    """
-    name = sec["name"]
-    sx0 = sec["x_pt"] + offset[0]
-    sy0 = sec["y_pt"] + offset[1]
-    sx1 = sx0 + sec["w_pt"]
-    sy1 = sy0 + sec["h_pt"]
-
-    if name in field_overrides_pt:
-        _, oy0, _, oy1 = field_overrides_pt[name]
-        y0 = oy0
-        y1 = oy1
-        if sx0 < LEFT_COLUMN_X1_PT_MAX:
-            x0 = sx0
-            x1 = min(LEFT_COLUMN_X1_PT_MAX, sx1 + LEFT_COLUMN_LABEL_PAD_PT)
-        else:
-            x0 = max(RIGHT_COLUMN_X0_PT_MIN, sx0)
-            x1 = min(page_w_pt - 6.0, sx1 + RIGHT_COLUMN_LABEL_PAD_PT)
-    else:
-        x0, y0, x1, y1 = sx0, sy0, sx1, sy1
-        if name in section_bottom_pt:
-            target_bottom = min(section_bottom_pt[name], page_h_pt - page_margin_pt)
-            y1 = max(y1, target_bottom)
-
+    """Schema rect in **document** PDF pt (after optional linear map from template), clamped."""
+    x0 = float(sec["x_pt"])
+    y0 = float(sec["y_pt"])
+    w = float(sec["w_pt"])
+    h = float(sec["h_pt"])
+    if (
+        template_w_pt is not None
+        and template_h_pt is not None
+        and template_w_pt > 0.0
+        and template_h_pt > 0.0
+    ):
+        sx = page_w_pt / template_w_pt
+        sy = page_h_pt / template_h_pt
+        x0 *= sx
+        y0 *= sy
+        w *= sx
+        h *= sy
+    x1 = x0 + w
+    y1 = y0 + h
     x0 = max(0.0, x0)
     y0 = max(0.0, y0)
     x1 = min(page_w_pt, x1)
@@ -682,6 +498,26 @@ def run() -> int:
     print(f"[chandra-schema] {len(schema_sections)} schema sections from "
           f"{args.layout_json.name}")
 
+    tw, th = schema_template_tuple(args)
+    try:
+        layout_prompt_text = compose_ocr_layout_prompt(
+            extra_file=args.extra_layout_prompt_file,
+            giay_gui_tien_guide=args.giay_gui_tien_layout_guide,
+        )
+    except FileNotFoundError as e:
+        print(str(e), file=sys.stderr)
+        return 1
+    if tw is None:
+        print(
+            "[chandra-schema] Schema overlay: template scale OFF (use 0 0 or treat JSON pt as page pt).",
+            file=sys.stderr,
+        )
+    else:
+        print(
+            f"[chandra-schema] Schema overlay: template {tw:g}×{th:g} pt → scale to each page rect.",
+            file=sys.stderr,
+        )
+
     import torch
     from transformers import AutoModelForImageTextToText, AutoProcessor
 
@@ -690,7 +526,28 @@ def run() -> int:
     model = AutoModelForImageTextToText.from_pretrained(
         args.model, dtype=dtype, device_map=args.device_map,
     )
-    processor = AutoProcessor.from_pretrained(args.model)
+    processor_src = args.model
+    if args.lora_path is not None:
+        if not args.lora_path.is_dir():
+            print(f"lora path not found: {args.lora_path}", file=sys.stderr)
+            return 1
+        from peft import PeftModel
+
+        model = PeftModel.from_pretrained(model, str(args.lora_path))
+        print(f"[chandra-schema] Loaded LoRA from {args.lora_path}")
+        if args.processor_from_lora and (args.lora_path / "tokenizer_config.json").is_file():
+            processor_src = str(args.lora_path)
+            print(
+                f"[chandra-schema] Processor from LoRA dir (tokenizer_config.json present): "
+                f"{processor_src}",
+                file=sys.stderr,
+            )
+        else:
+            print(
+                f"[chandra-schema] Processor from base model (same as no LoRA): {processor_src}",
+                file=sys.stderr,
+            )
+    processor = AutoProcessor.from_pretrained(processor_src)
     if hasattr(processor, "tokenizer"):
         processor.tokenizer.padding_side = "left"
     model.eval()
@@ -698,12 +555,20 @@ def run() -> int:
     args.output_dir.mkdir(parents=True, exist_ok=True)
     summary: dict[str, Any] = {
         "model": args.model,
+        "lora_path": str(args.lora_path) if args.lora_path else None,
+        "processor_source": processor_src,
+        "processor_from_lora": processor_src != args.model,
         "device_map": args.device_map,
         "dtype": str(dtype),
         "layout_json": str(args.layout_json),
         "page_size_pt": [args.page_width_pt, args.page_height_pt],
-        "sig_page_margin_pt": args.sig_page_margin_pt,
-        "section_bottom_pt": DEFAULT_SECTION_BOTTOM_PT,
+        "schema_template_pt": list(args.schema_template_pt),
+        "schema_template_scale_active": tw is not None,
+        "giay_gui_tien_layout_guide": args.giay_gui_tien_layout_guide,
+        "extra_layout_prompt_file": str(args.extra_layout_prompt_file)
+        if args.extra_layout_prompt_file is not None
+        else None,
+        "layout_overlay": "schema_only",
         "items": [],
     }
 
@@ -715,7 +580,7 @@ def run() -> int:
             input_path = args.output_dir / f"{unit_name}_input.jpg"
             test_image.save(input_path, quality=92)
 
-            messages = build_messages(test_image)
+            messages = build_messages(test_image, layout_prompt_text)
             inputs = processor.apply_chat_template(
                 messages, tokenize=True, add_generation_prompt=True,
                 return_dict=True, return_tensors="pt",
@@ -748,40 +613,12 @@ def run() -> int:
                 encoding="utf-8",
             )
 
-            anchors = find_anchors(blocks, page_w_pt, page_h_pt)
-            dx_pt, dy_pt = median_offset(anchors)
-            (args.output_dir / f"{unit_name}_chandra_anchors.json").write_text(
-                json.dumps(
-                    {"dx_pt": dx_pt, "dy_pt": dy_pt, "anchors": anchors},
-                    ensure_ascii=False, indent=2,
-                ),
-                encoding="utf-8",
-            )
-            print(f"[align] {unit_name}: dx={dx_pt:+.2f} dy={dy_pt:+.2f} pt "
-                  f"(from {len(anchors)} anchors)")
-
-            field_overrides_pt: dict[str, list[float]] = {}
-            field_overrides_pt.update(
-                assign_lines_to_fields(blocks, page_w_pt, page_h_pt, CUSTOMER_FIELD_NAMES)
-            )
-            field_overrides_pt.update(
-                assign_lines_to_fields(blocks, page_w_pt, page_h_pt, BANK_FIELD_NAMES)
-            )
-            print(f"[fields] {unit_name}: {len(field_overrides_pt)} per-field overrides "
-                  f"(parsed from Chandra inner lines)")
-
             entries: list[dict[str, Any]] = []
             schema_json: list[dict[str, Any]] = []
             sx = img_w_px / page_w_pt
             sy = img_h_px / page_h_pt
             for sec in sorted(schema_sections, key=lambda s: s["ord"]):
-                box_pt = section_box_pt(
-                    sec, (dx_pt, dy_pt),
-                    DEFAULT_SECTION_BOTTOM_PT,
-                    args.sig_page_margin_pt,
-                    field_overrides_pt,
-                    page_w_pt, page_h_pt,
-                )
+                box_pt = schema_section_box_pt(sec, page_w_pt, page_h_pt, tw, th)
                 box_px = [box_pt[0] * sx, box_pt[1] * sy,
                           box_pt[2] * sx, box_pt[3] * sy]
                 entries.append({"label": sec["name"], "box_xyxy": box_px})
@@ -790,8 +627,7 @@ def run() -> int:
                     "ord": sec["ord"],
                     "box_pt": [round(v, 2) for v in box_pt],
                     "box_xyxy_px": [round(v, 2) for v in box_px],
-                    "source": ("override" if sec["name"] in field_overrides_pt
-                               else "schema+offset"),
+                    "source": "schema",
                 })
 
             json_path = args.output_dir / f"{unit_name}_schema_layout.json"
@@ -802,9 +638,12 @@ def run() -> int:
                     "image_size": [img_w_px, img_h_px],
                     "input_image": str(input_path),
                     "raw_html_path": str(html_path),
-                    "alignment_offset_pt": {"dx": dx_pt, "dy": dy_pt},
-                    "n_anchors": len(anchors),
-                    "n_field_overrides": len(field_overrides_pt),
+                    "layout_overlay": "schema_only",
+                    "page_pt": [page_w_pt, page_h_pt],
+                    "schema_template_pt": list(args.schema_template_pt),
+                    "schema_template_scale_active": tw is not None,
+                    "giay_gui_tien_layout_guide": args.giay_gui_tien_layout_guide,
+                    "n_chandra_blocks": len(blocks),
                     "sections": schema_json,
                 }, ensure_ascii=False, indent=2),
                 encoding="utf-8",
@@ -823,11 +662,10 @@ def run() -> int:
                 "raw_html": str(html_path),
                 "blocks_json": str(blocks_path),
                 "n_sections": len(entries),
-                "n_field_overrides": len(field_overrides_pt),
-                "alignment_offset_pt": [dx_pt, dy_pt],
+                "n_chandra_blocks": len(blocks),
             })
-            print(f"[ok] {src_path.name} :: {unit_name} -> {len(entries)} sections "
-                  f"({len(field_overrides_pt)} field-aligned) -> {viz_path.name}")
+            print(f"[ok] {src_path.name} :: {unit_name} -> {len(entries)} schema boxes "
+                  f"-> {viz_path.name}")
 
     summary_path = args.output_dir / "run_summary.json"
     summary_path.write_text(json.dumps(summary, ensure_ascii=False, indent=2),

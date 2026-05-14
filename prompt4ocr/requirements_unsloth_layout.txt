@@ -1,0 +1,12 @@
+# Vision SFT for layout HTML (Unsloth + TRL). Install a CUDA-matched torch build first,
+# then: pip install -r requirements_unsloth_layout.txt
+# Colab reference: https://colab.research.google.com/github/unslothai/notebooks/blob/main/nb/Qwen3_5_(2B)_Vision.ipynb
+# Unsloth install guide: https://docs.unsloth.ai/get-started/install
+
+trl>=0.22.0
+datasets>=3.0.0
+accelerate>=0.33.0
+bitsandbytes>=0.43.0
+pillow>=10.0.0
+safetensors>=0.4.0
+# unsloth: follow https://docs.unsloth.ai/get-started/install for your platform (pip/uv/git).

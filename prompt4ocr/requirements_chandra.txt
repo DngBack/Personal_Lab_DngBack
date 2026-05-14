@@ -1,9 +1,12 @@
 torch>=2.1.0
 transformers>=4.55.0
 accelerate>=0.33.0
+peft>=0.14.0
 Pillow>=10.0.0
 safetensors>=0.4.0
 PyMuPDF>=1.24.0
+bitsandbytes>=0.43.0
+# bitsandbytes: only needed for --load-in-4bit training (CUDA).
 # Optional: official Chandra wrapper (provides `chandra` CLI and parse_markdown).
 # Use only if you want the prompt_type='ocr_layout' built-in flow.
 # chandra-ocr[hf]>=2.0.0
