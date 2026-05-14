@@ -26,6 +26,13 @@ def chandra_label(section_name: str) -> str:
         return "Section-Header"
     if section_name in TABLE_SECTIONS:
         return "Table"
+    # Coarse merged layout (layout_GIAY_GUI_TIET_KIEM_MERGED.json)
+    if section_name.startswith("Đầu trang"):
+        return "Section-Header"
+    if "Bảng kê tiền mặt" in section_name or section_name == "Bảng kê ghi số":
+        return "Table"
+    if section_name.startswith("Form thông tin ngân hàng"):
+        return "Section-Header"
     return "Text"
 
 
