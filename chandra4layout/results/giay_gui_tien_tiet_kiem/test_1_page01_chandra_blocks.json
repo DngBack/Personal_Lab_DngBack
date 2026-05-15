@@ -1,0 +1,575 @@
+[
+  {
+    "label": "Image",
+    "bbox_norm": [
+      123.0,
+      76.0,
+      260.0,
+      111.0
+    ],
+    "inner_html": "<img alt=\"NCB National Bank logo\"/>",
+    "inner_lines": [],
+    "inner_text": ""
+  },
+  {
+    "label": "Section-Header",
+    "bbox_norm": [
+      371.0,
+      96.0,
+      626.0,
+      113.0
+    ],
+    "inner_html": "<h1>GIẤY GỬI TIỀN TIẾT KIỆM</h1>",
+    "inner_lines": [
+      "GIẤY GỬI TIỀN TIẾT KIỆM"
+    ],
+    "inner_text": "GIẤY GỬI TIỀN TIẾT KIỆM"
+  },
+  {
+    "label": "Text",
+    "bbox_norm": [
+      704.0,
+      75.0,
+      897.0,
+      102.0
+    ],
+    "inner_html": "<p>Liên 1/2 dành cho Ngân hàng<br/>Ngày (Date): 05-01-2026</p>",
+    "inner_lines": [
+      "Liên 1/2 dành cho Ngân hàng",
+      "Ngày (Date): 05-01-2026"
+    ],
+    "inner_text": "Liên 1/2 dành cho Ngân hàng Ngày (Date): 05-01-2026"
+  },
+  {
+    "label": "Section-Header",
+    "bbox_norm": [
+      118.0,
+      139.0,
+      407.0,
+      151.0
+    ],
+    "inner_html": "<h2>THÔNG TIN YÊU CẦU CỦA KHÁCH HÀNG</h2>",
+    "inner_lines": [
+      "THÔNG TIN YÊU CẦU CỦA KHÁCH HÀNG"
+    ],
+    "inner_text": "THÔNG TIN YÊU CẦU CỦA KHÁCH HÀNG"
+  },
+  {
+    "label": "Text",
+    "bbox_norm": [
+      118.0,
+      161.0,
+      407.0,
+      174.0
+    ],
+    "inner_html": "<p>Tên khách hàng: NGUYEN VAN THUONG</p>",
+    "inner_lines": [
+      "Tên khách hàng: NGUYEN VAN THUONG"
+    ],
+    "inner_text": "Tên khách hàng: NGUYEN VAN THUONG"
+  },
+  {
+    "label": "Text",
+    "bbox_norm": [
+      688.0,
+      160.0,
+      788.0,
+      172.0
+    ],
+    "inner_html": "<p>CIF: 10023856</p>",
+    "inner_lines": [
+      "CIF: 10023856"
+    ],
+    "inner_text": "CIF: 10023856"
+  },
+  {
+    "label": "Text",
+    "bbox_norm": [
+      118.0,
+      181.0,
+      339.0,
+      193.0
+    ],
+    "inner_html": "<p>CMND/CCCD/HC: 052066000965</p>",
+    "inner_lines": [
+      "CMND/CCCD/HC: 052066000965"
+    ],
+    "inner_text": "CMND/CCCD/HC: 052066000965"
+  },
+  {
+    "label": "Text",
+    "bbox_norm": [
+      118.0,
+      199.0,
+      270.0,
+      212.0
+    ],
+    "inner_html": "<p>Ngày cấp: 10/04/2021</p>",
+    "inner_lines": [
+      "Ngày cấp: 10/04/2021"
+    ],
+    "inner_text": "Ngày cấp: 10/04/2021"
+  },
+  {
+    "label": "Text",
+    "bbox_norm": [
+      495.0,
+      196.0,
+      709.0,
+      209.0
+    ],
+    "inner_html": "<p>Nơi cấp: CUC CSQLHCVTTXH</p>",
+    "inner_lines": [
+      "Nơi cấp: CUC CSQLHCVTTXH"
+    ],
+    "inner_text": "Nơi cấp: CUC CSQLHCVTTXH"
+  },
+  {
+    "label": "Text",
+    "bbox_norm": [
+      118.0,
+      217.0,
+      287.0,
+      230.0
+    ],
+    "inner_html": "<p>Số tiền gửi: 200,000,000</p>",
+    "inner_lines": [
+      "Số tiền gửi: 200,000,000"
+    ],
+    "inner_text": "Số tiền gửi: 200,000,000"
+  },
+  {
+    "label": "Text",
+    "bbox_norm": [
+      491.0,
+      215.0,
+      600.0,
+      228.0
+    ],
+    "inner_html": "<p>Loại tiền: VND</p>",
+    "inner_lines": [
+      "Loại tiền: VND"
+    ],
+    "inner_text": "Loại tiền: VND"
+  },
+  {
+    "label": "Text",
+    "bbox_norm": [
+      118.0,
+      235.0,
+      422.0,
+      248.0
+    ],
+    "inner_html": "<p>Số tiền bằng chữ: Hai Trăm Triệu dong chẵn</p>",
+    "inner_lines": [
+      "Số tiền bằng chữ: Hai Trăm Triệu dong chẵn"
+    ],
+    "inner_text": "Số tiền bằng chữ: Hai Trăm Triệu dong chẵn"
+  },
+  {
+    "label": "Text",
+    "bbox_norm": [
+      118.0,
+      254.0,
+      434.0,
+      267.0
+    ],
+    "inner_html": "<p>Loại hình sản phẩm: FD.DEPOSIT.AP.CK24M</p>",
+    "inner_lines": [
+      "Loại hình sản phẩm: FD.DEPOSIT.AP.CK24M"
+    ],
+    "inner_text": "Loại hình sản phẩm: FD.DEPOSIT.AP.CK24M"
+  },
+  {
+    "label": "Text",
+    "bbox_norm": [
+      118.0,
+      273.0,
+      200.0,
+      286.0
+    ],
+    "inner_html": "<p>Kỳ hạn: 6M</p>",
+    "inner_lines": [
+      "Kỳ hạn: 6M"
+    ],
+    "inner_text": "Kỳ hạn: 6M"
+  },
+  {
+    "label": "Text",
+    "bbox_norm": [
+      461.0,
+      271.0,
+      635.0,
+      284.0
+    ],
+    "inner_html": "<p>Định kỳ lính lãi: CUOI KY</p>",
+    "inner_lines": [
+      "Định kỳ lính lãi: CUOI KY"
+    ],
+    "inner_text": "Định kỳ lính lãi: CUOI KY"
+  },
+  {
+    "label": "Text",
+    "bbox_norm": [
+      118.0,
+      291.0,
+      397.0,
+      304.0
+    ],
+    "inner_html": "<p>Phương thức gửi tiền: CHUYEN KHOAN</p>",
+    "inner_lines": [
+      "Phương thức gửi tiền: CHUYEN KHOAN"
+    ],
+    "inner_text": "Phương thức gửi tiền: CHUYEN KHOAN"
+  },
+  {
+    "label": "Text",
+    "bbox_norm": [
+      118.0,
+      310.0,
+      349.0,
+      322.0
+    ],
+    "inner_html": "<p>Tài khoản ghi nợ: 100006917253</p>",
+    "inner_lines": [
+      "Tài khoản ghi nợ: 100006917253"
+    ],
+    "inner_text": "Tài khoản ghi nợ: 100006917253"
+  },
+  {
+    "label": "Text",
+    "bbox_norm": [
+      118.0,
+      328.0,
+      251.0,
+      341.0
+    ],
+    "inner_html": "<p>Tài khoản nhận lãi:</p>",
+    "inner_lines": [
+      "Tài khoản nhận lãi:"
+    ],
+    "inner_text": "Tài khoản nhận lãi:"
+  },
+  {
+    "label": "Text",
+    "bbox_norm": [
+      118.0,
+      347.0,
+      479.0,
+      360.0
+    ],
+    "inner_html": "<p>Phương thức quay vòng: QUAY VONG GOC VA LAI</p>",
+    "inner_lines": [
+      "Phương thức quay vòng: QUAY VONG GOC VA LAI"
+    ],
+    "inner_text": "Phương thức quay vòng: QUAY VONG GOC VA LAI"
+  },
+  {
+    "label": "Section-Header",
+    "bbox_norm": [
+      118.0,
+      366.0,
+      350.0,
+      379.0
+    ],
+    "inner_html": "<h2>BẢNG KÊ TIỀN MẶT (CASH LIST)</h2>",
+    "inner_lines": [
+      "BẢNG KÊ TIỀN MẶT (CASH LIST)"
+    ],
+    "inner_text": "BẢNG KÊ TIỀN MẶT (CASH LIST)"
+  },
+  {
+    "label": "Table",
+    "bbox_norm": [
+      121.0,
+      387.0,
+      481.0,
+      446.0
+    ],
+    "inner_html": "<table><thead><tr><th>Mệnh giá<br/>(Denomination)</th><th>Số tờ<br/>(Quantity)</th><th>Thành tiền<br/>(Amount)</th></tr></thead><tbody><tr><td>Tổng cộng (Total)</td><td></td><td></td></tr></tbody></table>",
+    "inner_lines": [
+      "Mệnh giá",
+      "(Denomination)Số tờ",
+      "(Quantity)Thành tiền",
+      "(Amount)Tổng cộng (Total)"
+    ],
+    "inner_text": "Mệnh giá (Denomination)Số tờ (Quantity)Thành tiền (Amount)Tổng cộng (Total)"
+  },
+  {
+    "label": "Text",
+    "bbox_norm": [
+      523.0,
+      388.0,
+      867.0,
+      413.0
+    ],
+    "inner_html": "<p>Tôi xác nhận đã đọc, hiểu và cam đoan các thông tin trên là đúng theo yêu cầu của tôi</p>",
+    "inner_lines": [
+      "Tôi xác nhận đã đọc, hiểu và cam đoan các thông tin trên là đúng theo yêu cầu của tôi"
+    ],
+    "inner_text": "Tôi xác nhận đã đọc, hiểu và cam đoan các thông tin trên là đúng theo yêu cầu của tôi"
+  },
+  {
+    "label": "Text",
+    "bbox_norm": [
+      636.0,
+      419.0,
+      748.0,
+      443.0
+    ],
+    "inner_html": "<p>Người gửi tiền<br/>(Ký, ghi rõ họ tên)</p>",
+    "inner_lines": [
+      "Người gửi tiền",
+      "(Ký, ghi rõ họ tên)"
+    ],
+    "inner_text": "Người gửi tiền (Ký, ghi rõ họ tên)"
+  },
+  {
+    "label": "Text",
+    "bbox_norm": [
+      548.0,
+      444.0,
+      827.0,
+      457.0
+    ],
+    "inner_html": "<p>Cam kết tài tục theo sản phẩm ban hành</p>",
+    "inner_lines": [
+      "Cam kết tài tục theo sản phẩm ban hành"
+    ],
+    "inner_text": "Cam kết tài tục theo sản phẩm ban hành"
+  },
+  {
+    "label": "Text",
+    "bbox_norm": [
+      604.0,
+      468.0,
+      844.0,
+      545.0
+    ],
+    "inner_html": "<p><img alt=\"Signature of Nguyễn Văn Thương\"/><br/>Nguyễn Văn Thương</p>",
+    "inner_lines": [
+      "Nguyễn Văn Thương"
+    ],
+    "inner_text": "Nguyễn Văn Thương"
+  },
+  {
+    "label": "Section-Header",
+    "bbox_norm": [
+      118.0,
+      544.0,
+      336.0,
+      557.0
+    ],
+    "inner_html": "<h2>PHẦN DÀNH CHO NGÂN HÀNG</h2>",
+    "inner_lines": [
+      "PHẦN DÀNH CHO NGÂN HÀNG"
+    ],
+    "inner_text": "PHẦN DÀNH CHO NGÂN HÀNG"
+  },
+  {
+    "label": "Text",
+    "bbox_norm": [
+      118.0,
+      567.0,
+      372.0,
+      580.0
+    ],
+    "inner_html": "<p>Số bút toán: AAACT26005BB82ZSBZ</p>",
+    "inner_lines": [
+      "Số bút toán: AAACT26005BB82ZSBZ"
+    ],
+    "inner_text": "Số bút toán: AAACT26005BB82ZSBZ"
+  },
+  {
+    "label": "Text",
+    "bbox_norm": [
+      507.0,
+      565.0,
+      663.0,
+      578.0
+    ],
+    "inner_html": "<p>Company: VN0010106</p>",
+    "inner_lines": [
+      "Company: VN0010106"
+    ],
+    "inner_text": "Company: VN0010106"
+  },
+  {
+    "label": "Text",
+    "bbox_norm": [
+      118.0,
+      587.0,
+      270.0,
+      600.0
+    ],
+    "inner_html": "<p>Số seri: FDAB901325</p>",
+    "inner_lines": [
+      "Số seri: FDAB901325"
+    ],
+    "inner_text": "Số seri: FDAB901325"
+  },
+  {
+    "label": "Text",
+    "bbox_norm": [
+      507.0,
+      585.0,
+      626.0,
+      598.0
+    ],
+    "inner_html": "<p>Lãi suất: 8(+1.90)</p>",
+    "inner_lines": [
+      "Lãi suất: 8(+1.90)"
+    ],
+    "inner_text": "Lãi suất: 8(+1.90)"
+  },
+  {
+    "label": "Text",
+    "bbox_norm": [
+      118.0,
+      605.0,
+      272.0,
+      618.0
+    ],
+    "inner_html": "<p>Ngày mở: 05/01/2026</p>",
+    "inner_lines": [
+      "Ngày mở: 05/01/2026"
+    ],
+    "inner_text": "Ngày mở: 05/01/2026"
+  },
+  {
+    "label": "Text",
+    "bbox_norm": [
+      507.0,
+      603.0,
+      685.0,
+      615.0
+    ],
+    "inner_html": "<p>Ngày đến hạn: 06/07/2026</p>",
+    "inner_lines": [
+      "Ngày đến hạn: 06/07/2026"
+    ],
+    "inner_text": "Ngày đến hạn: 06/07/2026"
+  },
+  {
+    "label": "Text",
+    "bbox_norm": [
+      118.0,
+      625.0,
+      264.0,
+      637.0
+    ],
+    "inner_html": "<p>Salecode: 12196051</p>",
+    "inner_lines": [
+      "Salecode: 12196051"
+    ],
+    "inner_text": "Salecode: 12196051"
+  },
+  {
+    "label": "Table",
+    "bbox_norm": [
+      118.0,
+      632.0,
+      900.0,
+      708.0
+    ],
+    "inner_html": "<table><thead><tr><th>Số tài khoản</th><th>Tên tài khoản</th><th>Ghi nợ</th><th>Ghi có</th><th>Loại tiền</th></tr></thead><tbody><tr><td>100006917253</td><td>NGUYEN VAN THUONG</td><td>200,000,000</td><td></td><td>VND</td></tr><tr><td>607901431738</td><td>NGUYEN VAN THUONG</td><td></td><td>200,000,000</td><td>VND</td></tr></tbody></table>",
+    "inner_lines": [
+      "Số tài khoảnTên tài khoảnGhi nợGhi cóLoại tiền100006917253NGUYEN VAN THUONG200,000,000VND607901431738NGUYEN VAN THUONG200,000,000VND"
+    ],
+    "inner_text": "Số tài khoảnTên tài khoảnGhi nợGhi cóLoại tiền100006917253NGUYEN VAN THUONG200,000,000VND607901431738NGUYEN VAN THUONG200,000,000VND"
+  },
+  {
+    "label": "Text",
+    "bbox_norm": [
+      226.0,
+      714.0,
+      327.0,
+      726.0
+    ],
+    "inner_html": "<p>Giao dịch viên</p>",
+    "inner_lines": [
+      "Giao dịch viên"
+    ],
+    "inner_text": "Giao dịch viên"
+  },
+  {
+    "label": "Text",
+    "bbox_norm": [
+      199.0,
+      733.0,
+      350.0,
+      746.0
+    ],
+    "inner_html": "<p>HOANNTQ.NCB 08:17</p>",
+    "inner_lines": [
+      "HOANNTQ.NCB 08:17"
+    ],
+    "inner_text": "HOANNTQ.NCB 08:17"
+  },
+  {
+    "label": "Text",
+    "bbox_norm": [
+      222.0,
+      751.0,
+      281.0,
+      796.0
+    ],
+    "inner_html": "<p><img alt=\"Signature of Nguyễn Thị Quỳnh Hoàn\"/></p>",
+    "inner_lines": [],
+    "inner_text": ""
+  },
+  {
+    "label": "Text",
+    "bbox_norm": [
+      154.0,
+      814.0,
+      372.0,
+      848.0
+    ],
+    "inner_html": "<p>Nguyễn Thị Quỳnh Hoàn</p>",
+    "inner_lines": [
+      "Nguyễn Thị Quỳnh Hoàn"
+    ],
+    "inner_text": "Nguyễn Thị Quỳnh Hoàn"
+  },
+  {
+    "label": "Text",
+    "bbox_norm": [
+      629.0,
+      712.0,
+      732.0,
+      725.0
+    ],
+    "inner_html": "<p>Kiểm soát viên</p>",
+    "inner_lines": [
+      "Kiểm soát viên"
+    ],
+    "inner_text": "Kiểm soát viên"
+  },
+  {
+    "label": "Text",
+    "bbox_norm": [
+      596.0,
+      712.0,
+      874.0,
+      833.0
+    ],
+    "inner_html": "<p><img alt=\"Signature of Võ Thị Phương Thủy\"/></p>",
+    "inner_lines": [],
+    "inner_text": ""
+  },
+  {
+    "label": "Text",
+    "bbox_norm": [
+      640.0,
+      838.0,
+      838.0,
+      862.0
+    ],
+    "inner_html": "<p>Võ Thị Phương Thủy</p>",
+    "inner_lines": [
+      "Võ Thị Phương Thủy"
+    ],
+    "inner_text": "Võ Thị Phương Thủy"
+  }
+]

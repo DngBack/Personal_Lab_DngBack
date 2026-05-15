@@ -1,0 +1,12 @@
+{
+  "model": "datalab-to/chandra-ocr-2",
+  "items": [
+    {
+      "unit": "test_7_page01",
+      "n_matched": 33,
+      "n_total": 34,
+      "schema_json": "/home/bachdx2/Personal_Lab_DngBack/chandra4layout/results/giay_gui_tien_tiet_kiem_direct/test_7_page01_schema.json",
+      "viz": "/home/bachdx2/Personal_Lab_DngBack/chandra4layout/results/giay_gui_tien_tiet_kiem_direct/test_7_page01_schema.jpg"
+    }
+  ]
+}

@@ -1,0 +1,623 @@
+{
+  "source": "chandra4layout/data/test/GIAY_GUI_TIEN_TIET_KIEM/test_7.pdf",
+  "unit": "test_7_page01",
+  "image_size": [
+    1060,
+    1508
+  ],
+  "page_size_pt": [
+    595.0,
+    846.0
+  ],
+  "n_matched": 33,
+  "n_total": 34,
+  "sections": [
+    {
+      "id": "e0caf59c-f359-4bc2-8a97-6ed77a1b925b",
+      "name": "Logo",
+      "layout": {
+        "x": 72.59,
+        "y": 65.14,
+        "width": 82.11,
+        "height": 29.61,
+        "page": 1
+      },
+      "_bbox_source": "chandra",
+      "_bbox_norm": [
+        122.0,
+        77.0,
+        260.0,
+        112.0
+      ]
+    },
+    {
+      "id": "ac92bf45-6d63-4a25-9f95-c10c79302557",
+      "name": "GIẤY GỬI TIỀN TIẾT KIỆM",
+      "layout": {
+        "x": 220.75,
+        "y": 82.06,
+        "width": 151.72,
+        "height": 14.38,
+        "page": 1
+      },
+      "_bbox_source": "chandra",
+      "_bbox_norm": [
+        371.0,
+        97.0,
+        626.0,
+        114.0
+      ]
+    },
+    {
+      "id": "f8af661a-43f9-47f4-8600-918ed5b5303c",
+      "name": "Ngày",
+      "layout": {
+        "x": 452.0,
+        "y": 68.0,
+        "width": 136.0,
+        "height": 26.0,
+        "page": 1
+      },
+      "_bbox_source": "template",
+      "_bbox_norm": null
+    },
+    {
+      "id": "0a4347a3-3551-4b9c-b299-347b2ac8ace2",
+      "name": "THÔNG TIN YÊU CẦU CỦA KHÁCH HÀNG",
+      "layout": {
+        "x": 69.62,
+        "y": 118.44,
+        "width": 172.55,
+        "height": 10.15,
+        "page": 1
+      },
+      "_bbox_source": "chandra",
+      "_bbox_norm": [
+        117.0,
+        140.0,
+        407.0,
+        152.0
+      ]
+    },
+    {
+      "id": "9b5ffd63-582d-4abd-a8f0-f063aa38d87f",
+      "name": "Tên khách hàng",
+      "layout": {
+        "x": 69.62,
+        "y": 137.05,
+        "width": 170.76,
+        "height": 11.0,
+        "page": 1
+      },
+      "_bbox_source": "chandra",
+      "_bbox_norm": [
+        117.0,
+        162.0,
+        404.0,
+        175.0
+      ]
+    },
+    {
+      "id": "6c90a8d2-5238-424a-87b4-7dd3d37404c2",
+      "name": "CIF",
+      "layout": {
+        "x": 409.36,
+        "y": 136.21,
+        "width": 59.5,
+        "height": 10.15,
+        "page": 1
+      },
+      "_bbox_source": "chandra",
+      "_bbox_norm": [
+        688.0,
+        161.0,
+        788.0,
+        173.0
+      ]
+    },
+    {
+      "id": "92fb39fd-98f0-446c-81e0-4414dacaa23d",
+      "name": "CMND/CCCD/HC",
+      "layout": {
+        "x": 69.62,
+        "y": 154.82,
+        "width": 132.09,
+        "height": 9.31,
+        "page": 1
+      },
+      "_bbox_source": "chandra",
+      "_bbox_norm": [
+        117.0,
+        183.0,
+        339.0,
+        194.0
+      ]
+    },
+    {
+      "id": "9c22a9f5-5202-4781-9c1a-b205eaba30be",
+      "name": "Ngày cấp",
+      "layout": {
+        "x": 69.62,
+        "y": 169.2,
+        "width": 91.03,
+        "height": 11.0,
+        "page": 1
+      },
+      "_bbox_source": "chandra",
+      "_bbox_norm": [
+        117.0,
+        200.0,
+        270.0,
+        213.0
+      ]
+    },
+    {
+      "id": "34a46f53-5d98-41ef-ab93-33cf0ca7645c",
+      "name": "Nơi cấp",
+      "layout": {
+        "x": 294.52,
+        "y": 166.66,
+        "width": 75.56,
+        "height": 11.0,
+        "page": 1
+      },
+      "_bbox_source": "chandra",
+      "_bbox_norm": [
+        495.0,
+        197.0,
+        622.0,
+        210.0
+      ]
+    },
+    {
+      "id": "270ade23-e80a-4123-9995-d7c8b1e75baf",
+      "name": "Số tiền gửi",
+      "layout": {
+        "x": 69.62,
+        "y": 184.43,
+        "width": 101.75,
+        "height": 10.15,
+        "page": 1
+      },
+      "_bbox_source": "chandra",
+      "_bbox_norm": [
+        117.0,
+        218.0,
+        288.0,
+        230.0
+      ]
+    },
+    {
+      "id": "08b67185-e6b6-4b00-850b-f4c37c1b1679",
+      "name": "Loại tiền",
+      "layout": {
+        "x": 292.14,
+        "y": 183.58,
+        "width": 64.26,
+        "height": 10.15,
+        "page": 1
+      },
+      "_bbox_source": "chandra",
+      "_bbox_norm": [
+        491.0,
+        217.0,
+        599.0,
+        229.0
+      ]
+    },
+    {
+      "id": "89cfdb21-3d55-4b51-96ef-4b520c83d17c",
+      "name": "Số tiền bằng chữ",
+      "layout": {
+        "x": 69.62,
+        "y": 199.66,
+        "width": 224.31,
+        "height": 11.84,
+        "page": 1
+      },
+      "_bbox_source": "chandra",
+      "_bbox_norm": [
+        117.0,
+        236.0,
+        494.0,
+        250.0
+      ]
+    },
+    {
+      "id": "50e3fd52-e5f4-443e-88cc-925293a4ef32",
+      "name": "Loại hình sản phẩm",
+      "layout": {
+        "x": 69.62,
+        "y": 215.73,
+        "width": 188.02,
+        "height": 11.0,
+        "page": 1
+      },
+      "_bbox_source": "chandra",
+      "_bbox_norm": [
+        117.0,
+        255.0,
+        433.0,
+        268.0
+      ]
+    },
+    {
+      "id": "70f75e9c-0095-40c4-9f72-4abc603c23e3",
+      "name": "Kỳ hạn",
+      "layout": {
+        "x": 69.62,
+        "y": 231.8,
+        "width": 54.14,
+        "height": 10.15,
+        "page": 1
+      },
+      "_bbox_source": "chandra",
+      "_bbox_norm": [
+        117.0,
+        274.0,
+        208.0,
+        286.0
+      ]
+    },
+    {
+      "id": "78056e13-8f92-4390-8084-20a2e339ba48",
+      "name": "Định kỳ lĩnh lãi",
+      "layout": {
+        "x": 274.3,
+        "y": 230.11,
+        "width": 103.53,
+        "height": 10.15,
+        "page": 1
+      },
+      "_bbox_source": "chandra",
+      "_bbox_norm": [
+        461.0,
+        272.0,
+        635.0,
+        284.0
+      ]
+    },
+    {
+      "id": "6c47f5e6-77ef-4cf0-819f-a350b0d69963",
+      "name": "Phương thức gửi tiền",
+      "layout": {
+        "x": 69.62,
+        "y": 247.03,
+        "width": 166.01,
+        "height": 11.0,
+        "page": 1
+      },
+      "_bbox_source": "chandra",
+      "_bbox_norm": [
+        117.0,
+        292.0,
+        396.0,
+        305.0
+      ]
+    },
+    {
+      "id": "58f4e3c8-6947-4c93-983c-9cc9e96aec1e",
+      "name": "Tài khoản ghi nợ",
+      "layout": {
+        "x": 69.62,
+        "y": 263.11,
+        "width": 137.44,
+        "height": 10.15,
+        "page": 1
+      },
+      "_bbox_source": "chandra",
+      "_bbox_norm": [
+        117.0,
+        311.0,
+        348.0,
+        323.0
+      ]
+    },
+    {
+      "id": "e563b1d5-a273-48ae-bfa4-c9564dac84b7",
+      "name": "Tài khoản nhận lãi",
+      "layout": {
+        "x": 69.62,
+        "y": 279.18,
+        "width": 79.14,
+        "height": 11.0,
+        "page": 1
+      },
+      "_bbox_source": "chandra",
+      "_bbox_norm": [
+        117.0,
+        330.0,
+        250.0,
+        343.0
+      ]
+    },
+    {
+      "id": "b4a17f08-f7ca-458c-b473-08d4c2c34187",
+      "name": "Phương thức quay vòng",
+      "layout": {
+        "x": 69.62,
+        "y": 294.41,
+        "width": 215.39,
+        "height": 11.0,
+        "page": 1
+      },
+      "_bbox_source": "chandra",
+      "_bbox_norm": [
+        117.0,
+        348.0,
+        479.0,
+        361.0
+      ]
+    },
+    {
+      "id": "ac64c043-41b0-44e0-bdc1-cb3bcdea0cf8",
+      "name": "BẢNG KÊ TIỀN MẶT (CASH LIST)",
+      "layout": {
+        "x": 69.62,
+        "y": 310.48,
+        "width": 138.04,
+        "height": 11.0,
+        "page": 1
+      },
+      "_bbox_source": "chandra",
+      "_bbox_norm": [
+        117.0,
+        367.0,
+        349.0,
+        380.0
+      ]
+    },
+    {
+      "id": "756b8f98-88ad-4e14-996b-f9dcec20ad59",
+      "name": "Bảng kê tiền mặt",
+      "layout": {
+        "x": 71.4,
+        "y": 328.25,
+        "width": 214.79,
+        "height": 49.91,
+        "page": 1
+      },
+      "_bbox_source": "chandra",
+      "_bbox_norm": [
+        120.0,
+        388.0,
+        481.0,
+        447.0
+      ]
+    },
+    {
+      "id": "8017ff14-599b-47eb-a9c4-3d9485ab168a",
+      "name": "Xác nhận thông tin",
+      "layout": {
+        "x": 310.59,
+        "y": 329.09,
+        "width": 205.27,
+        "height": 21.15,
+        "page": 1
+      },
+      "_bbox_source": "chandra",
+      "_bbox_norm": [
+        522.0,
+        389.0,
+        867.0,
+        414.0
+      ]
+    },
+    {
+      "id": "cbfc0f32-409a-4fcf-a303-5d5757c81d3d",
+      "name": "Người gửi tiền",
+      "layout": {
+        "x": 325.47,
+        "y": 355.32,
+        "width": 167.2,
+        "height": 32.15,
+        "page": 1
+      },
+      "_bbox_source": "chandra",
+      "_bbox_norm": [
+        547.0,
+        420.0,
+        828.0,
+        458.0
+      ]
+    },
+    {
+      "id": "b81fa29b-44d0-4f6d-a459-27551eeabd4c",
+      "name": "PHẦN DÀNH CHO NGÂN HÀNG",
+      "layout": {
+        "x": 69.62,
+        "y": 460.22,
+        "width": 129.71,
+        "height": 11.0,
+        "page": 1
+      },
+      "_bbox_source": "chandra",
+      "_bbox_norm": [
+        117.0,
+        544.0,
+        335.0,
+        557.0
+      ]
+    },
+    {
+      "id": "0d679c39-6e2a-4afe-94ec-b66f4607d161",
+      "name": "Số bút toán",
+      "layout": {
+        "x": 69.62,
+        "y": 480.53,
+        "width": 151.72,
+        "height": 11.0,
+        "page": 1
+      },
+      "_bbox_source": "chandra",
+      "_bbox_norm": [
+        117.0,
+        568.0,
+        372.0,
+        581.0
+      ]
+    },
+    {
+      "id": "32eedaa6-735a-4e5b-9649-9b70759182f0",
+      "name": "Company",
+      "layout": {
+        "x": 301.07,
+        "y": 479.68,
+        "width": 92.82,
+        "height": 10.15,
+        "page": 1
+      },
+      "_bbox_source": "chandra",
+      "_bbox_norm": [
+        506.0,
+        567.0,
+        662.0,
+        579.0
+      ]
+    },
+    {
+      "id": "c563cc33-b048-4bc1-a94a-e91da7639d7b",
+      "name": "Số seri",
+      "layout": {
+        "x": 69.62,
+        "y": 497.45,
+        "width": 91.03,
+        "height": 11.0,
+        "page": 1
+      },
+      "_bbox_source": "chandra",
+      "_bbox_norm": [
+        117.0,
+        588.0,
+        270.0,
+        601.0
+      ]
+    },
+    {
+      "id": "b200d654-c1f9-4237-8f0a-b7688cd51456",
+      "name": "Lãi suất",
+      "layout": {
+        "x": 301.07,
+        "y": 495.76,
+        "width": 78.54,
+        "height": 11.0,
+        "page": 1
+      },
+      "_bbox_source": "chandra",
+      "_bbox_norm": [
+        506.0,
+        586.0,
+        638.0,
+        599.0
+      ]
+    },
+    {
+      "id": "0b71086b-f7dc-4d13-b645-76e4f9c38c29",
+      "name": "Ngày mở",
+      "layout": {
+        "x": 69.62,
+        "y": 512.68,
+        "width": 91.63,
+        "height": 11.0,
+        "page": 1
+      },
+      "_bbox_source": "chandra",
+      "_bbox_norm": [
+        117.0,
+        606.0,
+        271.0,
+        619.0
+      ]
+    },
+    {
+      "id": "c5c2e46d-cc3b-41ad-af57-6051336cd829",
+      "name": "Ngày đến hạn",
+      "layout": {
+        "x": 301.07,
+        "y": 510.98,
+        "width": 105.31,
+        "height": 10.15,
+        "page": 1
+      },
+      "_bbox_source": "chandra",
+      "_bbox_norm": [
+        506.0,
+        604.0,
+        683.0,
+        616.0
+      ]
+    },
+    {
+      "id": "b2b00b95-1b6b-430d-ba35-2281e0907379",
+      "name": "Salecode",
+      "layout": {
+        "x": 69.62,
+        "y": 528.75,
+        "width": 88.06,
+        "height": 11.0,
+        "page": 1
+      },
+      "_bbox_source": "chandra",
+      "_bbox_norm": [
+        117.0,
+        625.0,
+        265.0,
+        638.0
+      ]
+    },
+    {
+      "id": "ddb4b4c8-6f6b-4fce-99bb-82cb0178b2e5",
+      "name": "Bảng kê ghi số",
+      "layout": {
+        "x": 69.62,
+        "y": 536.36,
+        "width": 465.88,
+        "height": 65.99,
+        "page": 1
+      },
+      "_bbox_source": "chandra",
+      "_bbox_norm": [
+        117.0,
+        634.0,
+        900.0,
+        712.0
+      ]
+    },
+    {
+      "id": "30b5d6d2-60ff-4140-855c-13139a1ab9ac",
+      "name": "Giao dịch viên",
+      "layout": {
+        "x": 133.28,
+        "y": 606.58,
+        "width": 61.28,
+        "height": 10.15,
+        "page": 1
+      },
+      "_bbox_source": "chandra",
+      "_bbox_norm": [
+        224.0,
+        717.0,
+        327.0,
+        729.0
+      ]
+    },
+    {
+      "id": "27e5d468-2aad-4254-bf80-abd5f7b3139c",
+      "name": "Kiểm soát viên",
+      "layout": {
+        "x": 373.66,
+        "y": 605.74,
+        "width": 61.88,
+        "height": 10.15,
+        "page": 1
+      },
+      "_bbox_source": "chandra",
+      "_bbox_norm": [
+        628.0,
+        716.0,
+        732.0,
+        728.0
+      ]
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "model": "datalab-to/chandra-ocr-2",
+  "lora_path": null,
+  "prompt_file": "/home/bachdx2/Personal_Lab_DngBack/chandra4layout/prompts/giay_gui_tien_tiet_kiem.txt",
+  "layout_json": "/home/bachdx2/Personal_Lab_DngBack/chandra4layout/data/samples/GIAY_GUI_TIEN_TIET_KIEM/layout _GIAY_GUI_TIEN_TIET_KIEM.json",
+  "device_map": "cuda:1",
+  "dtype": "torch.bfloat16",
+  "match_iou_min": 0.05,
+  "items": [
+    {
+      "source": "/home/bachdx2/Personal_Lab_DngBack/chandra4layout/data/small_test/test_1.pdf",
+      "unit": "test_1_page01",
+      "image_size": [
+        1062,
+        1506
+      ],
+      "viz": "/home/bachdx2/Personal_Lab_DngBack/chandra4layout/results/giay_gui_tien_tiet_kiem/test_1_page01_schema_layout.jpg",
+      "json": "/home/bachdx2/Personal_Lab_DngBack/chandra4layout/results/giay_gui_tien_tiet_kiem/test_1_page01_schema_layout.json",
+      "raw_html": "/home/bachdx2/Personal_Lab_DngBack/chandra4layout/results/giay_gui_tien_tiet_kiem/test_1_page01_raw_layout.html",
+      "blocks_json": "/home/bachdx2/Personal_Lab_DngBack/chandra4layout/results/giay_gui_tien_tiet_kiem/test_1_page01_chandra_blocks.json",
+      "n_blocks": 41,
+      "n_sections": 34,
+      "n_sections_chandra": 34,
+      "n_sections_template": 0,
+      "viz_chandra_boxes": "/home/bachdx2/Personal_Lab_DngBack/chandra4layout/results/giay_gui_tien_tiet_kiem/test_1_page01_chandra_boxes.jpg"
+    }
+  ]
+}

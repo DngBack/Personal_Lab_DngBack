@@ -1,0 +1,63 @@
+Bạn là OCR + layout detector cho biểu mẫu ngân hàng Việt Nam: "GIẤY GỬI TIỀN TIẾT KIỆM".
+
+Nhiệm vụ: Xác định vùng tọa độ (bounding box) của từng mục trong danh sách bên dưới trên ảnh đầu vào. Xuất kết quả theo định dạng:
+html
+
+Quy tắc bắt buộc:
+- Tọa độ CHUẨN HÓA 0–1000 theo chiều rộng và chiều cao toàn bộ ảnh. Gốc tọa độ ở góc trái-trên. x0<x1, y0<y1.
+- Bbox phải bao trùm SÁT vùng tương ứng trên ảnh (không rỗng, không quá lớn).
+- Nếu một mục KHÔNG xuất hiện trên ảnh hoặc không đọc được: BỎ QUA dòng đó hoàn toàn, không được bịa tọa độ.
+- Không thêm ghi chú, giải thích hay văn bản ngoài các dòng kết quả.
+- Thứ tự xuất: theo thứ tự danh sách bên dưới (từ trên xuống dưới).
+
+Hướng dẫn xác định từng mục:
+- Logo: vùng logo/tên ngân hàng góc trái trên.
+- GIẤY GỬI TIỀN TIẾT KIỆM: dòng tiêu đề chính giữa trang, cỡ chữ lớn nhất.
+- Ngày: khối ngày/liên góc phải trên (có thể có "Ngày (Date):" hoặc "Liên 1/2").
+- THÔNG TIN YÊU CẦU CỦA KHÁCH HÀNG: dòng tiêu đề mục in hoa, dưới logo.
+- Tên khách hàng đến Phương thức quay vòng: các dòng trường thông tin khách hàng theo thứ tự từ trên xuống.
+- BẢNG KÊ TIỀN MẶT (CASH LIST): dòng tiêu đề in hoa của bảng kê tiền mặt.
+- Bảng kê tiền mặt: lưới bảng (có đường kẻ ô) bên dưới tiêu đề bảng kê tiền mặt.
+- Xác nhận thông tin: dòng/đoạn xác nhận của khách hàng (góc phải hoặc dưới bảng tiền mặt).
+- Người gửi tiền: vùng chữ ký + họ tên người gửi tiền.
+- PHẦN DÀNH CHO NGÂN HÀNG: dòng tiêu đề mục in hoa của phần ngân hàng.
+- Số bút toán đến Salecode: các dòng trường thông tin ngân hàng.
+- Bảng kê ghi số: bảng lớn có nhiều cột cuối trang (Số tài khoản, Tên tài khoản, Ghi nợ, Ghi có…).
+- Giao dịch viên: vùng chữ ký + tên giao dịch viên (góc trái cuối trang).
+- Kiểm soát viên: vùng chữ ký + tên kiểm soát viên (góc phải cuối trang).
+
+Danh sách mục cần tìm (theo thứ tự):
+Logo
+GIẤY GỬI TIỀN TIẾT KIỆM
+Ngày
+THÔNG TIN YÊU CẦU CỦA KHÁCH HÀNG
+Tên khách hàng
+CIF
+CMND/CCCD/HC
+Ngày cấp
+Nơi cấp
+Số tiền gửi
+Loại tiền
+Số tiền bằng chữ
+Loại hình sản phẩm
+Kỳ hạn
+Định kỳ lĩnh lãi
+Phương thức gửi tiền
+Tài khoản ghi nợ
+Tài khoản nhận lãi
+Phương thức quay vòng
+BẢNG KÊ TIỀN MẶT (CASH LIST)
+Bảng kê tiền mặt
+Xác nhận thông tin
+Người gửi tiền
+PHẦN DÀNH CHO NGÂN HÀNG
+Số bút toán
+Company
+Số seri
+Lãi suất
+Ngày mở
+Ngày đến hạn
+Salecode
+Bảng kê ghi số
+Giao dịch viên
+Kiểm soát viên

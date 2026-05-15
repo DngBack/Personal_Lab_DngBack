@@ -1,0 +1,547 @@
+{
+  "unit": "test_7_page01",
+  "n_sections": 34,
+  "kv_matched": 0,
+  "html_matched": 0,
+  "sections": [
+    {
+      "name": "Logo",
+      "ord": 0,
+      "kv_source": "chandra",
+      "kv_bbox": [
+        122.0,
+        77.0,
+        259.0,
+        111.0
+      ],
+      "kv_name_raw": null,
+      "kv_score": 1.0,
+      "html_source": "template",
+      "html_bbox": null,
+      "iou_kv_vs_html": 0.0
+    },
+    {
+      "name": "GIẤY GỬI TIỀN TIẾT KIỆM",
+      "ord": 1,
+      "kv_source": "chandra",
+      "kv_bbox": [
+        371.0,
+        97.0,
+        626.0,
+        113.0
+      ],
+      "kv_name_raw": null,
+      "kv_score": 1.0,
+      "html_source": "template",
+      "html_bbox": null,
+      "iou_kv_vs_html": 0.0
+    },
+    {
+      "name": "Ngày",
+      "ord": 2,
+      "kv_source": "chandra",
+      "kv_bbox": [
+        703.0,
+        76.0,
+        897.0,
+        103.0
+      ],
+      "kv_name_raw": null,
+      "kv_score": 0.3393,
+      "html_source": "template",
+      "html_bbox": null,
+      "iou_kv_vs_html": 0.0
+    },
+    {
+      "name": "THÔNG TIN YÊU CẦU CỦA KHÁCH HÀNG",
+      "ord": 3,
+      "kv_source": "chandra",
+      "kv_bbox": [
+        117.0,
+        139.0,
+        407.0,
+        151.0
+      ],
+      "kv_name_raw": null,
+      "kv_score": 1.0,
+      "html_source": "template",
+      "html_bbox": null,
+      "iou_kv_vs_html": 0.0
+    },
+    {
+      "name": "Tên khách hàng",
+      "ord": 4,
+      "kv_source": "chandra",
+      "kv_bbox": [
+        117.0,
+        161.0,
+        404.0,
+        174.0
+      ],
+      "kv_name_raw": null,
+      "kv_score": 1.0,
+      "html_source": "template",
+      "html_bbox": null,
+      "iou_kv_vs_html": 0.0
+    },
+    {
+      "name": "CIF",
+      "ord": 5,
+      "kv_source": "chandra",
+      "kv_bbox": [
+        687.0,
+        160.0,
+        788.0,
+        172.0
+      ],
+      "kv_name_raw": null,
+      "kv_score": 1.0,
+      "html_source": "template",
+      "html_bbox": null,
+      "iou_kv_vs_html": 0.0
+    },
+    {
+      "name": "CMND/CCCD/HC",
+      "ord": 6,
+      "kv_source": "chandra",
+      "kv_bbox": [
+        117.0,
+        182.0,
+        339.0,
+        193.0
+      ],
+      "kv_name_raw": null,
+      "kv_score": 1.0,
+      "html_source": "template",
+      "html_bbox": null,
+      "iou_kv_vs_html": 0.0
+    },
+    {
+      "name": "Ngày cấp",
+      "ord": 7,
+      "kv_source": "chandra",
+      "kv_bbox": [
+        117.0,
+        199.0,
+        269.0,
+        212.0
+      ],
+      "kv_name_raw": null,
+      "kv_score": 1.0,
+      "html_source": "template",
+      "html_bbox": null,
+      "iou_kv_vs_html": 0.0
+    },
+    {
+      "name": "Nơi cấp",
+      "ord": 8,
+      "kv_source": "chandra",
+      "kv_bbox": [
+        495.0,
+        196.0,
+        622.0,
+        209.0
+      ],
+      "kv_name_raw": null,
+      "kv_score": 1.0,
+      "html_source": "template",
+      "html_bbox": null,
+      "iou_kv_vs_html": 0.0
+    },
+    {
+      "name": "Số tiền gửi",
+      "ord": 9,
+      "kv_source": "chandra",
+      "kv_bbox": [
+        117.0,
+        217.0,
+        287.0,
+        230.0
+      ],
+      "kv_name_raw": null,
+      "kv_score": 1.0,
+      "html_source": "template",
+      "html_bbox": null,
+      "iou_kv_vs_html": 0.0
+    },
+    {
+      "name": "Loại tiền",
+      "ord": 10,
+      "kv_source": "chandra",
+      "kv_bbox": [
+        491.0,
+        216.0,
+        599.0,
+        228.0
+      ],
+      "kv_name_raw": null,
+      "kv_score": 1.0,
+      "html_source": "template",
+      "html_bbox": null,
+      "iou_kv_vs_html": 0.0
+    },
+    {
+      "name": "Số tiền bằng chữ",
+      "ord": 11,
+      "kv_source": "chandra",
+      "kv_bbox": [
+        117.0,
+        235.0,
+        494.0,
+        249.0
+      ],
+      "kv_name_raw": null,
+      "kv_score": 1.0,
+      "html_source": "template",
+      "html_bbox": null,
+      "iou_kv_vs_html": 0.0
+    },
+    {
+      "name": "Loại hình sản phẩm",
+      "ord": 12,
+      "kv_source": "chandra",
+      "kv_bbox": [
+        117.0,
+        254.0,
+        434.0,
+        267.0
+      ],
+      "kv_name_raw": null,
+      "kv_score": 1.0,
+      "html_source": "template",
+      "html_bbox": null,
+      "iou_kv_vs_html": 0.0
+    },
+    {
+      "name": "Kỳ hạn",
+      "ord": 13,
+      "kv_source": "chandra",
+      "kv_bbox": [
+        117.0,
+        273.0,
+        208.0,
+        285.0
+      ],
+      "kv_name_raw": null,
+      "kv_score": 1.0,
+      "html_source": "template",
+      "html_bbox": null,
+      "iou_kv_vs_html": 0.0
+    },
+    {
+      "name": "Định kỳ lĩnh lãi",
+      "ord": 14,
+      "kv_source": "chandra",
+      "kv_bbox": [
+        461.0,
+        271.0,
+        635.0,
+        283.0
+      ],
+      "kv_name_raw": null,
+      "kv_score": 1.0,
+      "html_source": "template",
+      "html_bbox": null,
+      "iou_kv_vs_html": 0.0
+    },
+    {
+      "name": "Phương thức gửi tiền",
+      "ord": 15,
+      "kv_source": "chandra",
+      "kv_bbox": [
+        117.0,
+        291.0,
+        396.0,
+        304.0
+      ],
+      "kv_name_raw": null,
+      "kv_score": 1.0,
+      "html_source": "template",
+      "html_bbox": null,
+      "iou_kv_vs_html": 0.0
+    },
+    {
+      "name": "Tài khoản ghi nợ",
+      "ord": 16,
+      "kv_source": "chandra",
+      "kv_bbox": [
+        117.0,
+        310.0,
+        348.0,
+        322.0
+      ],
+      "kv_name_raw": null,
+      "kv_score": 1.0,
+      "html_source": "template",
+      "html_bbox": null,
+      "iou_kv_vs_html": 0.0
+    },
+    {
+      "name": "Tài khoản nhận lãi",
+      "ord": 17,
+      "kv_source": "chandra",
+      "kv_bbox": [
+        117.0,
+        329.0,
+        250.0,
+        342.0
+      ],
+      "kv_name_raw": null,
+      "kv_score": 1.0,
+      "html_source": "template",
+      "html_bbox": null,
+      "iou_kv_vs_html": 0.0
+    },
+    {
+      "name": "Phương thức quay vòng",
+      "ord": 18,
+      "kv_source": "chandra",
+      "kv_bbox": [
+        117.0,
+        347.0,
+        479.0,
+        360.0
+      ],
+      "kv_name_raw": null,
+      "kv_score": 1.0,
+      "html_source": "template",
+      "html_bbox": null,
+      "iou_kv_vs_html": 0.0
+    },
+    {
+      "name": "BẢNG KÊ TIỀN MẶT (CASH LIST)",
+      "ord": 19,
+      "kv_source": "chandra",
+      "kv_bbox": [
+        117.0,
+        366.0,
+        349.0,
+        379.0
+      ],
+      "kv_name_raw": null,
+      "kv_score": 1.0,
+      "html_source": "template",
+      "html_bbox": null,
+      "iou_kv_vs_html": 0.0
+    },
+    {
+      "name": "Bảng kê tiền mặt",
+      "ord": 20,
+      "kv_source": "chandra",
+      "kv_bbox": [
+        120.0,
+        387.0,
+        480.0,
+        446.0
+      ],
+      "kv_name_raw": null,
+      "kv_score": 21240.0,
+      "html_source": "template",
+      "html_bbox": null,
+      "iou_kv_vs_html": 0.0
+    },
+    {
+      "name": "Xác nhận thông tin",
+      "ord": 21,
+      "kv_source": "chandra",
+      "kv_bbox": [
+        547.0,
+        444.0,
+        828.0,
+        457.0
+      ],
+      "kv_name_raw": null,
+      "kv_score": 0.2979,
+      "html_source": "template",
+      "html_bbox": null,
+      "iou_kv_vs_html": 0.0
+    },
+    {
+      "name": "Người gửi tiền",
+      "ord": 22,
+      "kv_source": "chandra",
+      "kv_bbox": [
+        571.0,
+        474.0,
+        859.0,
+        554.0
+      ],
+      "kv_name_raw": null,
+      "kv_score": 0.3978,
+      "html_source": "template",
+      "html_bbox": null,
+      "iou_kv_vs_html": 0.0
+    },
+    {
+      "name": "PHẦN DÀNH CHO NGÂN HÀNG",
+      "ord": 23,
+      "kv_source": "chandra",
+      "kv_bbox": [
+        117.0,
+        544.0,
+        335.0,
+        557.0
+      ],
+      "kv_name_raw": null,
+      "kv_score": 1.0,
+      "html_source": "template",
+      "html_bbox": null,
+      "iou_kv_vs_html": 0.0
+    },
+    {
+      "name": "Số bút toán",
+      "ord": 24,
+      "kv_source": "chandra",
+      "kv_bbox": [
+        117.0,
+        568.0,
+        372.0,
+        581.0
+      ],
+      "kv_name_raw": null,
+      "kv_score": 1.0,
+      "html_source": "template",
+      "html_bbox": null,
+      "iou_kv_vs_html": 0.0
+    },
+    {
+      "name": "Company",
+      "ord": 25,
+      "kv_source": "chandra",
+      "kv_bbox": [
+        506.0,
+        566.0,
+        662.0,
+        579.0
+      ],
+      "kv_name_raw": null,
+      "kv_score": 1.0,
+      "html_source": "template",
+      "html_bbox": null,
+      "iou_kv_vs_html": 0.0
+    },
+    {
+      "name": "Số seri",
+      "ord": 26,
+      "kv_source": "chandra",
+      "kv_bbox": [
+        117.0,
+        588.0,
+        270.0,
+        601.0
+      ],
+      "kv_name_raw": null,
+      "kv_score": 1.0,
+      "html_source": "template",
+      "html_bbox": null,
+      "iou_kv_vs_html": 0.0
+    },
+    {
+      "name": "Lãi suất",
+      "ord": 27,
+      "kv_source": "chandra",
+      "kv_bbox": [
+        506.0,
+        586.0,
+        638.0,
+        599.0
+      ],
+      "kv_name_raw": null,
+      "kv_score": 1.0,
+      "html_source": "template",
+      "html_bbox": null,
+      "iou_kv_vs_html": 0.0
+    },
+    {
+      "name": "Ngày mở",
+      "ord": 28,
+      "kv_source": "chandra",
+      "kv_bbox": [
+        117.0,
+        606.0,
+        271.0,
+        619.0
+      ],
+      "kv_name_raw": null,
+      "kv_score": 1.0,
+      "html_source": "template",
+      "html_bbox": null,
+      "iou_kv_vs_html": 0.0
+    },
+    {
+      "name": "Ngày đến hạn",
+      "ord": 29,
+      "kv_source": "chandra",
+      "kv_bbox": [
+        506.0,
+        604.0,
+        684.0,
+        616.0
+      ],
+      "kv_name_raw": null,
+      "kv_score": 1.0,
+      "html_source": "template",
+      "html_bbox": null,
+      "iou_kv_vs_html": 0.0
+    },
+    {
+      "name": "Salecode",
+      "ord": 30,
+      "kv_source": "chandra",
+      "kv_bbox": [
+        117.0,
+        625.0,
+        264.0,
+        638.0
+      ],
+      "kv_name_raw": null,
+      "kv_score": 1.0,
+      "html_source": "template",
+      "html_bbox": null,
+      "iou_kv_vs_html": 0.0
+    },
+    {
+      "name": "Bảng kê ghi số",
+      "ord": 31,
+      "kv_source": "chandra",
+      "kv_bbox": [
+        117.0,
+        633.0,
+        900.0,
+        711.0
+      ],
+      "kv_name_raw": null,
+      "kv_score": 61074.0,
+      "html_source": "template",
+      "html_bbox": null,
+      "iou_kv_vs_html": 0.0
+    },
+    {
+      "name": "Giao dịch viên",
+      "ord": 32,
+      "kv_source": "template",
+      "kv_bbox": null,
+      "kv_name_raw": null,
+      "kv_score": 0.0,
+      "html_source": "template",
+      "html_bbox": null,
+      "iou_kv_vs_html": 0.0
+    },
+    {
+      "name": "Kiểm soát viên",
+      "ord": 33,
+      "kv_source": "chandra",
+      "kv_bbox": [
+        573.0,
+        728.0,
+        880.0,
+        840.0
+      ],
+      "kv_name_raw": null,
+      "kv_score": 0.1665,
+      "html_source": "template",
+      "html_bbox": null,
+      "iou_kv_vs_html": 0.0
+    }
+  ]
+}
