@@ -1,0 +1,658 @@
+{
+  "source": "chandra4layout/data/test/GIAY_GUI_TIEN_TIET_KIEM/test_7.pdf",
+  "unit": "test_7_page01",
+  "image_size": [
+    1060,
+    1508
+  ],
+  "page_size_pt": [
+    595.0,
+    846.0
+  ],
+  "n_blocks": 40,
+  "blocks": [
+    {
+      "label": "Image",
+      "bbox": [
+        122.0,
+        77.0,
+        260.0,
+        112.0
+      ],
+      "text": "",
+      "lines": [],
+      "schema_attr": null,
+      "schema_match": null
+    },
+    {
+      "label": "Section-Header",
+      "bbox": [
+        371.0,
+        97.0,
+        626.0,
+        114.0
+      ],
+      "text": "GIẤY GỬI TIỀN TIẾT KIỆM",
+      "lines": [
+        "GIẤY GỬI TIỀN TIẾT KIỆM"
+      ],
+      "schema_attr": null,
+      "schema_match": "GIẤY GỬI TIỀN TIẾT KIỆM"
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        703.0,
+        77.0,
+        897.0,
+        104.0
+      ],
+      "text": "Liên 1/2 dành cho Ngân hàng Ngày (Date): 05-01-2026",
+      "lines": [
+        "Liên 1/2 dành cho Ngân hàng",
+        "Ngày (Date): 05-01-2026"
+      ],
+      "schema_attr": null,
+      "schema_match": "Ngày (Date)"
+    },
+    {
+      "label": "Section-Header",
+      "bbox": [
+        117.0,
+        140.0,
+        407.0,
+        152.0
+      ],
+      "text": "THÔNG TIN YÊU CẦU CỦA KHÁCH HÀNG",
+      "lines": [
+        "THÔNG TIN YÊU CẦU CỦA KHÁCH HÀNG"
+      ],
+      "schema_attr": null,
+      "schema_match": "THÔNG TIN YÊU CẦU CỦA KHÁCH HÀNG"
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        117.0,
+        162.0,
+        404.0,
+        175.0
+      ],
+      "text": "Tên khách hàng: NGUYEN THANH TUNG",
+      "lines": [
+        "Tên khách hàng: NGUYEN THANH TUNG"
+      ],
+      "schema_attr": null,
+      "schema_match": "Tên khách hàng"
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        688.0,
+        161.0,
+        788.0,
+        173.0
+      ],
+      "text": "CIF: 10925530",
+      "lines": [
+        "CIF: 10925530"
+      ],
+      "schema_attr": null,
+      "schema_match": "CIF"
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        117.0,
+        183.0,
+        339.0,
+        194.0
+      ],
+      "text": "CMND/CCCD/HC: 049090022849",
+      "lines": [
+        "CMND/CCCD/HC: 049090022849"
+      ],
+      "schema_attr": null,
+      "schema_match": "CMND/CCCD/HC"
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        117.0,
+        200.0,
+        270.0,
+        213.0
+      ],
+      "text": "Ngày cấp: 11/08/2021",
+      "lines": [
+        "Ngày cấp: 11/08/2021"
+      ],
+      "schema_attr": null,
+      "schema_match": "Ngày cấp"
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        495.0,
+        197.0,
+        622.0,
+        210.0
+      ],
+      "text": "Nơi cấp: CUC CS",
+      "lines": [
+        "Nơi cấp: CUC CS"
+      ],
+      "schema_attr": null,
+      "schema_match": "Nơi cấp"
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        117.0,
+        218.0,
+        288.0,
+        230.0
+      ],
+      "text": "Số tiền gửi: 150,000,000",
+      "lines": [
+        "Số tiền gửi: 150,000,000"
+      ],
+      "schema_attr": null,
+      "schema_match": "Số tiền gửi"
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        491.0,
+        217.0,
+        599.0,
+        229.0
+      ],
+      "text": "Loại tiền: VND",
+      "lines": [
+        "Loại tiền: VND"
+      ],
+      "schema_attr": null,
+      "schema_match": "Loại tiền"
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        117.0,
+        236.0,
+        494.0,
+        250.0
+      ],
+      "text": "Số tiền bằng chữ: Một Trăm Năm Mười Triệu đồng chẵn",
+      "lines": [
+        "Số tiền bằng chữ: Một Trăm Năm Mười Triệu đồng chẵn"
+      ],
+      "schema_attr": null,
+      "schema_match": "Số tiền bằng chữ"
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        117.0,
+        255.0,
+        433.0,
+        268.0
+      ],
+      "text": "Loại hình sản phẩm: FD.DEPOSIT.AP.CK36M",
+      "lines": [
+        "Loại hình sản phẩm: FD.DEPOSIT.AP.CK36M"
+      ],
+      "schema_attr": null,
+      "schema_match": "Loại hình sản phẩm"
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        117.0,
+        274.0,
+        208.0,
+        286.0
+      ],
+      "text": "Kỳ hạn: 12M",
+      "lines": [
+        "Kỳ hạn: 12M"
+      ],
+      "schema_attr": null,
+      "schema_match": "Kỳ hạn"
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        461.0,
+        272.0,
+        635.0,
+        284.0
+      ],
+      "text": "Định kỳ lĩnh lãi: CUOI KY",
+      "lines": [
+        "Định kỳ lĩnh lãi: CUOI KY"
+      ],
+      "schema_attr": null,
+      "schema_match": "Định kỳ lĩnh lãi"
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        117.0,
+        292.0,
+        396.0,
+        305.0
+      ],
+      "text": "Phương thức gửi tiền: CHUYEN KHOAN",
+      "lines": [
+        "Phương thức gửi tiền: CHUYEN KHOAN"
+      ],
+      "schema_attr": null,
+      "schema_match": "Phương thức gửi tiền"
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        117.0,
+        311.0,
+        348.0,
+        323.0
+      ],
+      "text": "Tài khoản ghi nợ: 100600592259",
+      "lines": [
+        "Tài khoản ghi nợ: 100600592259"
+      ],
+      "schema_attr": null,
+      "schema_match": "Tài khoản ghi nợ"
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        117.0,
+        330.0,
+        250.0,
+        343.0
+      ],
+      "text": "Tài khoản nhận lãi:",
+      "lines": [
+        "Tài khoản nhận lãi:"
+      ],
+      "schema_attr": null,
+      "schema_match": "Tài khoản nhận lãi"
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        117.0,
+        348.0,
+        479.0,
+        361.0
+      ],
+      "text": "Phương thức quay vòng: QUAY VONG GOC VA LAI",
+      "lines": [
+        "Phương thức quay vòng: QUAY VONG GOC VA LAI"
+      ],
+      "schema_attr": null,
+      "schema_match": "Phương thức quay vòng"
+    },
+    {
+      "label": "Section-Header",
+      "bbox": [
+        117.0,
+        367.0,
+        349.0,
+        380.0
+      ],
+      "text": "BẢNG KÊ TIỀN MẶT (CASH LIST)",
+      "lines": [
+        "BẢNG KÊ TIỀN MẶT (CASH LIST)"
+      ],
+      "schema_attr": null,
+      "schema_match": "BẢNG KÊ TIỀN MẶT (CASH LIST)"
+    },
+    {
+      "label": "Table",
+      "bbox": [
+        120.0,
+        388.0,
+        481.0,
+        447.0
+      ],
+      "text": "Mệnh giá (Denomination)Số tờ (Quantity)Thành tiền (Amount)Tổng cộng (Total)",
+      "lines": [
+        "Mệnh giá",
+        "(Denomination)Số tờ",
+        "(Quantity)Thành tiền",
+        "(Amount)Tổng cộng (Total)"
+      ],
+      "schema_attr": null,
+      "schema_match": null
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        522.0,
+        389.0,
+        867.0,
+        414.0
+      ],
+      "text": "Tôi xác nhận đã đọc, hiểu và cam đoan các thông tin trên là đúng theo yêu cầu của tôi",
+      "lines": [
+        "Tôi xác nhận đã đọc, hiểu và cam đoan các thông tin trên là đúng theo yêu cầu của tôi"
+      ],
+      "schema_attr": null,
+      "schema_match": null
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        547.0,
+        420.0,
+        828.0,
+        458.0
+      ],
+      "text": "Người gửi tiền (Ký, ghi rõ họ tên) Cam kết tái tục theo sản phẩm ban hành",
+      "lines": [
+        "Người gửi tiền",
+        "(Ký, ghi rõ họ tên)",
+        "Cam kết tái tục theo sản phẩm ban hành"
+      ],
+      "schema_attr": null,
+      "schema_match": "Người gửi tiền"
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        571.0,
+        475.0,
+        860.0,
+        554.0
+      ],
+      "text": "Nguyễn Thanh Tung",
+      "lines": [
+        "Nguyễn Thanh Tung"
+      ],
+      "schema_attr": null,
+      "schema_match": null
+    },
+    {
+      "label": "Section-Header",
+      "bbox": [
+        117.0,
+        544.0,
+        335.0,
+        557.0
+      ],
+      "text": "PHẦN DÀNH CHO NGÂN HÀNG",
+      "lines": [
+        "PHẦN DÀNH CHO NGÂN HÀNG"
+      ],
+      "schema_attr": null,
+      "schema_match": "PHẦN DÀNH CHO NGÂN HÀNG"
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        117.0,
+        568.0,
+        372.0,
+        581.0
+      ],
+      "text": "Số bút toán: AAAC26005FMY7R4L5",
+      "lines": [
+        "Số bút toán: AAAC26005FMY7R4L5"
+      ],
+      "schema_attr": null,
+      "schema_match": "Số bút toán"
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        506.0,
+        567.0,
+        662.0,
+        579.0
+      ],
+      "text": "Company: VN0010106",
+      "lines": [
+        "Company: VN0010106"
+      ],
+      "schema_attr": null,
+      "schema_match": "Company"
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        117.0,
+        588.0,
+        270.0,
+        601.0
+      ],
+      "text": "Số seri: FDAB901334",
+      "lines": [
+        "Số seri: FDAB901334"
+      ],
+      "schema_attr": null,
+      "schema_match": "Số seri"
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        506.0,
+        586.0,
+        638.0,
+        599.0
+      ],
+      "text": "Lãi suất: 8.1(+1.90)",
+      "lines": [
+        "Lãi suất: 8.1(+1.90)"
+      ],
+      "schema_attr": null,
+      "schema_match": "Lãi suất"
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        117.0,
+        606.0,
+        271.0,
+        619.0
+      ],
+      "text": "Ngày mở: 05/01/2026",
+      "lines": [
+        "Ngày mở: 05/01/2026"
+      ],
+      "schema_attr": null,
+      "schema_match": "Ngày mở"
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        506.0,
+        604.0,
+        683.0,
+        616.0
+      ],
+      "text": "Ngày đến hạn: 05/01/2027",
+      "lines": [
+        "Ngày đến hạn: 05/01/2027"
+      ],
+      "schema_attr": null,
+      "schema_match": "Ngày đến hạn"
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        117.0,
+        625.0,
+        265.0,
+        638.0
+      ],
+      "text": "Salecode: 12095672",
+      "lines": [
+        "Salecode: 12095672"
+      ],
+      "schema_attr": null,
+      "schema_match": "Salecode"
+    },
+    {
+      "label": "Table",
+      "bbox": [
+        117.0,
+        634.0,
+        900.0,
+        712.0
+      ],
+      "text": "Số tài khoảnTên tài khoảnGhi nợGhi cóLoại tiền100600592259NGUYEN THANH TUNG150,000,000VND601193412355NGUYEN THANH TUNG150,000,000VND",
+      "lines": [
+        "Số tài khoảnTên tài khoảnGhi nợGhi cóLoại tiền100600592259NGUYEN THANH TUNG150,000,000VND601193412355NGUYEN THANH TUNG150,000,000VND"
+      ],
+      "schema_attr": null,
+      "schema_match": null
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        224.0,
+        717.0,
+        327.0,
+        729.0
+      ],
+      "text": "Giao dịch viên",
+      "lines": [
+        "Giao dịch viên"
+      ],
+      "schema_attr": null,
+      "schema_match": "Giao dịch viên"
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        197.0,
+        737.0,
+        350.0,
+        750.0
+      ],
+      "text": "HOANNTQ.NCB 11:10",
+      "lines": [
+        "HOANNTQ.NCB 11:10"
+      ],
+      "schema_attr": null,
+      "schema_match": null
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        224.0,
+        754.0,
+        288.0,
+        798.0
+      ],
+      "text": "",
+      "lines": [],
+      "schema_attr": null,
+      "schema_match": null
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        152.0,
+        822.0,
+        369.0,
+        865.0
+      ],
+      "text": "Nguyễn Thị Quỳnh Hoa",
+      "lines": [
+        "Nguyễn Thị Quỳnh Hoa"
+      ],
+      "schema_attr": null,
+      "schema_match": null
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        628.0,
+        716.0,
+        732.0,
+        728.0
+      ],
+      "text": "Kiểm soát viên",
+      "lines": [
+        "Kiểm soát viên"
+      ],
+      "schema_attr": null,
+      "schema_match": "Kiểm soát viên"
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        573.0,
+        728.0,
+        880.0,
+        844.0
+      ],
+      "text": "",
+      "lines": [],
+      "schema_attr": null,
+      "schema_match": null
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        668.0,
+        840.0,
+        844.0,
+        865.0
+      ],
+      "text": "Võ Thị Phương Thủy",
+      "lines": [
+        "Võ Thị Phương Thủy"
+      ],
+      "schema_attr": null,
+      "schema_match": null
+    }
+  ],
+  "schema_alignment_llm": {
+    "Logo": null,
+    "GIẤY GỬI TIỀN TIẾT KIỆM": null,
+    "Ngày": null,
+    "FreeText1": null,
+    "Ngày (Date)": null,
+    "THÔNG TIN YÊU CẦU CỦA KHÁCH HÀNG": null,
+    "Tên khách hàng": null,
+    "CMND/CCCD/HC": null,
+    "Ngày cấp": null,
+    "CIF": null,
+    "Số tiền gửi": null,
+    "Nơi cấp": null,
+    "Loại tiền": null,
+    "Số tiền bằng chữ": null,
+    "Loại hình sản phẩm": null,
+    "Kỳ hạn": null,
+    "Định kỳ lĩnh lãi": null,
+    "Phương thức gửi tiền": null,
+    "Tài khoản ghi nợ": null,
+    "Tài khoản nhận lãi": null,
+    "Phương thức quay vòng": null,
+    "BẢNG KÊ TIỀN MẶT (CASH LIST)": null,
+    "Bảng kê tiền mặt": null,
+    "Mệnh giá (Denomination)": null,
+    "Số tờ (Quantity)": null,
+    "Thành tiền (Amount)": null,
+    "Tổng cộng (Total)": null,
+    "Xác nhận thông tin": null,
+    "Người gửi tiền": null,
+    "Người gửi tiền (ký, ghi rõ họ tên)": null,
+    "PHẦN DÀNH CHO NGÂN HÀNG": null,
+    "Số bút toán": null,
+    "Số seri": null,
+    "Ngày mở": null,
+    "Salecode": null,
+    "Company": null,
+    "Lãi suất": null,
+    "Ngày đến hạn": null,
+    "Bảng kê ghi số": null,
+    "Giao dịch viên": null,
+    "Kiểm soát viên": null
+  }
+}

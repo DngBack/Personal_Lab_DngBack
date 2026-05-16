@@ -1,12 +1,15 @@
 {
   "model": "datalab-to/chandra-ocr-2",
+  "schema_llm_model": "Qwen/Qwen3.5-4B",
   "items": [
     {
       "unit": "test_7_page01",
-      "n_matched": 33,
-      "n_total": 34,
-      "schema_json": "/home/bachdx2/Personal_Lab_DngBack/chandra4layout/results/giay_gui_tien_tiet_kiem_direct/test_7_page01_schema.json",
-      "viz": "/home/bachdx2/Personal_Lab_DngBack/chandra4layout/results/giay_gui_tien_tiet_kiem_direct/test_7_page01_schema.jpg"
+      "n_blocks": 40,
+      "blocks_json": "/home/bachdx2/Personal_Lab_DngBack/chandra4layout/results/giay_gui_tien_tiet_kiem_direct/test_7_page01_blocks.json",
+      "viz_layout": "/home/bachdx2/Personal_Lab_DngBack/chandra4layout/results/giay_gui_tien_tiet_kiem_direct/test_7_page01_layout.jpg",
+      "schema_llm_json": "/home/bachdx2/Personal_Lab_DngBack/chandra4layout/results/giay_gui_tien_tiet_kiem_direct/test_7_page01_schema_llm.json",
+      "schema_llm_raw": "/home/bachdx2/Personal_Lab_DngBack/chandra4layout/results/giay_gui_tien_tiet_kiem_direct/test_7_page01_schema_llm_raw.txt",
+      "viz_schema_llm": "/home/bachdx2/Personal_Lab_DngBack/chandra4layout/results/giay_gui_tien_tiet_kiem_direct/test_7_page01_schema_llm.jpg"
     }
   ]
 }

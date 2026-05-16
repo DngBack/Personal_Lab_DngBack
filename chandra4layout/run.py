@@ -1,19 +1,19 @@
-"""Chandra OCR 2 → Schema JSON – minimal single-pass pipeline.
+"""Chandra OCR 2 – inference + bbox visualization.
 
 Cách chạy:
     python chandra4layout/run.py --input-file test.pdf --device-map cuda:0
 
 Pipeline:
-    1. Ảnh / PDF  →  Chandra OCR 2  →  HTML output
-    2. Parse từng <div> block: lấy bbox + inner_text
-    3. Gán thẳng vào schema:
-         • "FieldName: Value"  → đọc tên field trước dấu ':'
-         • Section-Header      → so tên text với schema
-         • Image block         → Logo
-         • Table block         → Bảng kê tiền mặt / Bảng kê ghi số (theo kích thước)
-    4. Xuất schema JSON + visualization JPG
-
-Không có IoU, không có multi-pass matching, không có fallback phức tạp.
+    1. Ảnh / PDF  →  Chandra OCR 2  →  HTML (<div data-bbox data-label>)
+    2. Parse các block → bbox + nội dung
+    3. (Optional) `--layout-json`: gắn nhãn *tên section schema* chỉ khi khớp
+       tất định với HTML (KHÔNG fuzzy/IoU/table-area trick):
+       - data-field hoặc data-schema trên div (model tự đặt sau nếu có)
+       - dòng khớp kiểu "Tên khách hàng: ..." (phần trước ":" = tên trong JSON)
+       - khối Section-Header có text trùng tên section (chuẩn hóa)
+    4. JPG vẽ bbox Chandra (+ nhãn rule-based nếu có layout-json).
+    5. (Optional) `--schema-llm-model`: LLM (Qwen) đọc `chandra_blocks` + danh sách
+       schema từ layout JSON → một map tên-schema → bbox; vẽ `*_schema_llm.jpg`.
 """
 
 from __future__ import annotations
@@ -27,27 +27,31 @@ from pathlib import Path
 from typing import Any
 
 _HERE = Path(__file__).resolve().parent
+_DEFAULT_PROMPT_FILE = _HERE / "prompts/giay_gui_tien_tiet_kiem.txt"
 _DEFAULT_LAYOUT_JSON = (
     _HERE / "data/samples/GIAY_GUI_TIEN_TIET_KIEM/layout _GIAY_GUI_TIEN_TIET_KIEM.json"
 )
-_DEFAULT_PROMPT_FILE = _HERE / "prompts/giay_gui_tien_tiet_kiem.txt"
 _DEFAULT_INPUT_DIR   = _HERE / "data/test/GIAY_GUI_TIEN_TIET_KIEM"
 _DEFAULT_OUTPUT_DIR  = _HERE / "results/giay_gui_tien_tiet_kiem_direct"
 _DEFAULT_MODEL       = "datalab-to/chandra-ocr-2"
 
-# ── File extension sets ──────────────────────────────────────────────────────
+_DEFAULT_SCHEMA_ALIGN_PROMPT = _HERE / "prompts/schema_align_llm_system.txt"
+_DEFAULT_SCHEMA_ALIGN_FEWS = _HERE / "data/samples/schema_align_fewshots.json"
+
 _PDF_EXT   = {".pdf"}
 _IMAGE_EXT = {".jpg", ".jpeg", ".png", ".tiff", ".tif", ".bmp", ".webp"}
 
-# ── HTML parsing regexes ─────────────────────────────────────────────────────
 _DIV_RE   = re.compile(r"<div\b(?P<attrs>[^>]*)>(?P<inner>.*?)</div>",
                        re.IGNORECASE | re.DOTALL)
 _BBOX_RE  = re.compile(r'data(?:-bbox)?\s*=\s*"([^"]+)"', re.IGNORECASE)
 _LABEL_RE = re.compile(r'data-label\s*=\s*"([^"]+)"', re.IGNORECASE)
+_SCHEMA_ATTR_RE = re.compile(
+    r'data-(?:schema|schema-name|field)\s*=\s*"([^"]+)"',
+    re.IGNORECASE,
+)
 _BR_RE    = re.compile(r"<br\s*/?>", re.IGNORECASE)
 _TAG_RE   = re.compile(r"<[^>]+>")
 
-# ── Visualization palette ────────────────────────────────────────────────────
 _PALETTE = [
     (220, 20, 60),  (30, 144, 255), (50, 205, 50),  (255, 165, 0),
     (148, 0, 211),  (0, 191, 255),  (255, 105, 180),(154, 205, 50),
@@ -56,20 +60,53 @@ _PALETTE = [
 ]
 
 
-# ── Text normalization ───────────────────────────────────────────────────────
-
 def _fold(s: str) -> str:
     """Lowercase + strip Vietnamese diacritics → bare ASCII letters+digits."""
-    _VN = str.maketrans("đĐơƠưƯ", "dDoOuU")
-    s = s.translate(_VN)
+    _vn = str.maketrans("đĐơƠưƯ", "dDoOuU")
+    s = s.translate(_vn)
     s = unicodedata.normalize("NFKD", s.lower())
     return "".join(c for c in s if "a" <= c <= "z" or c.isdigit())
 
 
-# ── HTML parser ──────────────────────────────────────────────────────────────
+def _collect_all_names(layout_root: dict | list) -> list[str]:
+    """Mọi chuỗi `name` trong cây layout (section, group, cột, …)."""
+    out: list[str] = []
+
+    def walk(o: Any) -> None:
+        if isinstance(o, dict):
+            n = o.get("name")
+            if isinstance(n, str) and n.strip():
+                out.append(n.strip())
+            for v in o.values():
+                walk(v)
+        elif isinstance(o, list):
+            for x in o:
+                walk(x)
+
+    walk(layout_root)
+    # Giữ nguyên thứ tự DFS, chỉ uniq theo normalized key
+    seen: set[str] = set()
+    uniq = []
+    for n in out:
+        k = _fold(n)
+        if k in seen:
+            continue
+        seen.add(k)
+        uniq.append(n)
+    return uniq
+
+
+def _fold_to_exact_schema(names: list[str]) -> dict[str, str]:
+    """Một folded key → một tên canonical (ưu tiên lần gặp đầu DFS)."""
+    m: dict[str, str] = {}
+    for n in names:
+        f = _fold(n)
+        m.setdefault(f, n)
+    return m
+
 
 def _parse_blocks(html: str) -> list[dict[str, Any]]:
-    """Parse <div data[-bbox]="x y x y" data-label="..."> → list of blocks."""
+    """Parse <div data-bbox="x y x y" data-label="..."> → list of blocks."""
     seen: set[tuple] = set()
     blocks = []
     for m in _DIV_RE.finditer(html):
@@ -89,6 +126,8 @@ def _parse_blocks(html: str) -> list[dict[str, Any]]:
         x0, x1 = min(x0, x1), max(x0, x1)
         y0, y1 = min(y0, y1), max(y0, y1)
         label = lm.group(1).strip()
+        sam = _SCHEMA_ATTR_RE.search(attrs)
+        schema_attr = sam.group(1).strip() if sam else ""
         key = (round(x0), round(y0), round(x1), round(y1), label)
         if key in seen:
             continue
@@ -101,258 +140,120 @@ def _parse_blocks(html: str) -> list[dict[str, Any]]:
             "bbox": [x0, y0, x1, y1],
             "text": " ".join(lines),
             "lines": lines,
+            "schema_attr": schema_attr or None,
         })
     return blocks
 
 
-# ── Direct schema extraction ─────────────────────────────────────────────────
+def _schema_for_block(
+    b: dict[str, Any],
+    fold2name: dict[str, str],
+) -> str | None:
+    """Chỉ khớp tất định với tên trong layout JSON (không IoU, không đoán bảng)."""
+    if b.get("schema_attr"):
+        raw = b["schema_attr"].strip()
+        fk = _fold(raw)
+        if fk in fold2name:
+            return fold2name[fk]
 
-def extract_schema(
+    for line in b.get("lines") or []:
+        colon = line.find(":")
+        if colon <= 0:
+            continue
+        key = line[:colon].strip()
+        fk = _fold(key)
+        if fk in fold2name:
+            return fold2name[fk]
+
+    if b.get("label", "").lower() == "section-header":
+        for candidate in (b.get("text") or "", (b.get("lines") or [""])[0]):
+            c = candidate.strip()
+            if not c:
+                continue
+            fk = _fold(c)
+            if fk in fold2name:
+                return fold2name[fk]
+
+    # Tiêu đề một dòng trong khối Text (vd. "Người gửi tiền", "Giao dịch viên")
+    lines = b.get("lines") or []
+    if (b.get("label") or "").lower() == "text" and lines and ":" not in lines[0]:
+        fk = _fold(lines[0].strip())
+        if fk in fold2name:
+            return fold2name[fk]
+
+    return None
+
+
+def _caption_for_block(b: dict[str, Any]) -> str:
+    tag = b["label"]
+    snippet = (b["lines"][0] if b["lines"] else b["text"])[:40]
+    schema = b.get("schema_match")
+    if schema:
+        return f"{schema}  [{tag}]"
+    return f"{tag}: {snippet}"
+
+
+def _draw_blocks(
+    image: Any,
     blocks: list[dict[str, Any]],
-    schema_sections: list[dict[str, Any]],
-) -> dict[str, list[float] | None]:
-    """Read schema section bboxes directly from model HTML blocks.
-
-    Strategy (in priority order, each block assigned at most once):
-      1. Image block          → Logo
-      2. "FieldName: Value"   → match FieldName against schema (exact fold)
-      3. Section-Header text  → match against schema header names
-      4. Table blocks         → Bảng kê ghi số (large) / Bảng kê tiền mặt (small)
-    """
-    # Build fold → schema name map
-    fold2name: dict[str, str] = {_fold(s["name"]): s["name"] for s in schema_sections}
-    result: dict[str, list[float] | None] = {s["name"]: None for s in schema_sections}
-    used_blocks: set[int] = set()
-
-    # ── Pass 1: Image block → Logo ───────────────────────────────────────────
-    for i, b in enumerate(blocks):
-        if b["label"].lower() == "image":
-            result["Logo"] = b["bbox"]
-            used_blocks.add(i)
-            break
-
-    # ── Pass 2: "FieldName: Value" text extraction ───────────────────────────
-    for i, b in enumerate(blocks):
-        if i in used_blocks:
-            continue
-        for line in b["lines"]:
-            colon = line.find(":")
-            if colon <= 0:
-                continue
-            candidate = line[:colon].strip()
-            cf = _fold(candidate)
-            if cf in fold2name:
-                name = fold2name[cf]
-                if result[name] is None:   # first match wins
-                    result[name] = b["bbox"]
-                    used_blocks.add(i)
-                    break
-
-    # ── Pass 3: Section-Header text match ────────────────────────────────────
-    for i, b in enumerate(blocks):
-        if i in used_blocks:
-            continue
-        if b["label"].lower() != "section-header":
-            continue
-        bf = _fold(b["text"])
-        best_name, best_ratio = None, 0.0
-        for sf, sname in fold2name.items():
-            if result[sname] is not None:
-                continue
-            if sf == bf:
-                best_name, best_ratio = sname, 1.0
-                break
-            if sf and bf and (sf in bf or bf in sf):
-                ratio = min(len(sf), len(bf)) / max(len(sf), len(bf))
-                if ratio > best_ratio:
-                    best_ratio, best_name = ratio, sname
-        if best_name and best_ratio >= 0.7:
-            result[best_name] = b["bbox"]
-            used_blocks.add(i)
-
-    # ── Pass 3b: schema name as first-line prefix (catches "Người gửi tiền",
-    #            "Giao dịch viên", "Ngày (Date): ...", etc.) ────────────────
-    for i, b in enumerate(blocks):
-        if i in used_blocks:
-            continue
-        for line in b["lines"][:2]:          # only first two lines
-            lf = _fold(line)
-            if not lf:
-                continue
-            for sf, sname in fold2name.items():
-                if result[sname] is not None or not sf:
-                    continue
-                # schema fold must start the line fold (e.g. "ngay" starts "ngaydate")
-                if lf.startswith(sf) or lf == sf:
-                    ratio = len(sf) / max(len(lf), 1)
-                    if ratio >= 0.55:        # allow short schema names in longer lines
-                        result[sname] = b["bbox"]
-                        used_blocks.add(i)
-                        break
-            if i in used_blocks:
-                break
-
-    # ── Pass 3c: substring search for longer schema names (≥10 chars folded)
-    #    Catches e.g. "Xác nhận thông tin" whose fold "xacnhanthongtin" can be
-    #    split and found in a block like "Tôi xác nhận ... thông tin ...". ───
-    for i, b in enumerate(blocks):
-        if i in used_blocks:
-            continue
-        bf = _fold(b["text"])
-        for sf, sname in fold2name.items():
-            if result[sname] is not None or len(sf) < 10:
-                continue
-            # Split schema fold into two halves and check both appear in block
-            mid = len(sf) // 2
-            part1, part2 = sf[:mid], sf[mid:]
-            if part1 in bf and part2 in bf:
-                result[sname] = b["bbox"]
-                used_blocks.add(i)
-                break
-
-    # ── Pass 3d: schema name embedded anywhere in a line (for "Ngày" in
-    #    "Liên 1/2 dành cho Ngân hàng Ngày (Date): 05-01-2026"). Only applied
-    #    to short schema names (≤6 folded chars) that are sufficiently unique
-    #    (not a prefix of any already-matched section name). ─────────────────
-    matched_folds = {_fold(sn) for sn, bx in result.items() if bx is not None}
-    for i, b in enumerate(blocks):
-        if i in used_blocks:
-            continue
-        for line in b["lines"]:
-            lf = _fold(line)
-            for sf, sname in fold2name.items():
-                if result[sname] is not None or not sf or len(sf) > 6:
-                    continue
-                # Only match if no already-matched section starts with this fold
-                shadowed = any(mf.startswith(sf) and mf != sf for mf in matched_folds)
-                if shadowed:
-                    continue
-                # The schema fold must appear as a standalone segment in the line
-                # (preceded by a non-alpha char or start, followed by non-alpha)
-                pattern = rf'(?<![a-z]){re.escape(sf)}(?![a-z])'
-                if re.search(pattern, lf):
-                    result[sname] = b["bbox"]
-                    used_blocks.add(i)
-                    matched_folds.add(sf)
-                    break
-            if i in used_blocks:
-                break
-
-    # ── Pass 4: Table blocks → Bảng kê ghi số / Bảng kê tiền mặt ───────────
-    table_blocks = [
-        (i, b) for i, b in enumerate(blocks)
-        if i not in used_blocks and b["label"].lower() == "table"
-    ]
-    table_blocks.sort(key=lambda ib: (ib[1]["bbox"][2] - ib[1]["bbox"][0])
-                                     * (ib[1]["bbox"][3] - ib[1]["bbox"][1]),
-                      reverse=True)
-    large_table = "Bảng kê ghi số"
-    small_table = "Bảng kê tiền mặt"
-    if table_blocks:
-        i, b = table_blocks[0]
-        area = (b["bbox"][2] - b["bbox"][0]) * (b["bbox"][3] - b["bbox"][1])
-        if area > 200_000:          # large table (normalized 0-1000 coords)
-            if result[large_table] is None:
-                result[large_table] = b["bbox"]
-                used_blocks.add(i)
-        if result[small_table] is None and len(table_blocks) > 1:
-            i2, b2 = table_blocks[1]
-            result[small_table] = b2["bbox"]
-            used_blocks.add(i2)
-        elif result[small_table] is None:
-            result[small_table] = b["bbox"]
-            used_blocks.add(i)
-    if len(table_blocks) > 1 and result[large_table] is None:
-        i, b = table_blocks[0]
-        result[large_table] = b["bbox"]
-        used_blocks.add(i)
-
-    return result
-
-
-# ── Schema JSON builder ──────────────────────────────────────────────────────
-
-def _norm_to_pt(bbox: list[float], w_pt: float, h_pt: float) -> dict[str, float]:
-    """Convert normalized 0-1000 bbox to pt coordinates (x, y, width, height)."""
-    x0, y0, x1, y1 = bbox
-    x   = x0 / 1000 * w_pt
-    y   = y0 / 1000 * h_pt
-    w   = (x1 - x0) / 1000 * w_pt
-    h   = (y1 - y0) / 1000 * h_pt
-    return {"x": round(x, 2), "y": round(y, 2),
-            "width": round(w, 2), "height": round(h, 2)}
-
-
-def build_schema_json(
-    schema_sections: list[dict[str, Any]],
-    bbox_map: dict[str, list[float] | None],
-    page_w_pt: float,
-    page_h_pt: float,
-    page_num: int = 1,
-) -> list[dict[str, Any]]:
-    import uuid as _uuid
-    rows = []
-    for sec in sorted(schema_sections, key=lambda s: s["ord"]):
-        name = sec["name"]
-        bbox = bbox_map.get(name)
-        if bbox:
-            layout = _norm_to_pt(bbox, page_w_pt, page_h_pt)
-            layout["page"] = page_num
-            source = "chandra"
-        else:
-            # Fall back to template bbox
-            tpl = sec.get("layout") or {}
-            layout = dict(tpl, page=page_num) if tpl else None
-            source = "template"
-        rows.append({
-            "id": sec.get("id") or str(_uuid.uuid4()),
-            "name": name,
-            "layout": layout,
-            "_bbox_source": source,
-            "_bbox_norm": bbox,
-        })
-    return rows
-
-
-# ── Visualization ────────────────────────────────────────────────────────────
-
-def _draw(image: Any, sections: list[dict], out_path: Path) -> None:
+    out_path: Path,
+) -> None:
+    """Vẽ bbox; `schema_match` trên từng block (nếu đã enrich) dùng làm nhãn."""
     from PIL import ImageDraw, ImageFont
+
     img = image.copy().convert("RGB")
     draw = ImageDraw.Draw(img, "RGBA")
     try:
-        font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 13)
         font_sm = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 11)
     except OSError:
-        font = font_sm = ImageFont.load_default()
+        font_sm = ImageFont.load_default()
 
     w, h = img.size
-    for idx, sec in enumerate(sections):
-        layout = sec.get("layout")
-        if not layout:
-            continue
+    for idx, b in enumerate(blocks):
         color = _PALETTE[idx % len(_PALETTE)]
-        source = sec.get("_bbox_source", "template")
-        alpha = 180 if source == "chandra" else 60
-        x0 = layout["x"] / layout.get("_pw", 595) * w  if "_pw" in layout else layout["x"] * w / 595
-        # Use normalized bbox directly if available
-        bn = sec.get("_bbox_norm")
-        if bn:
-            bx0 = bn[0] / 1000 * w
-            by0 = bn[1] / 1000 * h
-            bx1 = bn[2] / 1000 * w
-            by1 = bn[3] / 1000 * h
-        else:
-            continue
-        draw.rectangle([bx0, by0, bx1, by1], outline=color + (alpha,), width=2)
-        draw.rectangle([bx0, by0, bx0 + 1, by1], fill=color + (30,))
-        label = sec["name"][:28]
-        draw.text((bx0 + 3, by0 + 2), label, fill=color, font=font_sm)
+        x0, y0, x1, y1 = b["bbox"]
+        bx0, by0 = x0 / 1000 * w, y0 / 1000 * h
+        bx1, by1 = x1 / 1000 * w, y1 / 1000 * h
+        draw.rectangle([bx0, by0, bx1, by1], outline=color + (200,), width=2)
+        draw.rectangle([bx0, by0, bx0 + 1, by1], fill=color + (35,))
+        draw.text((bx0 + 3, by0 + 2), _caption_for_block(b), fill=color,
+                  font=font_sm)
 
     img.save(out_path, quality=92)
 
 
-# ── PDF / image loader ───────────────────────────────────────────────────────
+def _draw_schema_bbox_map(
+    image: Any,
+    ordered_names: list[str],
+    bbox_map: dict[str, list[float] | None],
+    out_path: Path,
+) -> None:
+    """Vẽ bbox theo kết quả LLM/schema map (normalized 0–1000 → ảnh)."""
+    from PIL import ImageDraw, ImageFont
+
+    img = image.copy().convert("RGB")
+    draw = ImageDraw.Draw(img, "RGBA")
+    try:
+        font_sm = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 11)
+    except OSError:
+        font_sm = ImageFont.load_default()
+
+    w, h = img.size
+    for idx, name in enumerate(ordered_names):
+        bbox = bbox_map.get(name)
+        if not bbox:
+            continue
+        color = _PALETTE[idx % len(_PALETTE)]
+        bx0 = bbox[0] / 1000 * w
+        by0 = bbox[1] / 1000 * h
+        bx1 = bbox[2] / 1000 * w
+        by1 = bbox[3] / 1000 * h
+        draw.rectangle([bx0, by0, bx1, by1], outline=color + (220,), width=2)
+        label = name[:30]
+        draw.text((bx0 + 3, by0 + 2), label, fill=color, font=font_sm)
+
+    img.save(out_path, quality=92)
+
 
 def _load_units(src: Path, dpi: int):
     """Yield (unit_name, PIL.Image, (page_w_pt, page_h_pt)) per page."""
@@ -397,23 +298,32 @@ def _list_inputs(d: Path, only: str | None) -> list[Path]:
 
 def _sanitize(raw: str) -> str:
     t = raw.strip()
+    lo = t.lower()
+    sep = "\nassistant\n"
+    if sep in lo:
+        idx = lo.index(sep)
+        t = t[:idx].strip()
     for marker in ("</html>", "<|endoftext|>", "<|im_end|>"):
         if marker in t:
             t = t[: t.index(marker)]
     return t.strip()
 
 
-# ── CLI ──────────────────────────────────────────────────────────────────────
-
 def _parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(
-        description="Chandra OCR 2 → Schema JSON (direct, single-pass)."
+        description="Chandra OCR 2 → block viz; optionally Qwen aligns layout JSON ↔ bbox.",
     )
     p.add_argument("--input-dir",  type=Path, default=_DEFAULT_INPUT_DIR)
     p.add_argument("--input-file", type=Path, default=None)
     p.add_argument("--only",       type=str,  default=None)
     p.add_argument("--output-dir", type=Path, default=_DEFAULT_OUTPUT_DIR)
-    p.add_argument("--layout-json",type=Path, default=_DEFAULT_LAYOUT_JSON)
+    p.add_argument(
+        "--layout-json",
+        type=Path,
+        default=_DEFAULT_LAYOUT_JSON,
+        help="JSON layout: dùng để gắn tên section lên viz (khớp ':' / Section-Header)."
+             " File không tồn tại → chỉ hiện data-label Chandra.",
+    )
     p.add_argument("--prompt-file",type=Path, default=_DEFAULT_PROMPT_FILE)
     p.add_argument("--model",      type=str,  default=_DEFAULT_MODEL)
     p.add_argument("--lora-path",  type=Path, default=None)
@@ -424,10 +334,36 @@ def _parse_args() -> argparse.Namespace:
     p.add_argument("--max-pixels", type=int,  default=1_600_000)
     p.add_argument("--max-new-tokens", type=int, default=4096)
     p.add_argument("--temperature",type=float,default=0.0)
+    # LLM căn chỉnh schema ← block Chandra
+    p.add_argument(
+        "--schema-llm-model",
+        type=str,
+        default=None,
+        metavar="HF_REPO",
+        help="Causal LM (Qwen…) map schema+bbox (vd ~4 param: Qwen/Qwen3-4B; "
+             "2.5 Instruct không có ~4B trên HF thì đổi Qwen/Qwen2.5-3B-Instruct).",
+    )
+    p.add_argument(
+        "--schema-llm-device",
+        type=str,
+        default="cuda:1",
+        help="Device cho LLM (nên cuda:1 nếu Chandra cuda:0).",
+    )
+    p.add_argument(
+        "--schema-llm-dtype",
+        type=str,
+        default="float16",
+        choices=("auto", "bfloat16", "float16", "float32"),
+        help="dtype LLM căn schema.",
+    )
+    p.add_argument("--schema-llm-max-new-tokens", type=int, default=8192)
+    p.add_argument("--schema-llm-temperature", type=float, default=0.0)
+    p.add_argument("--schema-align-prompt-file", type=Path,
+                   default=_DEFAULT_SCHEMA_ALIGN_PROMPT)
+    p.add_argument("--schema-align-fewshots", type=Path,
+                   default=_DEFAULT_SCHEMA_ALIGN_FEWS)
     return p.parse_args()
 
-
-# ── Main ─────────────────────────────────────────────────────────────────────
 
 def run() -> int:
     args = _parse_args()
@@ -437,16 +373,33 @@ def run() -> int:
         else _list_inputs(args.input_dir, args.only)
     )
     if not inputs_list or (args.input_file and not args.input_file.is_file()):
-        print(f"No input found.", file=sys.stderr); return 1
-
-    _raw = json.loads(Path(args.layout_json).read_text(encoding="utf-8"))
-    schema_sections = _raw["sections"] if isinstance(_raw, dict) else _raw
-    for i, s in enumerate(schema_sections):
-        s.setdefault("ord", i)
-    print(f"[run] {len(schema_sections)} schema sections")
+        print("No input found.", file=sys.stderr)
+        return 1
 
     prompt_text = Path(args.prompt_file).read_text(encoding="utf-8").strip()
     print(f"[run] Prompt: {args.prompt_file.name} ({len(prompt_text)} chars)")
+
+    fold2name: dict[str, str] | None = None
+    schema_names_ordered: list[str] = []
+    if args.layout_json.is_file():
+        layout_raw = json.loads(args.layout_json.read_text(encoding="utf-8"))
+        root = layout_raw["sections"] if isinstance(layout_raw, dict) else layout_raw
+        schema_names_ordered = _collect_all_names(root)
+        fold2name = _fold_to_exact_schema(schema_names_ordered)
+        print(f"[run] Layout names for viz labels: {args.layout_json.name} "
+              f"({len(fold2name)} folded keys, {len(schema_names_ordered)} field names)")
+    else:
+        print(f"[run] Layout JSON không tìm thấy ({args.layout_json}) — viz chỉ data-label.")
+
+    schema_llm: Any | None = None
+
+    if args.schema_llm_model:
+        if not schema_names_ordered:
+            print(
+                "--schema-llm-model requires a valid layout JSON (--layout-json).",
+                file=sys.stderr,
+            )
+            return 1
 
     import torch
     from transformers import AutoModelForImageTextToText, AutoProcessor
@@ -469,84 +422,152 @@ def run() -> int:
         processor.tokenizer.padding_side = "left"
     model.eval()
 
+    system_schema_txt = ""
+    if args.schema_llm_model:
+        system_schema_txt = Path(args.schema_align_prompt_file).read_text(encoding="utf-8")
+
+    if args.schema_llm_model:
+        if args.device_map.strip() == args.schema_llm_device.strip():
+            print(
+                "[warn] Chandra và schema LLM đều \""
+                + args.device_map.strip() + "\" — hết VRAM rất có thể;"
+                  " chỉnh --schema-llm-device cuda:1 nếu có 2 GPU.",
+                file=sys.stderr,
+            )
+        from schema_align_llm import CachedSchemaCausalLM
+
+        smid = args.schema_llm_model.strip()
+        print(f"[run] Schema LLM: {smid}  device={args.schema_llm_device}  "
+              f"dtype={args.schema_llm_dtype}")
+        schema_llm = CachedSchemaCausalLM(
+            smid,
+            args.schema_llm_device,
+            args.schema_llm_dtype,
+        )
+
     args.output_dir.mkdir(parents=True, exist_ok=True)
-    summary = {"model": args.model, "items": []}
+    summary = {
+        "model": args.model,
+        "schema_llm_model": args.schema_llm_model,
+        "items": [],
+    }
 
-    for src_path in inputs_list:
-        for unit_name, image, page_pt in _load_units(src_path, args.pdf_dpi):
-            page_w_pt, page_h_pt = page_pt
-            img = _fit(image, args.max_pixels)
+    try:
+        for src_path in inputs_list:
+            for unit_name, image, page_pt in _load_units(src_path, args.pdf_dpi):
+                page_w_pt, page_h_pt = page_pt
+                img = _fit(image, args.max_pixels)
 
-            # ── Inference ────────────────────────────────────────────────
-            print(f"[{unit_name}] Inference …")
-            messages = [{"role": "user", "content": [
-                {"type": "image", "image": img},
-                {"type": "text",  "text": prompt_text},
-            ]}]
-            inputs = processor.apply_chat_template(
-                messages, tokenize=True, add_generation_prompt=True,
-                return_dict=True, return_tensors="pt",
-            )
-            inputs = {k: (v.to(model.device) if hasattr(v, "to") else v)
-                      for k, v in inputs.items()}
-            do_sample = args.temperature > 0
-            with torch.inference_mode():
-                gen = model.generate(
-                    **inputs,
-                    max_new_tokens=args.max_new_tokens,
-                    do_sample=do_sample,
-                    temperature=args.temperature if do_sample else 1.0,
+                print(f"[{unit_name}] Inference …")
+                messages = [{"role": "user", "content": [
+                    {"type": "image", "image": img},
+                    {"type": "text",  "text": prompt_text},
+                ]}]
+                inputs = processor.apply_chat_template(
+                    messages, tokenize=True, add_generation_prompt=True,
+                    return_dict=True, return_tensors="pt",
                 )
-            raw = _sanitize(processor.batch_decode(
-                gen[:, inputs["input_ids"].shape[-1]:],
-                skip_special_tokens=True,
-                clean_up_tokenization_spaces=False,
-            )[0])
+                inputs = {k: (v.to(model.device) if hasattr(v, "to") else v)
+                          for k, v in inputs.items()}
+                do_sample = args.temperature > 0
+                with torch.inference_mode():
+                    gen = model.generate(
+                        **inputs,
+                        max_new_tokens=args.max_new_tokens,
+                        do_sample=do_sample,
+                        temperature=args.temperature if do_sample else 1.0,
+                    )
+                raw = _sanitize(processor.batch_decode(
+                    gen[:, inputs["input_ids"].shape[-1]:],
+                    skip_special_tokens=True,
+                    clean_up_tokenization_spaces=False,
+                )[0])
 
-            # ── Save raw HTML ────────────────────────────────────────────
-            (args.output_dir / f"{unit_name}_raw.html").write_text(raw, encoding="utf-8")
+                out_dir = args.output_dir
+                (out_dir / f"{unit_name}_raw.html").write_text(raw, encoding="utf-8")
 
-            # ── Parse + extract schema ───────────────────────────────────
-            blocks = _parse_blocks(raw)
-            print(f"[{unit_name}] {len(blocks)} blocks parsed")
+                blocks = _parse_blocks(raw)
+                for b in blocks:
+                    b["schema_match"] = (
+                        _schema_for_block(b, fold2name) if fold2name else None
+                    )
+                n_schema_rule = sum(1 for b in blocks if b.get("schema_match"))
+                print(f"[{unit_name}] {len(blocks)} blocks parsed, "
+                      f"{n_schema_rule} heuristic schema labels")
 
-            bbox_map = extract_schema(blocks, schema_sections)
-            matched = sum(1 for v in bbox_map.values() if v is not None)
-            missed  = [k for k, v in bbox_map.items() if v is None]
-            print(f"[{unit_name}] Matched {matched}/{len(schema_sections)} sections")
-            if missed:
-                print(f"[{unit_name}] Missing: {', '.join(missed)}")
+                blocks_out = {
+                    "source": str(src_path),
+                    "unit": unit_name,
+                    "image_size": list(img.size),
+                    "page_size_pt": [page_w_pt, page_h_pt],
+                    "n_blocks": len(blocks),
+                    "blocks": blocks,
+                    "schema_alignment_llm": None,
+                }
 
-            # ── Build + save schema JSON ─────────────────────────────────
-            sections_out = build_schema_json(
-                schema_sections, bbox_map, page_w_pt, page_h_pt
-            )
-            schema_out = {
-                "source": str(src_path),
-                "unit": unit_name,
-                "image_size": list(img.size),
-                "page_size_pt": [page_w_pt, page_h_pt],
-                "n_matched": matched,
-                "n_total": len(schema_sections),
-                "sections": sections_out,
-            }
-            json_path = args.output_dir / f"{unit_name}_schema.json"
-            json_path.write_text(
-                json.dumps(schema_out, ensure_ascii=False, indent=2), encoding="utf-8"
-            )
+                viz_path = out_dir / f"{unit_name}_layout.jpg"
 
-            # ── Visualize ────────────────────────────────────────────────
-            viz_path = args.output_dir / f"{unit_name}_schema.jpg"
-            _draw(img, sections_out, viz_path)
+                llm_bbox_map = None
+                llm_txt = ""
 
-            print(f"[ok] {src_path.name} → {json_path.name}  viz → {viz_path.name}")
-            summary["items"].append({
-                "unit": unit_name,
-                "n_matched": matched,
-                "n_total": len(schema_sections),
-                "schema_json": str(json_path),
-                "viz": str(viz_path),
-            })
+                if schema_llm is not None:
+                    print(f"[{unit_name}] Schema LLM align … ({len(schema_names_ordered)} keys)")
+                    llm_bbox_map, llm_txt = schema_llm.predict_schema_map(
+                        system_prompt_text=system_schema_txt,
+                        fewshots_path=args.schema_align_fewshots,
+                        schema_names_ordered=schema_names_ordered,
+                        blocks=blocks,
+                        max_new_tokens=args.schema_llm_max_new_tokens,
+                        temperature=args.schema_llm_temperature,
+                    )
+                    n_llm_hit = sum(1 for v in llm_bbox_map.values() if v is not None)
+                    blocks_out["schema_alignment_llm"] = llm_bbox_map
+                    llm_sidecar = out_dir / f"{unit_name}_schema_llm.json"
+                    payload = {
+                        "source": blocks_out["source"],
+                        "unit": blocks_out["unit"],
+                        "image_size": blocks_out["image_size"],
+                        "page_size_pt": blocks_out["page_size_pt"],
+                        "schema_field_order": schema_names_ordered,
+                        "schema_alignment_llm": llm_bbox_map,
+                        "n_schema_fields_hit": n_llm_hit,
+                        "n_schema_fields_total": len(schema_names_ordered),
+                    }
+                    llm_sidecar.write_text(
+                        json.dumps(payload, ensure_ascii=False, indent=2),
+                        encoding="utf-8",
+                    )
+                    llm_full = out_dir / f"{unit_name}_schema_llm_raw.txt"
+                    llm_full.write_text(llm_txt, encoding="utf-8")
+                    viz_llm_path = out_dir / f"{unit_name}_schema_llm.jpg"
+                    _draw_schema_bbox_map(
+                        img, schema_names_ordered, llm_bbox_map, viz_llm_path
+                    )
+                    print(f"[{unit_name}] LLM matched bbox for {n_llm_hit}/{len(schema_names_ordered)} "
+                          "schema fields")
+
+                json_path = out_dir / f"{unit_name}_blocks.json"
+                json_path.write_text(
+                    json.dumps(blocks_out, ensure_ascii=False, indent=2), encoding="utf-8"
+                )
+                _draw_blocks(img, blocks, viz_path)
+
+                print(f"[ok] {src_path.name} → {json_path.name}  viz → {viz_path.name}")
+                row = {
+                    "unit": unit_name,
+                    "n_blocks": len(blocks),
+                    "blocks_json": str(json_path),
+                    "viz_layout": str(viz_path),
+                }
+                if schema_llm is not None:
+                    row["schema_llm_json"] = str(out_dir / f"{unit_name}_schema_llm.json")
+                    row["schema_llm_raw"] = str(out_dir / f"{unit_name}_schema_llm_raw.txt")
+                    row["viz_schema_llm"] = str(out_dir / f"{unit_name}_schema_llm.jpg")
+                summary["items"].append(row)
+
+    finally:
+        if schema_llm is not None:
+            schema_llm.cleanup()
 
     (args.output_dir / "summary.json").write_text(
         json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8"
