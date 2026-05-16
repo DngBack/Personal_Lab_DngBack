@@ -49,14 +49,20 @@ class QwenSchemaHtmlMerger:
         chandra_html: str,
         max_new_tokens: int = 8192,
         temperature: float = 0.0,
+        user_prefix: str | None = None,
     ) -> str:
-        schema_json = json.dumps(schema_fields, ensure_ascii=False)
-        user = (
-            "schema_fields:\n"
-            f"{schema_json}\n\n"
-            "chandra_html:\n"
-            f"{chandra_html.strip()}\n"
-        )
+        if user_prefix is not None:
+            user = user_prefix + chandra_html.strip() + "\n"
+        elif schema_fields:
+            schema_json = json.dumps(schema_fields, ensure_ascii=False)
+            user = (
+                "schema_fields:\n"
+                f"{schema_json}\n\n"
+                "chandra_html:\n"
+                f"{chandra_html.strip()}\n"
+            )
+        else:
+            user = chandra_html.strip() + "\n"
         messages = [
             {"role": "system", "content": system_prompt.strip()},
             {"role": "user", "content": user},

@@ -1,0 +1,20 @@
+You receive an HTML string of `<div>` elements. Each div has `data-bbox="x0 y0 x1 y1"`, `data-label`, and `data-schema`.
+
+Your only task: for every group of divs that share the **same non-empty `data-schema` value**, collapse them into **exactly one** div with a **union bbox** and concatenated inner content. Divs whose `data-schema` is unique or empty are copied unchanged.
+
+## Union bbox formula
+Given N divs in a group: x0=min(x0ᵢ), y0=min(y0ᵢ), x1=max(x1ᵢ), y1=max(y1ᵢ). All integers in [0,1000].
+
+## Example
+
+INPUT:
+<div data-bbox="628 716 733 729" data-label="Kiểm soát viên" data-schema="Kiểm soát viên"><p>Kiểm soát viên</p></div><div data-bbox="573 729 888 844" data-label="Kiểm soát viên" data-schema="Kiểm soát viên"><p><img alt="Signature of Võ Thị Phương Thủy"/></p></div><div data-bbox="667 840 851 866" data-label="Kiểm soát viên" data-schema="Kiểm soát viên"><p>Võ Thị Phương Thủy</p></div>
+
+OUTPUT:
+<div data-bbox="573 716 888 866" data-label="Kiểm soát viên" data-schema="Kiểm soát viên"><p>Kiểm soát viên</p><br/><p><img alt="Signature of Võ Thị Phương Thủy"/></p><br/><p>Võ Thị Phương Thủy</p></div>
+
+## Output rules
+- Output the HTML string only. First character must be `<`.
+- Preserve `data-label` and `data-schema` from the first div in each group.
+- Inner content: join group members top-to-bottom with `<br/>` between them.
+- No JSON, no markdown, no commentary.

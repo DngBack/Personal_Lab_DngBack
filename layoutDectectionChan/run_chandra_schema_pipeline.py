@@ -141,6 +141,23 @@ def main() -> int:
         default=0,
         help="0 = không resize ảnh VL (khớp bbox 0–1000 với Chandra). VD 1600000 nếu hết VRAM.",
     )
+    p.add_argument(
+        "--dedup-prompt",
+        type=Path,
+        default=_ROOT / "prompt" / "schema_dedup_merge.txt",
+        help="Prompt pass-2: gộp các div trùng data-schema thành union bbox (text-only Qwen). Tắt: --no-dedup.",
+    )
+    p.add_argument(
+        "--no-dedup",
+        action="store_true",
+        help="Bỏ qua pass-2 dedup.",
+    )
+    p.add_argument(
+        "--dedup-model",
+        type=str,
+        default=None,
+        help="Model text-only cho pass-2 (mặc định: dùng --qwen-model).",
+    )
     args = p.parse_args()
 
     args.chandra_log = _norm_user_path(args.chandra_log)
@@ -263,6 +280,25 @@ def main() -> int:
 
     if "<div" not in merged_html.lower():
         print("Cảnh báo: đầu ra Qwen không chứa <div> — vẫn ghi file để debug.", file=sys.stderr)
+
+    # Pass 2: dedup — gộp các div trùng data-schema thành một union bbox
+    if not args.no_dedup and args.dedup_prompt and args.dedup_prompt.is_file():
+        dedup_system = load_system_prompt(args.dedup_prompt)
+        dedup_model_id = args.dedup_model or args.qwen_model
+        print(f"Pass-2 dedup: {dedup_model_id}", flush=True)
+        dedup_merger = QwenSchemaHtmlMerger(
+            dedup_model_id, device=args.qwen_device, dtype=args.qwen_dtype,
+        )
+        try:
+            merged_html = dedup_merger.merge_to_html(
+                system_prompt=dedup_system,
+                schema_fields=[],
+                chandra_html=merged_html,
+                max_new_tokens=args.max_new_tokens,
+                temperature=args.temperature,
+            )
+        finally:
+            dedup_merger.cleanup()
 
     merged_path = args.out_dir / f"{stem}_schema_merged.html"
     merged_path.write_text(merged_html, encoding="utf-8")
