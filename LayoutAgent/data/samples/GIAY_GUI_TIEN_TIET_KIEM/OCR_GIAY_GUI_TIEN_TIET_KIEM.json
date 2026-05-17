@@ -1,0 +1,66 @@
+{
+  "general_info": {
+    "Title": "GIẤY GỬI TIỀN TIẾT KIỂM",
+    "datetime": "18-10-2025",
+    "company_name": "NGÂN HÀNG QUỐC DÂN",
+    "company_code": "NCB"
+  },
+  "FreeText1": "Liên 1/2 dành cho Ngân hàng Ngày (Date): 18-10-2025",
+  "Ngày (Date)": "18-10-2025",
+  "THÔNG TIN YÊU CẦU CỦA KHÁCH HÀNG": {
+    "Tên khách hàng": "LE THI HONG VAN",
+    "CMND/CCCD/HC": "001179032119",
+    "Ngày cấp": "15/04/2021",
+    "CIF": "10036053",
+    "Số tiền gửi": "1,000,000,000",
+    "Nơi cấp": "CUC CSQLHCVTTXH",
+    "Loại tiền": "VND",
+    "Số tiền bằng chữ": "Mot Ty dong chan",
+    "Loại hình sản phẩm": "TK AN PHAT LTT",
+    "Kỳ hạn": "6M",
+    "Định kỳ lĩnh lãi": "DAU KY",
+    "Phương thức gửi tiền": "CHUYEN KHOAN",
+    "Tài khoản ghi nợ": "100006596155",
+    "Tài khoản nhận lãi": "100006596155",
+    "Phương thức quay vòng": "QUAY VONG GOC"
+  },
+  "BẢNG KẺ TIỀN MẶT (CASH LIST)": {
+    "BẢNG KÊ TIỀN MẶT (CASH LIST)": [
+      {
+        "Mệnh giá (Denomination)": "",
+        "Số tờ (Quantity)": "",
+        "Thành tiền (Amount)": ""
+      }
+    ],
+    "Tổng cộng (Total)": ""
+  },
+  "Xác nhận thông tin": "Tối xác nhận đã đọc, hiểu và cam đoan các thông tin trên là đúng theo yêu cầu của tôi",
+  "Người gửi tiền (ký, ghi rõ họ tên)": "Lê Thị Hồng Vân",
+  "PHẦN DÀNH CHO NGÂN HÀNG": {
+    "Số bút toán": "LD2529176191",
+    "Số seri": "FDAB963509",
+    "Ngày mở": "18/10/2025",
+    "Salecode": "11206296",
+    "Company": "VN0010205",
+    "Lãi suất": "6.25(+1.14)",
+    "Ngày đến hạn": "18/04/2026",
+    "Table2": [
+      {
+        "Số tài khoản": "100006596155",
+        "Tên tài khoản": "LE THI HONG VAN",
+        "Ghi nợ": "1,000,000,000",
+        "Ghi có": "",
+        "Loại tiền": "VND"
+      },
+      {
+        "Số tài khoản": "LD2529176191",
+        "Tên tài khoản": "LE THI HONG VAN",
+        "Ghi nợ": "",
+        "Ghi có": "1,000,000,000",
+        "Loại tiền": "VND"
+      }
+    ]
+  },
+  "Giao dịch viên": "MYNTT1.NCB 08:09",
+  "Kiểm soát viên": "KIỂM SOÁT VIÊN Lê Thị Yến"
+}

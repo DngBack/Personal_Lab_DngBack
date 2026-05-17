@@ -1,0 +1,33 @@
+{
+  "iteration": 0,
+  "coverage": 0.8536585365853658,
+  "llm_judge": 0.85,
+  "composite_score": 0.8514634146341464,
+  "missing_fields": [
+    "FreeText1",
+    "Ngày (Date)",
+    "Mệnh giá (Denomination)",
+    "Số tờ (Quantity)",
+    "Thành tiền (Amount)",
+    "Tổng cộng (Total)"
+  ],
+  "duplicate_schemas": [],
+  "feedback": "Ensure that all bounding boxes are precisely aligned with the reference, especially for fields like 'Ngày cấp' and 'Số tiền gửi'. Adjust the alignment for fields in the lower section such as 'Company' and 'Lãi suất' to match the reference more closely.",
+  "missing_fields_visual": [],
+  "misaligned_fields": [
+    "Ngày cấp",
+    "Số tiền gửi",
+    "Loại hình sản phẩm",
+    "Ký hạn",
+    "Phương thức gửi tiền",
+    "Tài khoản ghi nợ",
+    "Tài khoản nhận lãi",
+    "Phương thức quay vòng",
+    "Xác nhận thông tin",
+    "Người gửi tiền",
+    "Company",
+    "Lãi suất",
+    "Ngày đến hạn"
+  ],
+  "extra_fields": []
+}

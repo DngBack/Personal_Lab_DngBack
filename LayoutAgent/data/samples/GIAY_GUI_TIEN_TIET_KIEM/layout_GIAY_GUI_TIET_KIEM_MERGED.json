@@ -1,0 +1,424 @@
+{
+    "sections": [
+        {
+            "id": "69a2d6d5-f3bb-4940-a986-c3136f5e9b71",
+            "name": "Đầu trang (logo, tiêu đề, ngày)",
+            "required": false,
+            "layout": {
+                "x": 58.0,
+                "y": 68.0,
+                "width": 530.0,
+                "height": 37.0,
+                "page": 1
+            },
+            "ord": 0,
+            "items": [
+                {
+                    "id": "c1e5ea25-aae4-4cc4-8153-b79d3de7611d",
+                    "kind": "group",
+                    "name": "Đầu trang (logo, tiêu đề, ngày)",
+                    "data_type": null,
+                    "required": false,
+                    "layout": null,
+                    "ord": 0,
+                    "columns": [
+                        {
+                            "id": "92632ab9-04ee-4a7e-be32-6aabff699f6b",
+                            "name": "Logo",
+                            "data_type": "Text",
+                            "required": false,
+                            "ord": 0
+                        },
+                        {
+                            "id": "6022eeab-72cc-4cd6-b3a0-31b26b5da10b",
+                            "name": "GIẤY GỬI TIỀN TIẾT KIỆM",
+                            "data_type": "Text",
+                            "required": false,
+                            "ord": 1
+                        },
+                        {
+                            "id": "3062fd8f-f107-41f4-a4b3-434d89d3a1ba",
+                            "name": "Ngày",
+                            "data_type": "Text",
+                            "required": false,
+                            "ord": 2
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "9e0b39e6-2a17-496b-8609-6b47e9fa5226",
+            "name": "Khu vực thông tin khách hàng",
+            "required": false,
+            "layout": {
+                "x": 54.0,
+                "y": 126.0,
+                "width": 461.0,
+                "height": 214.0,
+                "page": 1
+            },
+            "ord": 1,
+            "items": [
+                {
+                    "id": "fa695eb1-ac38-409c-9fcf-3cd66c420911",
+                    "kind": "group",
+                    "name": "Khu vực thông tin khách hàng",
+                    "data_type": null,
+                    "required": false,
+                    "layout": null,
+                    "ord": 0,
+                    "columns": [
+                        {
+                            "id": "be373745-d04c-4adb-8447-71e97ad82fb2",
+                            "name": "THÔNG TIN YÊU CẦU CỦA KHÁCH HÀNG",
+                            "data_type": "Text",
+                            "required": false,
+                            "ord": 0
+                        },
+                        {
+                            "id": "3e44ed8e-b151-4b62-9e41-cd6b724dc586",
+                            "name": "Tên khách hàng",
+                            "data_type": "Text",
+                            "required": false,
+                            "ord": 1
+                        },
+                        {
+                            "id": "0fec1151-a987-4d55-b2b5-d9cc87f3cbc0",
+                            "name": "CIF",
+                            "data_type": "Text",
+                            "required": false,
+                            "ord": 2
+                        },
+                        {
+                            "id": "3f7dad82-fd49-4d72-bcf5-9dfbf73b89a8",
+                            "name": "CMND/CCCD/HC",
+                            "data_type": "Text",
+                            "required": false,
+                            "ord": 3
+                        },
+                        {
+                            "id": "404f44e4-34c6-401d-8d18-e18697bc6600",
+                            "name": "Ngày cấp",
+                            "data_type": "Text",
+                            "required": false,
+                            "ord": 4
+                        },
+                        {
+                            "id": "fd592a5b-49ad-440a-b4fa-4a0cf9d10fe0",
+                            "name": "Nơi cấp",
+                            "data_type": "Text",
+                            "required": false,
+                            "ord": 5
+                        },
+                        {
+                            "id": "1686bc47-41d3-48a9-9c45-dcaaf9d51036",
+                            "name": "Số tiền gửi",
+                            "data_type": "Text",
+                            "required": false,
+                            "ord": 6
+                        },
+                        {
+                            "id": "b2e7c5dd-247e-4aa0-ac02-96f379f5da9a",
+                            "name": "Loại tiền",
+                            "data_type": "Text",
+                            "required": false,
+                            "ord": 7
+                        },
+                        {
+                            "id": "c1ac24b4-5531-43ab-8182-d78db56276d4",
+                            "name": "Số tiền bằng chữ",
+                            "data_type": "Text",
+                            "required": false,
+                            "ord": 8
+                        },
+                        {
+                            "id": "b41f4b8d-bd22-4fbe-88a4-a6edb510d6f5",
+                            "name": "Loại hình sản phẩm",
+                            "data_type": "Text",
+                            "required": false,
+                            "ord": 9
+                        },
+                        {
+                            "id": "111e611d-6734-4d7f-8e3b-f5c9200eeefd",
+                            "name": "Kỳ hạn",
+                            "data_type": "Text",
+                            "required": false,
+                            "ord": 10
+                        },
+                        {
+                            "id": "3fd94314-8afd-4107-b2b0-b91d6eaa96cd",
+                            "name": "Định kỳ lĩnh lãi",
+                            "data_type": "Text",
+                            "required": false,
+                            "ord": 11
+                        },
+                        {
+                            "id": "2893bd7d-68e2-49dc-9c9e-0be88706be3c",
+                            "name": "Phương thức gửi tiền",
+                            "data_type": "Text",
+                            "required": false,
+                            "ord": 12
+                        },
+                        {
+                            "id": "60967205-25bd-4f13-8751-c33db6439262",
+                            "name": "Tài khoản ghi nợ",
+                            "data_type": "Text",
+                            "required": false,
+                            "ord": 13
+                        },
+                        {
+                            "id": "83127793-54fe-4965-9ae4-b7d4cae4503b",
+                            "name": "Tài khoản nhận lãi",
+                            "data_type": "Text",
+                            "required": false,
+                            "ord": 14
+                        },
+                        {
+                            "id": "3f90dba5-4dac-4b35-b8f2-1ec2ca9b7b08",
+                            "name": "Phương thức quay vòng",
+                            "data_type": "Text",
+                            "required": false,
+                            "ord": 15
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "cfbcb29e-45b4-4e74-bea4-0327a9c9b9b6",
+            "name": "Bảng kê tiền mặt và xác nhận",
+            "required": false,
+            "layout": {
+                "x": 54.0,
+                "y": 343.0,
+                "width": 517.0,
+                "height": 79.0,
+                "page": 1
+            },
+            "ord": 2,
+            "items": [
+                {
+                    "id": "acaebe9f-2aa9-4018-b6dd-4d927703cb13",
+                    "kind": "group",
+                    "name": "Bảng kê tiền mặt và xác nhận",
+                    "data_type": null,
+                    "required": false,
+                    "layout": null,
+                    "ord": 0,
+                    "columns": [
+                        {
+                            "id": "5798ad0a-7bff-4e77-8f13-1523375f2e24",
+                            "name": "BẢNG KÊ TIỀN MẶT (CASH LIST)",
+                            "data_type": "Text",
+                            "required": false,
+                            "ord": 0
+                        },
+                        {
+                            "id": "5c91ef8c-2c9b-4132-b45d-efd4404ab1cf",
+                            "name": "Bảng kê tiền mặt",
+                            "data_type": "Text",
+                            "required": false,
+                            "ord": 1
+                        },
+                        {
+                            "id": "8286e03e-7172-4b19-b71a-000790493e2c",
+                            "name": "Xác nhận thông tin",
+                            "data_type": "Text",
+                            "required": false,
+                            "ord": 2
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "f32bcf0d-09a3-4284-abd8-f618408066bf",
+            "name": "Người gửi tiền",
+            "required": false,
+            "layout": {
+                "x": 377.329193,
+                "y": 397.826087,
+                "width": 165.217391,
+                "height": 122.360248,
+                "page": 1
+            },
+            "ord": 3,
+            "items": [
+                {
+                    "id": "8c2485a3-3c26-4c65-bda4-83e876aeca19",
+                    "kind": "group",
+                    "name": "Người gửi tiền",
+                    "data_type": null,
+                    "required": false,
+                    "layout": null,
+                    "ord": 0,
+                    "columns": [
+                        {
+                            "id": "49b707dd-5ac0-4334-b377-cab6485a54bb",
+                            "name": "Người gửi tiền",
+                            "data_type": "Text",
+                            "required": false,
+                            "ord": 0
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "65ac8164-5ba7-43f5-9717-798c45d616c3",
+            "name": "Form thông tin ngân hàng (trên)",
+            "required": false,
+            "layout": {
+                "x": 52.0,
+                "y": 511.0,
+                "width": 388.0,
+                "height": 91.0,
+                "page": 1
+            },
+            "ord": 4,
+            "items": [
+                {
+                    "id": "6b43f80a-51b3-4c64-9558-d9a7af3476d1",
+                    "kind": "group",
+                    "name": "Form thông tin ngân hàng (trên)",
+                    "data_type": null,
+                    "required": false,
+                    "layout": null,
+                    "ord": 0,
+                    "columns": [
+                        {
+                            "id": "3c5ecf6b-749c-49a3-89a2-e042802ed0bd",
+                            "name": "PHẦN DÀNH CHO NGÂN HÀNG",
+                            "data_type": "Text",
+                            "required": false,
+                            "ord": 0
+                        },
+                        {
+                            "id": "2dd89be5-e2cd-4330-8101-1aa0c56963da",
+                            "name": "Số bút toán",
+                            "data_type": "Text",
+                            "required": false,
+                            "ord": 1
+                        },
+                        {
+                            "id": "252a4a10-a5ec-476a-965b-d155a66cec73",
+                            "name": "Company",
+                            "data_type": "Text",
+                            "required": false,
+                            "ord": 2
+                        },
+                        {
+                            "id": "c7e0f9cd-d419-47e7-b5fb-02510c07aa68",
+                            "name": "Số seri",
+                            "data_type": "Text",
+                            "required": false,
+                            "ord": 3
+                        },
+                        {
+                            "id": "776f285f-3ba4-4886-b605-fbb489893a52",
+                            "name": "Lãi suất",
+                            "data_type": "Text",
+                            "required": false,
+                            "ord": 4
+                        },
+                        {
+                            "id": "e5e2c351-2ae3-4560-af18-d90fc44df3b1",
+                            "name": "Ngày mở",
+                            "data_type": "Text",
+                            "required": false,
+                            "ord": 5
+                        },
+                        {
+                            "id": "a5d7ad26-895b-4b85-9b39-3aa44d21032f",
+                            "name": "Ngày đến hạn",
+                            "data_type": "Text",
+                            "required": false,
+                            "ord": 6
+                        },
+                        {
+                            "id": "b4054ad8-f000-4c84-a642-35ffc05c0b45",
+                            "name": "Salecode",
+                            "data_type": "Text",
+                            "required": false,
+                            "ord": 7
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "329e92c9-aeeb-4dc1-9864-266f86a0d67d",
+            "name": "Bảng kê ghi số",
+            "required": false,
+            "layout": {
+                "x": 52.0,
+                "y": 600.0,
+                "width": 532.0,
+                "height": 68.0,
+                "page": 1
+            },
+            "ord": 5,
+            "items": [
+                {
+                    "id": "5a5a955d-8fd9-4749-8866-bc19e5079d95",
+                    "kind": "group",
+                    "name": "Bảng kê ghi số",
+                    "data_type": null,
+                    "required": false,
+                    "layout": null,
+                    "ord": 0,
+                    "columns": [
+                        {
+                            "id": "c0d250c2-6b4a-45a6-9a7c-e0f8d311330b",
+                            "name": "Bảng kê ghi số",
+                            "data_type": "Text",
+                            "required": false,
+                            "ord": 0
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "2800f82a-efb6-40f6-8a85-81514eb9e366",
+            "name": "Chữ ký giao dịch viên / kiểm soát",
+            "required": false,
+            "layout": {
+                "x": 81.055901,
+                "y": 671.73913,
+                "width": 413.043478,
+                "height": 131.677019,
+                "page": 1
+            },
+            "ord": 6,
+            "items": [
+                {
+                    "id": "99a1931a-a79b-4cff-b82d-4a5ea618f3cb",
+                    "kind": "group",
+                    "name": "Chữ ký giao dịch viên / kiểm soát",
+                    "data_type": null,
+                    "required": false,
+                    "layout": null,
+                    "ord": 0,
+                    "columns": [
+                        {
+                            "id": "8e9b37b2-3cdd-4e8e-be33-675feca26201",
+                            "name": "Giao dịch viên",
+                            "data_type": "Text",
+                            "required": false,
+                            "ord": 0
+                        },
+                        {
+                            "id": "7f6cd61f-4283-496c-8a2d-e372a19c30f4",
+                            "name": "Kiểm soát viên",
+                            "data_type": "Text",
+                            "required": false,
+                            "ord": 1
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,23 @@
+{
+  "iteration": 0,
+  "coverage": 0.9024390243902439,
+  "llm_judge": 0.85,
+  "composite_score": 0.8709756097560977,
+  "missing_fields": [
+    "Mệnh giá (Denomination)",
+    "Số tờ (Quantity)",
+    "Thành tiền (Amount)",
+    "Tổng cộng (Total)"
+  ],
+  "duplicate_schemas": [],
+  "feedback": "Ensure that the bounding boxes are precisely aligned with the text, especially for fields like 'Tên khách hàng' and 'Số tiền gửi'. Pay attention to the alignment of signature areas to improve accuracy.",
+  "missing_fields_visual": [],
+  "misaligned_fields": [
+    "Tên khách hàng",
+    "Số tiền gửi",
+    "Số tiền bằng chữ",
+    "Người gửi tiền",
+    "Kiểm soát viên"
+  ],
+  "extra_fields": []
+}

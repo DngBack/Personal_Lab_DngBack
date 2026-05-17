@@ -1,0 +1,41 @@
+{
+  "run_id": "20260517_121039_febf67",
+  "best_score": 0.8514634146341464,
+  "best_iteration": 0,
+  "stop_reason": "",
+  "eval_history": [
+    {
+      "iteration": 0,
+      "coverage": 0.8536585365853658,
+      "llm_judge": 0.85,
+      "composite_score": 0.8514634146341464,
+      "missing_fields": [
+        "Ngày (Date)",
+        "THÔNG TIN YÊU CẦU CỦA KHÁCH HÀNG",
+        "Mệnh giá (Denomination)",
+        "Số tờ (Quantity)",
+        "Thành tiền (Amount)",
+        "Tổng cộng (Total)"
+      ],
+      "duplicate_schemas": [],
+      "feedback": "Ensure that all bounding boxes are precisely aligned with the reference, especially for fields like 'Ngày cấp' and 'Số tiền gửi'. Adjust the alignment for fields that are slightly off to improve accuracy.",
+      "missing_fields_visual": [],
+      "misaligned_fields": [
+        "Ngày cấp",
+        "Số tiền gửi",
+        "Loại hình sản phẩm",
+        "Ký hạn",
+        "Phương thức gửi tiền",
+        "Tài khoản ghi nợ",
+        "Tài khoản nhận lãi",
+        "Phương thức quay vòng",
+        "Xác nhận thông tin",
+        "Người gửi tiền",
+        "Company",
+        "Lãi suất",
+        "Ngày đến hạn"
+      ],
+      "extra_fields": []
+    }
+  ]
+}

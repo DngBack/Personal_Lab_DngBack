@@ -1,0 +1,14 @@
+{
+  "iteration": 1,
+  "coverage": 0.9117647058823529,
+  "text_similarity": 0.12282018362900717,
+  "llm_judge": 0.6399999999999999,
+  "composite_score": 0.5418339558045441,
+  "missing_fields": [
+    "Logo",
+    "THÔNG TIN YÊU CẦU CỦA KHÁCH HÀNG",
+    "PHẦN DÀNH CHO NGÂN HÀNG"
+  ],
+  "duplicate_schemas": [],
+  "feedback": "offline heuristic (no OPENAI_API_KEY)"
+}

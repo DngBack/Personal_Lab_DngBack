@@ -1,0 +1,14 @@
+{
+  "iteration": 1,
+  "coverage": 0.9117647058823529,
+  "text_similarity": 0.10059796140678492,
+  "llm_judge": 0.82,
+  "composite_score": 0.5689450669156552,
+  "missing_fields": [
+    "Logo",
+    "GIẤY GỬI TIỀN TIẾT KIỆM",
+    "Ngày"
+  ],
+  "duplicate_schemas": [],
+  "feedback": "The schema-merge HTML quality is relatively high, with 32 out of 39 fields successfully extracted, indicating a strong performance in data extraction. However, the absence of key fields such as 'Logo', 'GIẤY GỬI TIỀN TIẾT KIỆM', and 'Ngày' detracts from the overall completeness of the data. Additionally, the lack of duplicate data-schema suggests a well-structured extraction process. To improve the score, efforts should be made to capture the missing fields, which are essential for a comprehensive dataset."
+}

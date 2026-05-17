@@ -1,0 +1,18 @@
+[
+  {
+    "label": "A_best_prompt",
+    "coverage": 0.8780487804878049,
+    "extracted": 36,
+    "total_fields": 41,
+    "missing_fields": [
+      "FreeText1",
+      "Mệnh giá (Denomination)",
+      "Số tờ (Quantity)",
+      "Thành tiền (Amount)",
+      "Tổng cộng (Total)"
+    ],
+    "viz_path": "/home/bachdx2/Personal_Lab_DngBack/LayoutAgent/data/test/GIAY_GUI_TIEN_TIET_KIEM/out_test7_v2/schema_boxes_A_best_prompt.jpg",
+    "json_path": "/home/bachdx2/Personal_Lab_DngBack/LayoutAgent/data/test/GIAY_GUI_TIEN_TIET_KIEM/out_test7_v2/layout_values_A_best_prompt.json",
+    "merged_html_path": "/home/bachdx2/Personal_Lab_DngBack/LayoutAgent/data/test/GIAY_GUI_TIEN_TIET_KIEM/out_test7_v2/schema_merged_A_best_prompt.html"
+  }
+]

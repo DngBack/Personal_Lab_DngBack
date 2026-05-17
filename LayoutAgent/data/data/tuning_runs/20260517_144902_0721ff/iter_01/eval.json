@@ -1,0 +1,26 @@
+{
+  "iteration": 1,
+  "coverage": 0.8780487804878049,
+  "llm_judge": 0.82,
+  "composite_score": 0.8490243902439024,
+  "missing_fields": [
+    "FreeText1",
+    "Mệnh giá (Denomination)",
+    "Số tờ (Quantity)",
+    "Thành tiền (Amount)",
+    "Tổng cộng (Total)"
+  ],
+  "duplicate_schemas": [],
+  "feedback": "The output is missing the fields for 'Mệnh giá (Denomination)', 'Số tờ (Quantity)', 'Thành tiền (Amount)', and 'Tổng cộng (Total)'. Additionally, the bounding boxes for 'Người gửi tiền (Ký, ghi rõ họ tên)' and 'Kiểm soát viên' are misaligned. Ensure all fields are captured and aligned correctly.",
+  "missing_fields_visual": [
+    "Mệnh giá (Denomination)",
+    "Số tờ (Quantity)",
+    "Thành tiền (Amount)",
+    "Tổng cộng (Total)"
+  ],
+  "misaligned_fields": [
+    "Người gửi tiền (Ký, ghi rõ họ tên)",
+    "Kiểm soát viên"
+  ],
+  "extra_fields": []
+}

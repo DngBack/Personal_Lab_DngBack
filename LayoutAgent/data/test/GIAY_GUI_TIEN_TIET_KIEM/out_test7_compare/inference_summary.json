@@ -1,0 +1,36 @@
+[
+  {
+    "label": "A_best_prompt",
+    "coverage": 0.8536585365853658,
+    "extracted": 35,
+    "total_fields": 41,
+    "missing_fields": [
+      "Ngày",
+      "FreeText1",
+      "Mệnh giá (Denomination)",
+      "Số tờ (Quantity)",
+      "Thành tiền (Amount)",
+      "Tổng cộng (Total)"
+    ],
+    "viz_path": "/home/bachdx2/Personal_Lab_DngBack/LayoutAgent/data/test/GIAY_GUI_TIEN_TIET_KIEM/out_test7_compare/schema_boxes_A_best_prompt.jpg",
+    "json_path": "/home/bachdx2/Personal_Lab_DngBack/LayoutAgent/data/test/GIAY_GUI_TIEN_TIET_KIEM/out_test7_compare/layout_values_A_best_prompt.json",
+    "merged_html_path": "/home/bachdx2/Personal_Lab_DngBack/LayoutAgent/data/test/GIAY_GUI_TIEN_TIET_KIEM/out_test7_compare/schema_merged_A_best_prompt.html"
+  },
+  {
+    "label": "B_schema_merge_html_system",
+    "coverage": 0.8536585365853658,
+    "extracted": 35,
+    "total_fields": 41,
+    "missing_fields": [
+      "FreeText1",
+      "Ngày (Date)",
+      "Mệnh giá (Denomination)",
+      "Số tờ (Quantity)",
+      "Thành tiền (Amount)",
+      "Tổng cộng (Total)"
+    ],
+    "viz_path": "/home/bachdx2/Personal_Lab_DngBack/LayoutAgent/data/test/GIAY_GUI_TIEN_TIET_KIEM/out_test7_compare/schema_boxes_B_schema_merge_html_system.jpg",
+    "json_path": "/home/bachdx2/Personal_Lab_DngBack/LayoutAgent/data/test/GIAY_GUI_TIEN_TIET_KIEM/out_test7_compare/layout_values_B_schema_merge_html_system.json",
+    "merged_html_path": "/home/bachdx2/Personal_Lab_DngBack/LayoutAgent/data/test/GIAY_GUI_TIEN_TIET_KIEM/out_test7_compare/schema_merged_B_schema_merge_html_system.html"
+  }
+]

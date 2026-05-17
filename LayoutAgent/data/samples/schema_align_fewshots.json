@@ -1,0 +1,56 @@
+{
+  "system_addon": "",
+  "shots": [
+    {
+      "title": "Ví dụ tóm tắt (EN – minh họa mapping)",
+      "schema_fields": [
+        "Logo",
+        "TITLE",
+        "Customer name",
+        "Amount",
+        "Cash table",
+        "Signature"
+      ],
+      "chandra_blocks_compact": [
+        {"i": 0, "label": "Page-Header", "bbox": [10, 5, 25, 12], "text": "BANK XYZ"},
+        {"i": 1, "label": "Section-Header", "bbox": [40, 6, 60, 10], "text": "SAVINGS APPLICATION"},
+        {"i": 2, "label": "Text", "bbox": [10, 20, 50, 23], "text": "Customer name: JOHN"},
+        {"i": 3, "label": "Text", "bbox": [52, 20, 62, 23], "text": "Amount: 1.000 USD"},
+        {"i": 4, "label": "Table", "bbox": [10, 30, 80, 45], "text": "Qty | Amount | Notes header row stub"},
+        {"i": 5, "label": "Text", "bbox": [15, 50, 40, 60], "text": "(Sign here) JOHN scribble"}
+      ],
+      "expected_bbox_map": {
+        "Logo": [10, 5, 25, 12],
+        "TITLE": [40, 6, 60, 10],
+        "Customer name": [10, 20, 50, 23],
+        "Amount": [52, 20, 62, 23],
+        "Cash table": [10, 30, 80, 45],
+        "Signature": [15, 50, 40, 60]
+      }
+    },
+    {
+      "title": "Giấy gửi tiền tiết kiệm (snippet – tiếng Việt)",
+      "schema_fields": [
+        "Logo",
+        "GIẤY GỬI TIỀN TIẾT KIỆM",
+        "Tên khách hàng",
+        "Bảng kê tiền mặt",
+        "Giao dịch viên"
+      ],
+      "chandra_blocks_compact": [
+        {"i": 0, "label": "Page-Header", "bbox": [120, 70, 210, 100], "text": "Ngân hàng demo"},
+        {"i": 1, "label": "Section-Header", "bbox": [370, 90, 620, 115], "text": "GIẤY GỬI TIỀN TIẾT KIỆM"},
+        {"i": 2, "label": "Text", "bbox": [110, 130, 400, 150], "text": "Tên khách hàng: NGUYỄN VĂN A"},
+        {"i": 3, "label": "Table", "bbox": [115, 330, 480, 400], "text": "Mệnh giá | Số tờ..."},
+        {"i": 4, "label": "Text", "bbox": [220, 715, 320, 730], "text": "Giao dịch viên"}
+      ],
+      "expected_bbox_map": {
+        "Logo": [120, 70, 210, 100],
+        "GIẤY GỬI TIỀN TIẾT KIỆM": [370, 90, 620, 115],
+        "Tên khách hàng": [110, 130, 400, 150],
+        "Bảng kê tiền mặt": [115, 330, 480, 400],
+        "Giao dịch viên": [220, 715, 320, 730]
+      }
+    }
+  ]
+}

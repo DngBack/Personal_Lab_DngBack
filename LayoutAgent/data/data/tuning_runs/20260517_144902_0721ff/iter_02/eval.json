@@ -1,0 +1,23 @@
+{
+  "iteration": 2,
+  "coverage": 0.9024390243902439,
+  "llm_judge": 0.85,
+  "composite_score": 0.876219512195122,
+  "missing_fields": [
+    "Mệnh giá (Denomination)",
+    "Số tờ (Quantity)",
+    "Thành tiền (Amount)",
+    "Tổng cộng (Total)"
+  ],
+  "duplicate_schemas": [],
+  "feedback": "The output is missing several fields including 'FreeText1', 'Mệnh giá (Denomination)', 'Số tờ (Quantity)', 'Thành tiền (Amount)', and 'Tổng cộng (Total)'. Ensure these fields are included in the extraction process to improve accuracy.",
+  "missing_fields_visual": [
+    "FreeText1",
+    "Mệnh giá (Denomination)",
+    "Số tờ (Quantity)",
+    "Thành tiền (Amount)",
+    "Tổng cộng (Total)"
+  ],
+  "misaligned_fields": [],
+  "extra_fields": []
+}

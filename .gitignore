@@ -226,3 +226,9 @@ prompt4ocr/outputs/*
 layoutDectectionChan/data/*
 layoutDectectionChan/results/*
 layoutDectectionChan/outputs/*
+
+layoutDectectionCan/data/*
+layoutDectectionCan/results/*
+layoutDectectionCan/outputs/*
+
+layoutAgent/data/*

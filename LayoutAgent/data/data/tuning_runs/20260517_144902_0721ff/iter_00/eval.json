@@ -1,0 +1,25 @@
+{
+  "iteration": 0,
+  "coverage": 0.9024390243902439,
+  "llm_judge": 0.85,
+  "composite_score": 0.876219512195122,
+  "missing_fields": [
+    "Mệnh giá (Denomination)",
+    "Số tờ (Quantity)",
+    "Thành tiền (Amount)",
+    "Tổng cộng (Total)"
+  ],
+  "duplicate_schemas": [],
+  "feedback": "The output is missing fields such as 'Ngày cấp', 'Xác nhận thông tin', and 'Người gửi tiền'. Additionally, the alignment for 'Ngày (Date)', 'Tôi xác nhận đã đọc, hiểu và cam đoan các thông tin trên là đúng theo yêu cầu của tôi', and 'Người gửi tiền (ký, ghi rõ họ tên)' is incorrect. Ensure all fields are captured and properly aligned.",
+  "missing_fields_visual": [
+    "Ngày cấp",
+    "Xác nhận thông tin",
+    "Người gửi tiền"
+  ],
+  "misaligned_fields": [
+    "Ngày (Date)",
+    "Tôi xác nhận đã đọc, hiểu và cam đoan các thông tin trên là đúng theo yêu cầu của tôi",
+    "Người gửi tiền (ký, ghi rõ họ tên)"
+  ],
+  "extra_fields": []
+}

@@ -1,0 +1,7 @@
+langgraph
+openai
+pillow
+pymupdf
+python-dotenv
+difflib
+accelerate
