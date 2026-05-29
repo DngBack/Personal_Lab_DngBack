@@ -1,0 +1,10 @@
+# Using with Python 3.12 
+httpx>=0.27.0
+numpy>=1.24.0
+pandas>=2.0.0
+orjson>=3.9.0
+tqdm>=4.66.0
+rouge-score>=0.1.2
+datasets>=3.0.0
+huggingface_hub>=0.24.0
+pyarrow>=15.0.0
