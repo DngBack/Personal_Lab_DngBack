@@ -1,0 +1,1620 @@
+{
+  "hf_data_root": "/home/admin1/Desktop/git_hub/Personal_Lab_DngBack/air_data/data/hf",
+  "assumptions": {
+    "chars_per_token_est": 4.0,
+    "note": "Token estimates are approximate; measure with your tokenizer for deployment."
+  },
+  "loogle": {
+    "longdep_qa": {
+      "path": "/home/admin1/Desktop/git_hub/Personal_Lab_DngBack/air_data/data/hf/bigai-nlco__LooGLE/longdep_qa/test.jsonl",
+      "rows": 1101,
+      "context": {
+        "n": 1101,
+        "chars_mean": 116776.7,
+        "chars_p50": 119192,
+        "chars_p90": 155692,
+        "chars_p99": 222894,
+        "chars_max": 277117,
+        "tokens_est_mean": 29194.0,
+        "tokens_est_p99": 55724.0
+      },
+      "question": {
+        "n": 1101,
+        "chars_mean": 111.7,
+        "chars_p50": 81,
+        "chars_p90": 228,
+        "chars_p99": 403,
+        "chars_max": 1383,
+        "tokens_est_mean": 28.0,
+        "tokens_est_p99": 101.0
+      },
+      "answer": {
+        "n": 1101,
+        "chars_mean": 59.4,
+        "chars_p50": 11,
+        "chars_p90": 162,
+        "chars_p99": 531,
+        "chars_max": 1803,
+        "tokens_est_mean": 15.0,
+        "tokens_est_p99": 133.0
+      },
+      "exact_context_reuse": {
+        "unique_exact": 140,
+        "rows_with_duplicate_context": 961,
+        "groups_with_2plus_rows": 140
+      },
+      "document_reuse": {
+        "unique_documents": 140,
+        "questions_per_doc": {
+          "n": 140,
+          "chars_mean": 7.9,
+          "chars_p50": 8,
+          "chars_p90": 10,
+          "chars_p99": 14,
+          "chars_max": 15,
+          "tokens_est_mean": 2.0,
+          "tokens_est_p99": 4.0
+        },
+        "all_docs_same_context_len": true,
+        "uniform_context_docs": 140
+      },
+      "prefill_optimization": {
+        "strategy": "Group by doc_id; prefill context once, append question per query (KV cache / prefix cache).",
+        "naive_total_context_chars": 128571196,
+        "unique_document_context_chars": 16515247,
+        "prefill_char_savings_ratio": 0.8715,
+        "effective_queries_per_prefill_mean": 7.86
+      },
+      "decode_optimization": {
+        "note": "Answers are short (mean << context). Budget GPU for prefill; decode is cheap.",
+        "answer_to_context_ratio_mean": 0.00051
+      }
+    },
+    "shortdep_cloze": {
+      "path": "/home/admin1/Desktop/git_hub/Personal_Lab_DngBack/air_data/data/hf/bigai-nlco__LooGLE/shortdep_cloze/test.jsonl",
+      "rows": 2880,
+      "context": {
+        "n": 2880,
+        "chars_mean": 127623.0,
+        "chars_p50": 125842,
+        "chars_p90": 165761,
+        "chars_p99": 245775,
+        "chars_max": 277117,
+        "tokens_est_mean": 31906.0,
+        "tokens_est_p99": 61444.0
+      },
+      "question": {
+        "n": 2880,
+        "chars_mean": 737.2,
+        "chars_p50": 662,
+        "chars_p90": 1210,
+        "chars_p99": 2035,
+        "chars_max": 2630,
+        "tokens_est_mean": 184.0,
+        "tokens_est_p99": 509.0
+      },
+      "answer": {
+        "n": 2880,
+        "chars_mean": 23.3,
+        "chars_p50": 20,
+        "chars_p90": 39,
+        "chars_p99": 65,
+        "chars_max": 206,
+        "tokens_est_mean": 6.0,
+        "tokens_est_p99": 16.0
+      },
+      "exact_context_reuse": {
+        "unique_exact": 151,
+        "rows_with_duplicate_context": 2729,
+        "groups_with_2plus_rows": 151
+      },
+      "document_reuse": {
+        "unique_documents": 155,
+        "questions_per_doc": {
+          "n": 155,
+          "chars_mean": 18.6,
+          "chars_p50": 19,
+          "chars_p90": 19,
+          "chars_p99": 19,
+          "chars_max": 19,
+          "tokens_est_mean": 5.0,
+          "tokens_est_p99": 5.0
+        },
+        "all_docs_same_context_len": true,
+        "uniform_context_docs": 155
+      },
+      "prefill_optimization": {
+        "strategy": "Group by doc_id; prefill context once, append question per query (KV cache / prefix cache).",
+        "naive_total_context_chars": 367554132,
+        "unique_document_context_chars": 19797291,
+        "prefill_char_savings_ratio": 0.9461,
+        "effective_queries_per_prefill_mean": 18.58
+      },
+      "decode_optimization": {
+        "note": "Answers are short (mean << context). Budget GPU for prefill; decode is cheap.",
+        "answer_to_context_ratio_mean": 0.00018
+      }
+    },
+    "shortdep_qa": {
+      "path": "/home/admin1/Desktop/git_hub/Personal_Lab_DngBack/air_data/data/hf/bigai-nlco__LooGLE/shortdep_qa/test.jsonl",
+      "rows": 1951,
+      "context": {
+        "n": 1951,
+        "chars_mean": 99985.6,
+        "chars_p50": 90213,
+        "chars_p90": 146017,
+        "chars_p99": 249446,
+        "chars_max": 249446,
+        "tokens_est_mean": 24996.0,
+        "tokens_est_p99": 62362.0
+      },
+      "question": {
+        "n": 1951,
+        "chars_mean": 60.0,
+        "chars_p50": 58,
+        "chars_p90": 89,
+        "chars_p99": 122,
+        "chars_max": 164,
+        "tokens_est_mean": 15.0,
+        "tokens_est_p99": 30.0
+      },
+      "answer": {
+        "n": 1951,
+        "chars_mean": 64.2,
+        "chars_p50": 47,
+        "chars_p90": 140,
+        "chars_p99": 286,
+        "chars_max": 601,
+        "tokens_est_mean": 16.0,
+        "tokens_est_p99": 72.0
+      },
+      "exact_context_reuse": {
+        "unique_exact": 105,
+        "rows_with_duplicate_context": 1846,
+        "groups_with_2plus_rows": 105
+      },
+      "document_reuse": {
+        "unique_documents": 105,
+        "questions_per_doc": {
+          "n": 105,
+          "chars_mean": 18.6,
+          "chars_p50": 17,
+          "chars_p90": 27,
+          "chars_p99": 56,
+          "chars_max": 58,
+          "tokens_est_mean": 5.0,
+          "tokens_est_p99": 14.0
+        },
+        "all_docs_same_context_len": true,
+        "uniform_context_docs": 105
+      },
+      "prefill_optimization": {
+        "strategy": "Group by doc_id; prefill context once, append question per query (KV cache / prefix cache).",
+        "naive_total_context_chars": 195071975,
+        "unique_document_context_chars": 9891627,
+        "prefill_char_savings_ratio": 0.9493,
+        "effective_queries_per_prefill_mean": 18.58
+      },
+      "decode_optimization": {
+        "note": "Answers are short (mean << context). Budget GPU for prefill; decode is cheap.",
+        "answer_to_context_ratio_mean": 0.00064
+      }
+    },
+    "summarization": {
+      "path": "/home/admin1/Desktop/git_hub/Personal_Lab_DngBack/air_data/data/hf/bigai-nlco__LooGLE/summarization/test.jsonl",
+      "rows": 516,
+      "context": {
+        "n": 516,
+        "chars_mean": 90754.1,
+        "chars_p50": 77764,
+        "chars_p90": 121837,
+        "chars_p99": 293178,
+        "chars_max": 602891,
+        "tokens_est_mean": 22689.0,
+        "tokens_est_p99": 73294.0
+      },
+      "question": {
+        "n": 516,
+        "chars_mean": 0.0,
+        "chars_p50": 0,
+        "chars_p90": 0,
+        "chars_p99": 0,
+        "chars_max": 0,
+        "tokens_est_mean": 0.0,
+        "tokens_est_p99": 0.0
+      },
+      "answer": {
+        "n": 516,
+        "chars_mean": 1259.2,
+        "chars_p50": 1272,
+        "chars_p90": 1800,
+        "chars_p99": 1915,
+        "chars_max": 2048,
+        "tokens_est_mean": 315.0,
+        "tokens_est_p99": 479.0
+      },
+      "exact_context_reuse": {
+        "unique_exact": 516,
+        "rows_with_duplicate_context": 0,
+        "groups_with_2plus_rows": 0
+      },
+      "document_reuse": {
+        "unique_documents": 516,
+        "questions_per_doc": {
+          "n": 516,
+          "chars_mean": 1.0,
+          "chars_p50": 1,
+          "chars_p90": 1,
+          "chars_p99": 1,
+          "chars_max": 1,
+          "tokens_est_mean": 0.0,
+          "tokens_est_p99": 0.0
+        },
+        "all_docs_same_context_len": true,
+        "uniform_context_docs": 516
+      },
+      "prefill_optimization": {
+        "strategy": "Group by doc_id; prefill context once, append question per query (KV cache / prefix cache).",
+        "naive_total_context_chars": 46829106,
+        "unique_document_context_chars": 46829106,
+        "prefill_char_savings_ratio": 0.0,
+        "effective_queries_per_prefill_mean": 1.0
+      },
+      "decode_optimization": {
+        "note": "Answers are short (mean << context). Budget GPU for prefill; decode is cheap.",
+        "answer_to_context_ratio_mean": 0.01388
+      }
+    }
+  },
+  "leval": {
+    "LEval/Exam/codeU.jsonl": {
+      "path": "/home/admin1/Desktop/git_hub/Personal_Lab_DngBack/air_data/data/hf/L4NLP__LEval/LEval/Exam/codeU.jsonl",
+      "rows": 90,
+      "input_total": {
+        "n": 90,
+        "chars_mean": 100059.3,
+        "chars_p50": 103756,
+        "chars_p90": 115812,
+        "chars_p99": 116247,
+        "chars_max": 116247,
+        "tokens_est_mean": 25015.0,
+        "tokens_est_p99": 29062.0
+      },
+      "input_unique_suffix": {
+        "n": 90,
+        "chars_mean": 100059.3,
+        "chars_p50": 103756,
+        "chars_p90": 115812,
+        "chars_p99": 116247,
+        "chars_max": 116247,
+        "tokens_est_mean": 25015.0,
+        "tokens_est_p99": 29062.0
+      },
+      "instructions": {
+        "n": 90,
+        "chars_mean": 173.1,
+        "chars_p50": 155,
+        "chars_p90": 220,
+        "chars_p99": 220,
+        "chars_max": 220,
+        "tokens_est_mean": 43.0,
+        "tokens_est_p99": 55.0
+      },
+      "outputs": {
+        "n": 90,
+        "chars_mean": 14.6,
+        "chars_p50": 11,
+        "chars_p90": 32,
+        "chars_p99": 92,
+        "chars_max": 92,
+        "tokens_est_mean": 4.0,
+        "tokens_est_p99": 23.0
+      },
+      "exact_input_reuse": {
+        "unique_exact": 90,
+        "rows_with_duplicate_context": 0,
+        "groups_with_2plus_rows": 0
+      },
+      "prompt_structure": {
+        "shared_fewshot_prefix_chars": 0,
+        "shared_fewshot_prefix_tokens_est": 0.0,
+        "per_row_unique_input_suffix_mean_chars": 100059.3,
+        "static_vs_dynamic": "LOW_REUSE: each row has distinct long `input` — full prefill per example."
+      },
+      "prefill_optimization": {
+        "naive_prefill_chars": 9020910,
+        "optimized_prefill_chars_est": 15574,
+        "prefill_char_savings_ratio": 0.9983,
+        "recommended": "No shared prefix; use sliding window / LongLoRA / sparse attention per doc."
+      },
+      "decode_optimization": {
+        "output_to_input_ratio_mean": 0.00015,
+        "note": "Many Exam tasks have tiny `outputs` (e.g. gsm100) — optimize prefill latency, not max_tokens."
+      }
+    },
+    "LEval/Exam/coursera.jsonl": {
+      "path": "/home/admin1/Desktop/git_hub/Personal_Lab_DngBack/air_data/data/hf/L4NLP__LEval/LEval/Exam/coursera.jsonl",
+      "rows": 15,
+      "input_total": {
+        "n": 15,
+        "chars_mean": 39206.4,
+        "chars_p50": 34530,
+        "chars_p90": 64716,
+        "chars_p99": 71344,
+        "chars_max": 71344,
+        "tokens_est_mean": 9802.0,
+        "tokens_est_p99": 17836.0
+      },
+      "input_unique_suffix": {
+        "n": 15,
+        "chars_mean": 39206.4,
+        "chars_p50": 34530,
+        "chars_p90": 64716,
+        "chars_p99": 71344,
+        "chars_max": 71344,
+        "tokens_est_mean": 9802.0,
+        "tokens_est_p99": 17836.0
+      },
+      "instructions": {
+        "n": 15,
+        "chars_mean": 3477.4,
+        "chars_p50": 3536,
+        "chars_p90": 4781,
+        "chars_p99": 5347,
+        "chars_max": 5347,
+        "tokens_est_mean": 869.0,
+        "tokens_est_p99": 1337.0
+      },
+      "outputs": {
+        "n": 15,
+        "chars_mean": 31.4,
+        "chars_p50": 31,
+        "chars_p90": 42,
+        "chars_p99": 45,
+        "chars_max": 45,
+        "tokens_est_mean": 8.0,
+        "tokens_est_p99": 11.0
+      },
+      "exact_input_reuse": {
+        "unique_exact": 15,
+        "rows_with_duplicate_context": 0,
+        "groups_with_2plus_rows": 0
+      },
+      "prompt_structure": {
+        "shared_fewshot_prefix_chars": 0,
+        "shared_fewshot_prefix_tokens_est": 0.0,
+        "per_row_unique_input_suffix_mean_chars": 39206.4,
+        "static_vs_dynamic": "LOW_REUSE: each row has distinct long `input` — full prefill per example."
+      },
+      "prefill_optimization": {
+        "naive_prefill_chars": 640257,
+        "optimized_prefill_chars_est": 52161,
+        "prefill_char_savings_ratio": 0.9185,
+        "recommended": "No shared prefix; use sliding window / LongLoRA / sparse attention per doc."
+      },
+      "decode_optimization": {
+        "output_to_input_ratio_mean": 0.0008,
+        "note": "Many Exam tasks have tiny `outputs` (e.g. gsm100) — optimize prefill latency, not max_tokens."
+      }
+    },
+    "LEval/Exam/gsm100.jsonl": {
+      "path": "/home/admin1/Desktop/git_hub/Personal_Lab_DngBack/air_data/data/hf/L4NLP__LEval/LEval/Exam/gsm100.jsonl",
+      "rows": 100,
+      "input_total": {
+        "n": 100,
+        "chars_mean": 16795.0,
+        "chars_p50": 16795,
+        "chars_p90": 16795,
+        "chars_p99": 16795,
+        "chars_max": 16795,
+        "tokens_est_mean": 4199.0,
+        "tokens_est_p99": 4199.0
+      },
+      "input_unique_suffix": {
+        "n": 100,
+        "chars_mean": 0.0,
+        "chars_p50": 0,
+        "chars_p90": 0,
+        "chars_p99": 0,
+        "chars_max": 0,
+        "tokens_est_mean": 0.0,
+        "tokens_est_p99": 0.0
+      },
+      "instructions": {
+        "n": 100,
+        "chars_mean": 267.3,
+        "chars_p50": 252,
+        "chars_p90": 409,
+        "chars_p99": 581,
+        "chars_max": 581,
+        "tokens_est_mean": 67.0,
+        "tokens_est_p99": 145.0
+      },
+      "outputs": {
+        "n": 100,
+        "chars_mean": 2.3,
+        "chars_p50": 2,
+        "chars_p90": 3,
+        "chars_p99": 5,
+        "chars_max": 5,
+        "tokens_est_mean": 1.0,
+        "tokens_est_p99": 1.0
+      },
+      "exact_input_reuse": {
+        "unique_exact": 1,
+        "rows_with_duplicate_context": 99,
+        "groups_with_2plus_rows": 1
+      },
+      "prompt_structure": {
+        "shared_fewshot_prefix_chars": 16795,
+        "shared_fewshot_prefix_tokens_est": 4199.0,
+        "per_row_unique_input_suffix_mean_chars": 0.0,
+        "static_vs_dynamic": "HIGH_REUSE: entire `input` identical — cache one prefill, swap `instructions` only."
+      },
+      "prefill_optimization": {
+        "naive_prefill_chars": 1706230,
+        "optimized_prefill_chars_est": 43525,
+        "prefill_char_savings_ratio": 0.9745,
+        "recommended": "Prefix-cache `input`; batch queries with same few-shot block."
+      },
+      "decode_optimization": {
+        "output_to_input_ratio_mean": 0.00014,
+        "note": "Many Exam tasks have tiny `outputs` (e.g. gsm100) — optimize prefill latency, not max_tokens."
+      }
+    },
+    "LEval/Exam/quality.jsonl": {
+      "path": "/home/admin1/Desktop/git_hub/Personal_Lab_DngBack/air_data/data/hf/L4NLP__LEval/LEval/Exam/quality.jsonl",
+      "rows": 15,
+      "input_total": {
+        "n": 15,
+        "chars_mean": 24569.7,
+        "chars_p50": 26851,
+        "chars_p90": 28583,
+        "chars_p99": 29163,
+        "chars_max": 29163,
+        "tokens_est_mean": 6142.0,
+        "tokens_est_p99": 7291.0
+      },
+      "input_unique_suffix": {
+        "n": 15,
+        "chars_mean": 24569.7,
+        "chars_p50": 26851,
+        "chars_p90": 28583,
+        "chars_p99": 29163,
+        "chars_max": 29163,
+        "tokens_est_mean": 6142.0,
+        "tokens_est_p99": 7291.0
+      },
+      "instructions": {
+        "n": 15,
+        "chars_mean": 4589.5,
+        "chars_p50": 4655,
+        "chars_p90": 6842,
+        "chars_p99": 7762,
+        "chars_max": 7762,
+        "tokens_est_mean": 1147.0,
+        "tokens_est_p99": 1940.0
+      },
+      "outputs": {
+        "n": 15,
+        "chars_mean": 936.1,
+        "chars_p50": 1069,
+        "chars_p90": 1393,
+        "chars_p99": 1779,
+        "chars_max": 1779,
+        "tokens_est_mean": 234.0,
+        "tokens_est_p99": 445.0
+      },
+      "exact_input_reuse": {
+        "unique_exact": 15,
+        "rows_with_duplicate_context": 0,
+        "groups_with_2plus_rows": 0
+      },
+      "prompt_structure": {
+        "shared_fewshot_prefix_chars": 0,
+        "shared_fewshot_prefix_tokens_est": 0.0,
+        "per_row_unique_input_suffix_mean_chars": 24569.7,
+        "static_vs_dynamic": "LOW_REUSE: each row has distinct long `input` — full prefill per example."
+      },
+      "prefill_optimization": {
+        "naive_prefill_chars": 437388,
+        "optimized_prefill_chars_est": 68843,
+        "prefill_char_savings_ratio": 0.8426,
+        "recommended": "No shared prefix; use sliding window / LongLoRA / sparse attention per doc."
+      },
+      "decode_optimization": {
+        "output_to_input_ratio_mean": 0.0381,
+        "note": "Many Exam tasks have tiny `outputs` (e.g. gsm100) — optimize prefill latency, not max_tokens."
+      }
+    },
+    "LEval/Exam/sci_fi.jsonl": {
+      "path": "/home/admin1/Desktop/git_hub/Personal_Lab_DngBack/air_data/data/hf/L4NLP__LEval/LEval/Exam/sci_fi.jsonl",
+      "rows": 7,
+      "input_total": {
+        "n": 7,
+        "chars_mean": 59890.6,
+        "chars_p50": 62375,
+        "chars_p90": 101349,
+        "chars_p99": 101349,
+        "chars_max": 101349,
+        "tokens_est_mean": 14973.0,
+        "tokens_est_p99": 25337.0
+      },
+      "input_unique_suffix": {
+        "n": 7,
+        "chars_mean": 59890.6,
+        "chars_p50": 62375,
+        "chars_p90": 101349,
+        "chars_p99": 101349,
+        "chars_max": 101349,
+        "tokens_est_mean": 14973.0,
+        "tokens_est_p99": 25337.0
+      },
+      "instructions": {
+        "n": 7,
+        "chars_mean": 1549.3,
+        "chars_p50": 1391,
+        "chars_p90": 2077,
+        "chars_p99": 2077,
+        "chars_max": 2077,
+        "tokens_est_mean": 387.0,
+        "tokens_est_p99": 519.0
+      },
+      "outputs": {
+        "n": 7,
+        "chars_mean": 174.0,
+        "chars_p50": 170,
+        "chars_p90": 230,
+        "chars_p99": 230,
+        "chars_max": 230,
+        "tokens_est_mean": 44.0,
+        "tokens_est_p99": 58.0
+      },
+      "exact_input_reuse": {
+        "unique_exact": 7,
+        "rows_with_duplicate_context": 0,
+        "groups_with_2plus_rows": 0
+      },
+      "prompt_structure": {
+        "shared_fewshot_prefix_chars": 0,
+        "shared_fewshot_prefix_tokens_est": 0.0,
+        "per_row_unique_input_suffix_mean_chars": 59890.6,
+        "static_vs_dynamic": "LOW_REUSE: each row has distinct long `input` — full prefill per example."
+      },
+      "prefill_optimization": {
+        "naive_prefill_chars": 430079,
+        "optimized_prefill_chars_est": 10845,
+        "prefill_char_savings_ratio": 0.9748,
+        "recommended": "No shared prefix; use sliding window / LongLoRA / sparse attention per doc."
+      },
+      "decode_optimization": {
+        "output_to_input_ratio_mean": 0.00291,
+        "note": "Many Exam tasks have tiny `outputs` (e.g. gsm100) — optimize prefill latency, not max_tokens."
+      }
+    },
+    "LEval/Exam/topic_retrieval_longchat.jsonl": {
+      "path": "/home/admin1/Desktop/git_hub/Personal_Lab_DngBack/air_data/data/hf/L4NLP__LEval/LEval/Exam/topic_retrieval_longchat.jsonl",
+      "rows": 50,
+      "input_total": {
+        "n": 50,
+        "chars_mean": 56371.9,
+        "chars_p50": 69196,
+        "chars_p90": 71004,
+        "chars_p99": 72128,
+        "chars_max": 72128,
+        "tokens_est_mean": 14093.0,
+        "tokens_est_p99": 18032.0
+      },
+      "input_unique_suffix": {
+        "n": 50,
+        "chars_mean": 56324.9,
+        "chars_p50": 69149,
+        "chars_p90": 70957,
+        "chars_p99": 72081,
+        "chars_max": 72081,
+        "tokens_est_mean": 14081.0,
+        "tokens_est_p99": 18020.0
+      },
+      "instructions": {
+        "n": 50,
+        "chars_mean": 282.0,
+        "chars_p50": 282,
+        "chars_p90": 282,
+        "chars_p99": 282,
+        "chars_max": 282,
+        "tokens_est_mean": 70.0,
+        "tokens_est_p99": 70.0
+      },
+      "outputs": {
+        "n": 50,
+        "chars_mean": 113.3,
+        "chars_p50": 114,
+        "chars_p90": 132,
+        "chars_p99": 145,
+        "chars_max": 145,
+        "tokens_est_mean": 28.0,
+        "tokens_est_p99": 36.0
+      },
+      "exact_input_reuse": {
+        "unique_exact": 50,
+        "rows_with_duplicate_context": 0,
+        "groups_with_2plus_rows": 0
+      },
+      "prompt_structure": {
+        "shared_fewshot_prefix_chars": 47,
+        "shared_fewshot_prefix_tokens_est": 12.0,
+        "per_row_unique_input_suffix_mean_chars": 56324.9,
+        "static_vs_dynamic": "LOW_REUSE: each row has distinct long `input` — full prefill per example."
+      },
+      "prefill_optimization": {
+        "naive_prefill_chars": 2832697,
+        "optimized_prefill_chars_est": 14147,
+        "prefill_char_savings_ratio": 0.995,
+        "recommended": "No shared prefix; use sliding window / LongLoRA / sparse attention per doc."
+      },
+      "decode_optimization": {
+        "output_to_input_ratio_mean": 0.00201,
+        "note": "Many Exam tasks have tiny `outputs` (e.g. gsm100) — optimize prefill latency, not max_tokens."
+      }
+    },
+    "LEval/Exam/tpo.jsonl": {
+      "path": "/home/admin1/Desktop/git_hub/Personal_Lab_DngBack/air_data/data/hf/L4NLP__LEval/LEval/Exam/tpo.jsonl",
+      "rows": 15,
+      "input_total": {
+        "n": 15,
+        "chars_mean": 16181.4,
+        "chars_p50": 16263,
+        "chars_p90": 16682,
+        "chars_p99": 17374,
+        "chars_max": 17374,
+        "tokens_est_mean": 4045.0,
+        "tokens_est_p99": 4344.0
+      },
+      "input_unique_suffix": {
+        "n": 15,
+        "chars_mean": 16181.4,
+        "chars_p50": 16263,
+        "chars_p90": 16682,
+        "chars_p99": 17374,
+        "chars_max": 17374,
+        "tokens_est_mean": 4045.0,
+        "tokens_est_p99": 4344.0
+      },
+      "instructions": {
+        "n": 15,
+        "chars_mean": 5529.0,
+        "chars_p50": 5381,
+        "chars_p90": 6247,
+        "chars_p99": 6617,
+        "chars_max": 6617,
+        "tokens_est_mean": 1382.0,
+        "tokens_est_p99": 1654.0
+      },
+      "outputs": {
+        "n": 15,
+        "chars_mean": 34.9,
+        "chars_p50": 35,
+        "chars_p90": 37,
+        "chars_p99": 37,
+        "chars_max": 37,
+        "tokens_est_mean": 9.0,
+        "tokens_est_p99": 9.0
+      },
+      "exact_input_reuse": {
+        "unique_exact": 15,
+        "rows_with_duplicate_context": 0,
+        "groups_with_2plus_rows": 0
+      },
+      "prompt_structure": {
+        "shared_fewshot_prefix_chars": 0,
+        "shared_fewshot_prefix_tokens_est": 0.0,
+        "per_row_unique_input_suffix_mean_chars": 16181.4,
+        "static_vs_dynamic": "LOW_REUSE: each row has distinct long `input` — full prefill per example."
+      },
+      "prefill_optimization": {
+        "naive_prefill_chars": 325656,
+        "optimized_prefill_chars_est": 82935,
+        "prefill_char_savings_ratio": 0.7453,
+        "recommended": "No shared prefix; use sliding window / LongLoRA / sparse attention per doc."
+      },
+      "decode_optimization": {
+        "output_to_input_ratio_mean": 0.00215,
+        "note": "Many Exam tasks have tiny `outputs` (e.g. gsm100) — optimize prefill latency, not max_tokens."
+      }
+    },
+    "LEval/Generation/financial_qa.jsonl": {
+      "path": "/home/admin1/Desktop/git_hub/Personal_Lab_DngBack/air_data/data/hf/L4NLP__LEval/LEval/Generation/financial_qa.jsonl",
+      "rows": 8,
+      "input_total": {
+        "n": 8,
+        "chars_mean": 24031.8,
+        "chars_p50": 22745,
+        "chars_p90": 31244,
+        "chars_p99": 31244,
+        "chars_max": 31244,
+        "tokens_est_mean": 6008.0,
+        "tokens_est_p99": 7811.0
+      },
+      "input_unique_suffix": {
+        "n": 8,
+        "chars_mean": 24031.8,
+        "chars_p50": 22745,
+        "chars_p90": 31244,
+        "chars_p99": 31244,
+        "chars_max": 31244,
+        "tokens_est_mean": 6008.0,
+        "tokens_est_p99": 7811.0
+      },
+      "instructions": {
+        "n": 8,
+        "chars_mean": 1871.5,
+        "chars_p50": 1906,
+        "chars_p90": 2175,
+        "chars_p99": 2175,
+        "chars_max": 2175,
+        "tokens_est_mean": 468.0,
+        "tokens_est_p99": 544.0
+      },
+      "outputs": {
+        "n": 8,
+        "chars_mean": 3140.5,
+        "chars_p50": 3053,
+        "chars_p90": 4071,
+        "chars_p99": 4071,
+        "chars_max": 4071,
+        "tokens_est_mean": 785.0,
+        "tokens_est_p99": 1018.0
+      },
+      "exact_input_reuse": {
+        "unique_exact": 6,
+        "rows_with_duplicate_context": 2,
+        "groups_with_2plus_rows": 1
+      },
+      "prompt_structure": {
+        "shared_fewshot_prefix_chars": 0,
+        "shared_fewshot_prefix_tokens_est": 0.0,
+        "per_row_unique_input_suffix_mean_chars": 24031.8,
+        "static_vs_dynamic": "LOW_REUSE: each row has distinct long `input` — full prefill per example."
+      },
+      "prefill_optimization": {
+        "naive_prefill_chars": 207226,
+        "optimized_prefill_chars_est": 14972,
+        "prefill_char_savings_ratio": 0.9278,
+        "recommended": "No shared prefix; use sliding window / LongLoRA / sparse attention per doc."
+      },
+      "decode_optimization": {
+        "output_to_input_ratio_mean": 0.13068,
+        "note": "Many Exam tasks have tiny `outputs` (e.g. gsm100) — optimize prefill latency, not max_tokens."
+      }
+    },
+    "LEval/Generation/gov_report_summ.jsonl": {
+      "path": "/home/admin1/Desktop/git_hub/Personal_Lab_DngBack/air_data/data/hf/L4NLP__LEval/LEval/Generation/gov_report_summ.jsonl",
+      "rows": 14,
+      "input_total": {
+        "n": 14,
+        "chars_mean": 27897.6,
+        "chars_p50": 22826,
+        "chars_p90": 47413,
+        "chars_p99": 87650,
+        "chars_max": 87650,
+        "tokens_est_mean": 6974.0,
+        "tokens_est_p99": 21912.0
+      },
+      "input_unique_suffix": {
+        "n": 14,
+        "chars_mean": 27897.6,
+        "chars_p50": 22826,
+        "chars_p90": 47413,
+        "chars_p99": 87650,
+        "chars_max": 87650,
+        "tokens_est_mean": 6974.0,
+        "tokens_est_p99": 21912.0
+      },
+      "instructions": {
+        "n": 14,
+        "chars_mean": 48.0,
+        "chars_p50": 48,
+        "chars_p90": 48,
+        "chars_p99": 48,
+        "chars_max": 48,
+        "tokens_est_mean": 12.0,
+        "tokens_est_p99": 12.0
+      },
+      "outputs": {
+        "n": 14,
+        "chars_mean": 1760.6,
+        "chars_p50": 1817,
+        "chars_p90": 2532,
+        "chars_p99": 2538,
+        "chars_max": 2538,
+        "tokens_est_mean": 440.0,
+        "tokens_est_p99": 634.0
+      },
+      "exact_input_reuse": {
+        "unique_exact": 13,
+        "rows_with_duplicate_context": 1,
+        "groups_with_2plus_rows": 1
+      },
+      "prompt_structure": {
+        "shared_fewshot_prefix_chars": 0,
+        "shared_fewshot_prefix_tokens_est": 0.0,
+        "per_row_unique_input_suffix_mean_chars": 27897.6,
+        "static_vs_dynamic": "LOW_REUSE: each row has distinct long `input` — full prefill per example."
+      },
+      "prefill_optimization": {
+        "naive_prefill_chars": 391238,
+        "optimized_prefill_chars_est": 672,
+        "prefill_char_savings_ratio": 0.9983,
+        "recommended": "No shared prefix; use sliding window / LongLoRA / sparse attention per doc."
+      },
+      "decode_optimization": {
+        "output_to_input_ratio_mean": 0.06311,
+        "note": "Many Exam tasks have tiny `outputs` (e.g. gsm100) — optimize prefill latency, not max_tokens."
+      }
+    },
+    "LEval/Generation/legal_contract_qa.jsonl": {
+      "path": "/home/admin1/Desktop/git_hub/Personal_Lab_DngBack/air_data/data/hf/L4NLP__LEval/LEval/Generation/legal_contract_qa.jsonl",
+      "rows": 23,
+      "input_total": {
+        "n": 23,
+        "chars_mean": 110968.5,
+        "chars_p50": 93395,
+        "chars_p90": 235455,
+        "chars_p99": 272018,
+        "chars_max": 272018,
+        "tokens_est_mean": 27742.0,
+        "tokens_est_p99": 68004.0
+      },
+      "input_unique_suffix": {
+        "n": 23,
+        "chars_mean": 110968.5,
+        "chars_p50": 93395,
+        "chars_p90": 235455,
+        "chars_p99": 272018,
+        "chars_max": 272018,
+        "tokens_est_mean": 27742.0,
+        "tokens_est_p99": 68004.0
+      },
+      "instructions": {
+        "n": 23,
+        "chars_mean": 1545.8,
+        "chars_p50": 1401,
+        "chars_p90": 1855,
+        "chars_p99": 1899,
+        "chars_max": 1899,
+        "tokens_est_mean": 386.0,
+        "tokens_est_p99": 475.0
+      },
+      "outputs": {
+        "n": 23,
+        "chars_mean": 2699.1,
+        "chars_p50": 2610,
+        "chars_p90": 3210,
+        "chars_p99": 6952,
+        "chars_max": 6952,
+        "tokens_est_mean": 675.0,
+        "tokens_est_p99": 1738.0
+      },
+      "exact_input_reuse": {
+        "unique_exact": 20,
+        "rows_with_duplicate_context": 3,
+        "groups_with_2plus_rows": 3
+      },
+      "prompt_structure": {
+        "shared_fewshot_prefix_chars": 0,
+        "shared_fewshot_prefix_tokens_est": 0.0,
+        "per_row_unique_input_suffix_mean_chars": 110968.5,
+        "static_vs_dynamic": "LOW_REUSE: each row has distinct long `input` — full prefill per example."
+      },
+      "prefill_optimization": {
+        "naive_prefill_chars": 2587829,
+        "optimized_prefill_chars_est": 35553,
+        "prefill_char_savings_ratio": 0.9863,
+        "recommended": "No shared prefix; use sliding window / LongLoRA / sparse attention per doc."
+      },
+      "decode_optimization": {
+        "output_to_input_ratio_mean": 0.02432,
+        "note": "Many Exam tasks have tiny `outputs` (e.g. gsm100) — optimize prefill latency, not max_tokens."
+      }
+    },
+    "LEval/Generation/meeting_summ.jsonl": {
+      "path": "/home/admin1/Desktop/git_hub/Personal_Lab_DngBack/air_data/data/hf/L4NLP__LEval/LEval/Generation/meeting_summ.jsonl",
+      "rows": 23,
+      "input_total": {
+        "n": 23,
+        "chars_mean": 57024.3,
+        "chars_p50": 50272,
+        "chars_p90": 95966,
+        "chars_p99": 120229,
+        "chars_max": 120229,
+        "tokens_est_mean": 14256.0,
+        "tokens_est_p99": 30057.0
+      },
+      "input_unique_suffix": {
+        "n": 23,
+        "chars_mean": 57024.3,
+        "chars_p50": 50272,
+        "chars_p90": 95966,
+        "chars_p99": 120229,
+        "chars_max": 120229,
+        "tokens_est_mean": 14256.0,
+        "tokens_est_p99": 30057.0
+      },
+      "instructions": {
+        "n": 23,
+        "chars_mean": 529.7,
+        "chars_p50": 420,
+        "chars_p90": 921,
+        "chars_p99": 1501,
+        "chars_max": 1501,
+        "tokens_est_mean": 132.0,
+        "tokens_est_p99": 375.0
+      },
+      "outputs": {
+        "n": 23,
+        "chars_mean": 2952.3,
+        "chars_p50": 2578,
+        "chars_p90": 5839,
+        "chars_p99": 7231,
+        "chars_max": 7231,
+        "tokens_est_mean": 738.0,
+        "tokens_est_p99": 1808.0
+      },
+      "exact_input_reuse": {
+        "unique_exact": 20,
+        "rows_with_duplicate_context": 3,
+        "groups_with_2plus_rows": 3
+      },
+      "prompt_structure": {
+        "shared_fewshot_prefix_chars": 0,
+        "shared_fewshot_prefix_tokens_est": 0.0,
+        "per_row_unique_input_suffix_mean_chars": 57024.3,
+        "static_vs_dynamic": "LOW_REUSE: each row has distinct long `input` — full prefill per example."
+      },
+      "prefill_optimization": {
+        "naive_prefill_chars": 1323744,
+        "optimized_prefill_chars_est": 12184,
+        "prefill_char_savings_ratio": 0.9908,
+        "recommended": "No shared prefix; use sliding window / LongLoRA / sparse attention per doc."
+      },
+      "decode_optimization": {
+        "output_to_input_ratio_mean": 0.05177,
+        "note": "Many Exam tasks have tiny `outputs` (e.g. gsm100) — optimize prefill latency, not max_tokens."
+      }
+    },
+    "LEval/Generation/multidoc_qa.jsonl": {
+      "path": "/home/admin1/Desktop/git_hub/Personal_Lab_DngBack/air_data/data/hf/L4NLP__LEval/LEval/Generation/multidoc_qa.jsonl",
+      "rows": 23,
+      "input_total": {
+        "n": 23,
+        "chars_mean": 16324.0,
+        "chars_p50": 14310,
+        "chars_p90": 19373,
+        "chars_p99": 32922,
+        "chars_max": 32922,
+        "tokens_est_mean": 4081.0,
+        "tokens_est_p99": 8230.0
+      },
+      "input_unique_suffix": {
+        "n": 23,
+        "chars_mean": 16324.0,
+        "chars_p50": 14310,
+        "chars_p90": 19373,
+        "chars_p99": 32922,
+        "chars_max": 32922,
+        "tokens_est_mean": 4081.0,
+        "tokens_est_p99": 8230.0
+      },
+      "instructions": {
+        "n": 23,
+        "chars_mean": 526.8,
+        "chars_p50": 540,
+        "chars_p90": 689,
+        "chars_p99": 691,
+        "chars_max": 691,
+        "tokens_est_mean": 132.0,
+        "tokens_est_p99": 173.0
+      },
+      "outputs": {
+        "n": 23,
+        "chars_mean": 830.1,
+        "chars_p50": 841,
+        "chars_p90": 1060,
+        "chars_p99": 1359,
+        "chars_max": 1359,
+        "tokens_est_mean": 208.0,
+        "tokens_est_p99": 340.0
+      },
+      "exact_input_reuse": {
+        "unique_exact": 20,
+        "rows_with_duplicate_context": 3,
+        "groups_with_2plus_rows": 3
+      },
+      "prompt_structure": {
+        "shared_fewshot_prefix_chars": 0,
+        "shared_fewshot_prefix_tokens_est": 0.0,
+        "per_row_unique_input_suffix_mean_chars": 16324.0,
+        "static_vs_dynamic": "LOW_REUSE: each row has distinct long `input` — full prefill per example."
+      },
+      "prefill_optimization": {
+        "naive_prefill_chars": 387567,
+        "optimized_prefill_chars_est": 12115,
+        "prefill_char_savings_ratio": 0.9687,
+        "recommended": "No shared prefix; use sliding window / LongLoRA / sparse attention per doc."
+      },
+      "decode_optimization": {
+        "output_to_input_ratio_mean": 0.05085,
+        "note": "Many Exam tasks have tiny `outputs` (e.g. gsm100) — optimize prefill latency, not max_tokens."
+      }
+    },
+    "LEval/Generation/narrative_qa.jsonl": {
+      "path": "/home/admin1/Desktop/git_hub/Personal_Lab_DngBack/air_data/data/hf/L4NLP__LEval/LEval/Generation/narrative_qa.jsonl",
+      "rows": 23,
+      "input_total": {
+        "n": 23,
+        "chars_mean": 215417.1,
+        "chars_p50": 202793,
+        "chars_p90": 291616,
+        "chars_p99": 763482,
+        "chars_max": 763482,
+        "tokens_est_mean": 53854.0,
+        "tokens_est_p99": 190870.0
+      },
+      "input_unique_suffix": {
+        "n": 23,
+        "chars_mean": 215417.1,
+        "chars_p50": 202793,
+        "chars_p90": 291616,
+        "chars_p99": 763482,
+        "chars_max": 763482,
+        "tokens_est_mean": 53854.0,
+        "tokens_est_p99": 190870.0
+      },
+      "instructions": {
+        "n": 23,
+        "chars_mean": 513.1,
+        "chars_p50": 493,
+        "chars_p90": 618,
+        "chars_p99": 812,
+        "chars_max": 812,
+        "tokens_est_mean": 128.0,
+        "tokens_est_p99": 203.0
+      },
+      "outputs": {
+        "n": 23,
+        "chars_mean": 495.0,
+        "chars_p50": 476,
+        "chars_p90": 622,
+        "chars_p99": 748,
+        "chars_max": 748,
+        "tokens_est_mean": 124.0,
+        "tokens_est_p99": 187.0
+      },
+      "exact_input_reuse": {
+        "unique_exact": 20,
+        "rows_with_duplicate_context": 3,
+        "groups_with_2plus_rows": 3
+      },
+      "prompt_structure": {
+        "shared_fewshot_prefix_chars": 0,
+        "shared_fewshot_prefix_tokens_est": 0.0,
+        "per_row_unique_input_suffix_mean_chars": 215417.1,
+        "static_vs_dynamic": "LOW_REUSE: each row has distinct long `input` — full prefill per example."
+      },
+      "prefill_optimization": {
+        "naive_prefill_chars": 4966396,
+        "optimized_prefill_chars_est": 11802,
+        "prefill_char_savings_ratio": 0.9976,
+        "recommended": "No shared prefix; use sliding window / LongLoRA / sparse attention per doc."
+      },
+      "decode_optimization": {
+        "output_to_input_ratio_mean": 0.0023,
+        "note": "Many Exam tasks have tiny `outputs` (e.g. gsm100) — optimize prefill latency, not max_tokens."
+      }
+    },
+    "LEval/Generation/natural_question.jsonl": {
+      "path": "/home/admin1/Desktop/git_hub/Personal_Lab_DngBack/air_data/data/hf/L4NLP__LEval/LEval/Generation/natural_question.jsonl",
+      "rows": 21,
+      "input_total": {
+        "n": 21,
+        "chars_mean": 72203.8,
+        "chars_p50": 59584,
+        "chars_p90": 139775,
+        "chars_p99": 140097,
+        "chars_max": 140097,
+        "tokens_est_mean": 18051.0,
+        "tokens_est_p99": 35024.0
+      },
+      "input_unique_suffix": {
+        "n": 21,
+        "chars_mean": 72203.8,
+        "chars_p50": 59584,
+        "chars_p90": 139775,
+        "chars_p99": 140097,
+        "chars_max": 140097,
+        "tokens_est_mean": 18051.0,
+        "tokens_est_p99": 35024.0
+      },
+      "instructions": {
+        "n": 21,
+        "chars_mean": 269.1,
+        "chars_p50": 248,
+        "chars_p90": 365,
+        "chars_p99": 544,
+        "chars_max": 544,
+        "tokens_est_mean": 67.0,
+        "tokens_est_p99": 136.0
+      },
+      "outputs": {
+        "n": 21,
+        "chars_mean": 132.3,
+        "chars_p50": 90,
+        "chars_p90": 235,
+        "chars_p99": 458,
+        "chars_max": 458,
+        "tokens_est_mean": 33.0,
+        "tokens_est_p99": 114.0
+      },
+      "exact_input_reuse": {
+        "unique_exact": 20,
+        "rows_with_duplicate_context": 1,
+        "groups_with_2plus_rows": 1
+      },
+      "prompt_structure": {
+        "shared_fewshot_prefix_chars": 0,
+        "shared_fewshot_prefix_tokens_est": 0.0,
+        "per_row_unique_input_suffix_mean_chars": 72203.8,
+        "static_vs_dynamic": "LOW_REUSE: each row has distinct long `input` — full prefill per example."
+      },
+      "prefill_optimization": {
+        "naive_prefill_chars": 1521932,
+        "optimized_prefill_chars_est": 5652,
+        "prefill_char_savings_ratio": 0.9963,
+        "recommended": "No shared prefix; use sliding window / LongLoRA / sparse attention per doc."
+      },
+      "decode_optimization": {
+        "output_to_input_ratio_mean": 0.00183,
+        "note": "Many Exam tasks have tiny `outputs` (e.g. gsm100) — optimize prefill latency, not max_tokens."
+      }
+    },
+    "LEval/Generation/news_summ.jsonl": {
+      "path": "/home/admin1/Desktop/git_hub/Personal_Lab_DngBack/air_data/data/hf/L4NLP__LEval/LEval/Generation/news_summ.jsonl",
+      "rows": 12,
+      "input_total": {
+        "n": 12,
+        "chars_mean": 28406.6,
+        "chars_p50": 18485,
+        "chars_p90": 52363,
+        "chars_p99": 80470,
+        "chars_max": 80470,
+        "tokens_est_mean": 7102.0,
+        "tokens_est_p99": 20118.0
+      },
+      "input_unique_suffix": {
+        "n": 12,
+        "chars_mean": 28406.6,
+        "chars_p50": 18485,
+        "chars_p90": 52363,
+        "chars_p99": 80470,
+        "chars_max": 80470,
+        "tokens_est_mean": 7102.0,
+        "tokens_est_p99": 20118.0
+      },
+      "instructions": {
+        "n": 12,
+        "chars_mean": 37.0,
+        "chars_p50": 37,
+        "chars_p90": 37,
+        "chars_p99": 37,
+        "chars_max": 37,
+        "tokens_est_mean": 9.0,
+        "tokens_est_p99": 9.0
+      },
+      "outputs": {
+        "n": 12,
+        "chars_mean": 1630.4,
+        "chars_p50": 1625,
+        "chars_p90": 1906,
+        "chars_p99": 1988,
+        "chars_max": 1988,
+        "tokens_est_mean": 408.0,
+        "tokens_est_p99": 497.0
+      },
+      "exact_input_reuse": {
+        "unique_exact": 11,
+        "rows_with_duplicate_context": 1,
+        "groups_with_2plus_rows": 1
+      },
+      "prompt_structure": {
+        "shared_fewshot_prefix_chars": 0,
+        "shared_fewshot_prefix_tokens_est": 0.0,
+        "per_row_unique_input_suffix_mean_chars": 28406.6,
+        "static_vs_dynamic": "LOW_REUSE: each row has distinct long `input` — full prefill per example."
+      },
+      "prefill_optimization": {
+        "naive_prefill_chars": 341323,
+        "optimized_prefill_chars_est": 444,
+        "prefill_char_savings_ratio": 0.9987,
+        "recommended": "No shared prefix; use sliding window / LongLoRA / sparse attention per doc."
+      },
+      "decode_optimization": {
+        "output_to_input_ratio_mean": 0.0574,
+        "note": "Many Exam tasks have tiny `outputs` (e.g. gsm100) — optimize prefill latency, not max_tokens."
+      }
+    },
+    "LEval/Generation/paper_assistant.jsonl": {
+      "path": "/home/admin1/Desktop/git_hub/Personal_Lab_DngBack/air_data/data/hf/L4NLP__LEval/LEval/Generation/paper_assistant.jsonl",
+      "rows": 23,
+      "input_total": {
+        "n": 23,
+        "chars_mean": 34490.6,
+        "chars_p50": 26919,
+        "chars_p90": 50823,
+        "chars_p99": 85279,
+        "chars_max": 85279,
+        "tokens_est_mean": 8623.0,
+        "tokens_est_p99": 21320.0
+      },
+      "input_unique_suffix": {
+        "n": 23,
+        "chars_mean": 34490.6,
+        "chars_p50": 26919,
+        "chars_p90": 50823,
+        "chars_p99": 85279,
+        "chars_max": 85279,
+        "tokens_est_mean": 8623.0,
+        "tokens_est_p99": 21320.0
+      },
+      "instructions": {
+        "n": 23,
+        "chars_mean": 1450.1,
+        "chars_p50": 1290,
+        "chars_p90": 2022,
+        "chars_p99": 2903,
+        "chars_max": 2903,
+        "tokens_est_mean": 363.0,
+        "tokens_est_p99": 726.0
+      },
+      "outputs": {
+        "n": 23,
+        "chars_mean": 5188.7,
+        "chars_p50": 5377,
+        "chars_p90": 6011,
+        "chars_p99": 6811,
+        "chars_max": 6811,
+        "tokens_est_mean": 1297.0,
+        "tokens_est_p99": 1703.0
+      },
+      "exact_input_reuse": {
+        "unique_exact": 20,
+        "rows_with_duplicate_context": 3,
+        "groups_with_2plus_rows": 3
+      },
+      "prompt_structure": {
+        "shared_fewshot_prefix_chars": 0,
+        "shared_fewshot_prefix_tokens_est": 0.0,
+        "per_row_unique_input_suffix_mean_chars": 34490.6,
+        "static_vs_dynamic": "LOW_REUSE: each row has distinct long `input` — full prefill per example."
+      },
+      "prefill_optimization": {
+        "naive_prefill_chars": 826636,
+        "optimized_prefill_chars_est": 33352,
+        "prefill_char_savings_ratio": 0.9597,
+        "recommended": "No shared prefix; use sliding window / LongLoRA / sparse attention per doc."
+      },
+      "decode_optimization": {
+        "output_to_input_ratio_mean": 0.15044,
+        "note": "Many Exam tasks have tiny `outputs` (e.g. gsm100) — optimize prefill latency, not max_tokens."
+      }
+    },
+    "LEval/Generation/patent_summ.jsonl": {
+      "path": "/home/admin1/Desktop/git_hub/Personal_Lab_DngBack/air_data/data/hf/L4NLP__LEval/LEval/Generation/patent_summ.jsonl",
+      "rows": 14,
+      "input_total": {
+        "n": 14,
+        "chars_mean": 28014.4,
+        "chars_p50": 23310,
+        "chars_p90": 48717,
+        "chars_p99": 50956,
+        "chars_max": 50956,
+        "tokens_est_mean": 7004.0,
+        "tokens_est_p99": 12739.0
+      },
+      "input_unique_suffix": {
+        "n": 14,
+        "chars_mean": 28014.4,
+        "chars_p50": 23310,
+        "chars_p90": 48717,
+        "chars_p99": 50956,
+        "chars_max": 50956,
+        "tokens_est_mean": 7004.0,
+        "tokens_est_p99": 12739.0
+      },
+      "instructions": {
+        "n": 14,
+        "chars_mean": 65.0,
+        "chars_p50": 65,
+        "chars_p90": 65,
+        "chars_p99": 65,
+        "chars_max": 65,
+        "tokens_est_mean": 16.0,
+        "tokens_est_p99": 16.0
+      },
+      "outputs": {
+        "n": 14,
+        "chars_mean": 760.0,
+        "chars_p50": 720,
+        "chars_p90": 1116,
+        "chars_p99": 1338,
+        "chars_max": 1338,
+        "tokens_est_mean": 190.0,
+        "tokens_est_p99": 334.0
+      },
+      "exact_input_reuse": {
+        "unique_exact": 13,
+        "rows_with_duplicate_context": 1,
+        "groups_with_2plus_rows": 1
+      },
+      "prompt_structure": {
+        "shared_fewshot_prefix_chars": 0,
+        "shared_fewshot_prefix_tokens_est": 0.0,
+        "per_row_unique_input_suffix_mean_chars": 28014.4,
+        "static_vs_dynamic": "LOW_REUSE: each row has distinct long `input` — full prefill per example."
+      },
+      "prefill_optimization": {
+        "naive_prefill_chars": 393112,
+        "optimized_prefill_chars_est": 910,
+        "prefill_char_savings_ratio": 0.9977,
+        "recommended": "No shared prefix; use sliding window / LongLoRA / sparse attention per doc."
+      },
+      "decode_optimization": {
+        "output_to_input_ratio_mean": 0.02713,
+        "note": "Many Exam tasks have tiny `outputs` (e.g. gsm100) — optimize prefill latency, not max_tokens."
+      }
+    },
+    "LEval/Generation/review_summ.jsonl": {
+      "path": "/home/admin1/Desktop/git_hub/Personal_Lab_DngBack/air_data/data/hf/L4NLP__LEval/LEval/Generation/review_summ.jsonl",
+      "rows": 24,
+      "input_total": {
+        "n": 24,
+        "chars_mean": 80514.9,
+        "chars_p50": 79632,
+        "chars_p90": 88555,
+        "chars_p99": 90661,
+        "chars_max": 90661,
+        "tokens_est_mean": 20129.0,
+        "tokens_est_p99": 22665.0
+      },
+      "input_unique_suffix": {
+        "n": 24,
+        "chars_mean": 80504.9,
+        "chars_p50": 79622,
+        "chars_p90": 88545,
+        "chars_p99": 90651,
+        "chars_max": 90651,
+        "tokens_est_mean": 20126.0,
+        "tokens_est_p99": 22663.0
+      },
+      "instructions": {
+        "n": 24,
+        "chars_mean": 533.7,
+        "chars_p50": 541,
+        "chars_p90": 652,
+        "chars_p99": 699,
+        "chars_max": 699,
+        "tokens_est_mean": 133.0,
+        "tokens_est_p99": 175.0
+      },
+      "outputs": {
+        "n": 24,
+        "chars_mean": 3506.4,
+        "chars_p50": 3560,
+        "chars_p90": 4284,
+        "chars_p99": 4389,
+        "chars_max": 4389,
+        "tokens_est_mean": 877.0,
+        "tokens_est_p99": 1097.0
+      },
+      "exact_input_reuse": {
+        "unique_exact": 20,
+        "rows_with_duplicate_context": 4,
+        "groups_with_2plus_rows": 4
+      },
+      "prompt_structure": {
+        "shared_fewshot_prefix_chars": 10,
+        "shared_fewshot_prefix_tokens_est": 2.0,
+        "per_row_unique_input_suffix_mean_chars": 80504.9,
+        "static_vs_dynamic": "LOW_REUSE: each row has distinct long `input` — full prefill per example."
+      },
+      "prefill_optimization": {
+        "naive_prefill_chars": 1945167,
+        "optimized_prefill_chars_est": 12819,
+        "prefill_char_savings_ratio": 0.9934,
+        "recommended": "No shared prefix; use sliding window / LongLoRA / sparse attention per doc."
+      },
+      "decode_optimization": {
+        "output_to_input_ratio_mean": 0.04355,
+        "note": "Many Exam tasks have tiny `outputs` (e.g. gsm100) — optimize prefill latency, not max_tokens."
+      }
+    },
+    "LEval/Generation/scientific_qa.jsonl": {
+      "path": "/home/admin1/Desktop/git_hub/Personal_Lab_DngBack/air_data/data/hf/L4NLP__LEval/LEval/Generation/scientific_qa.jsonl",
+      "rows": 23,
+      "input_total": {
+        "n": 23,
+        "chars_mean": 20596.6,
+        "chars_p50": 21775,
+        "chars_p90": 27383,
+        "chars_p99": 28884,
+        "chars_max": 28884,
+        "tokens_est_mean": 5149.0,
+        "tokens_est_p99": 7221.0
+      },
+      "input_unique_suffix": {
+        "n": 23,
+        "chars_mean": 20584.6,
+        "chars_p50": 21763,
+        "chars_p90": 27371,
+        "chars_p99": 28872,
+        "chars_max": 28872,
+        "tokens_est_mean": 5146.0,
+        "tokens_est_p99": 7218.0
+      },
+      "instructions": {
+        "n": 23,
+        "chars_mean": 372.0,
+        "chars_p50": 390,
+        "chars_p90": 490,
+        "chars_p99": 584,
+        "chars_max": 584,
+        "tokens_est_mean": 93.0,
+        "tokens_est_p99": 146.0
+      },
+      "outputs": {
+        "n": 23,
+        "chars_mean": 659.7,
+        "chars_p50": 591,
+        "chars_p90": 1153,
+        "chars_p99": 1198,
+        "chars_max": 1198,
+        "tokens_est_mean": 165.0,
+        "tokens_est_p99": 300.0
+      },
+      "exact_input_reuse": {
+        "unique_exact": 20,
+        "rows_with_duplicate_context": 3,
+        "groups_with_2plus_rows": 3
+      },
+      "prompt_structure": {
+        "shared_fewshot_prefix_chars": 12,
+        "shared_fewshot_prefix_tokens_est": 3.0,
+        "per_row_unique_input_suffix_mean_chars": 20584.6,
+        "static_vs_dynamic": "LOW_REUSE: each row has distinct long `input` — full prefill per example."
+      },
+      "prefill_optimization": {
+        "naive_prefill_chars": 482279,
+        "optimized_prefill_chars_est": 8569,
+        "prefill_char_savings_ratio": 0.9822,
+        "recommended": "No shared prefix; use sliding window / LongLoRA / sparse attention per doc."
+      },
+      "decode_optimization": {
+        "output_to_input_ratio_mean": 0.03203,
+        "note": "Many Exam tasks have tiny `outputs` (e.g. gsm100) — optimize prefill latency, not max_tokens."
+      }
+    },
+    "LEval/Generation/tv_show_summ.jsonl": {
+      "path": "/home/admin1/Desktop/git_hub/Personal_Lab_DngBack/air_data/data/hf/L4NLP__LEval/LEval/Generation/tv_show_summ.jsonl",
+      "rows": 14,
+      "input_total": {
+        "n": 14,
+        "chars_mean": 31524.4,
+        "chars_p50": 33312,
+        "chars_p90": 45224,
+        "chars_p99": 45376,
+        "chars_max": 45376,
+        "tokens_est_mean": 7881.0,
+        "tokens_est_p99": 11344.0
+      },
+      "input_unique_suffix": {
+        "n": 14,
+        "chars_mean": 31524.4,
+        "chars_p50": 33312,
+        "chars_p90": 45224,
+        "chars_p99": 45376,
+        "chars_max": 45376,
+        "tokens_est_mean": 7881.0,
+        "tokens_est_p99": 11344.0
+      },
+      "instructions": {
+        "n": 14,
+        "chars_mean": 30.0,
+        "chars_p50": 30,
+        "chars_p90": 30,
+        "chars_p99": 30,
+        "chars_max": 30,
+        "tokens_est_mean": 8.0,
+        "tokens_est_p99": 8.0
+      },
+      "outputs": {
+        "n": 14,
+        "chars_mean": 594.9,
+        "chars_p50": 601,
+        "chars_p90": 805,
+        "chars_p99": 1178,
+        "chars_max": 1178,
+        "tokens_est_mean": 149.0,
+        "tokens_est_p99": 294.0
+      },
+      "exact_input_reuse": {
+        "unique_exact": 13,
+        "rows_with_duplicate_context": 1,
+        "groups_with_2plus_rows": 1
+      },
+      "prompt_structure": {
+        "shared_fewshot_prefix_chars": 0,
+        "shared_fewshot_prefix_tokens_est": 0.0,
+        "per_row_unique_input_suffix_mean_chars": 31524.4,
+        "static_vs_dynamic": "LOW_REUSE: each row has distinct long `input` — full prefill per example."
+      },
+      "prefill_optimization": {
+        "naive_prefill_chars": 441761,
+        "optimized_prefill_chars_est": 420,
+        "prefill_char_savings_ratio": 0.999,
+        "recommended": "No shared prefix; use sliding window / LongLoRA / sparse attention per doc."
+      },
+      "decode_optimization": {
+        "output_to_input_ratio_mean": 0.01887,
+        "note": "Many Exam tasks have tiny `outputs` (e.g. gsm100) — optimize prefill latency, not max_tokens."
+      }
+    }
+  },
+  "researcher_summary": {
+    "long_context": {
+      "loogle_context_tokens_est_p99_range": [
+        55724.0,
+        73294.0
+      ],
+      "leval_heaviest_files_by_mean_input_tokens": [
+        [
+          "LEval/Generation/narrative_qa.jsonl",
+          53854.0
+        ],
+        [
+          "LEval/Generation/legal_contract_qa.jsonl",
+          27742.0
+        ],
+        [
+          "LEval/Exam/codeU.jsonl",
+          25015.0
+        ],
+        [
+          "LEval/Generation/review_summ.jsonl",
+          20129.0
+        ],
+        [
+          "LEval/Generation/natural_question.jsonl",
+          18051.0
+        ]
+      ]
+    },
+    "reuse_for_inference": {
+      "loogle_doc_grouping": "Same doc_id → identical context. Prefill savings 0%–95% if you cache KV per document and run multiple questions.",
+      "leval_fewshot_prefix_cache": "Full shared `input` block in: ['LEval/Exam/gsm100.jsonl']. Use prefix caching / continuous batching with static system+few-shot.",
+      "leval_unique_context_files": [
+        "LEval/Exam/codeU.jsonl",
+        "LEval/Exam/coursera.jsonl",
+        "LEval/Exam/quality.jsonl",
+        "LEval/Exam/sci_fi.jsonl",
+        "LEval/Exam/topic_retrieval_longchat.jsonl",
+        "LEval/Exam/tpo.jsonl"
+      ]
+    },
+    "inference_budget_priority": [
+      "1. Prefill dominates (context >> answer). Optimize: FlashAttention, chunked prefill, prefix/KV reuse.",
+      "2. LooGLE: schedule by doc_id (≈8–19 questions per doc) not random shuffle.",
+      "3. LEval Exam gsm100: one 4.2k-token prefill serves 100 queries (instructions only change).",
+      "4. LEval codeU/narrative_qa/legal: plan for 25k–55k token contexts; little cross-row reuse.",
+      "5. Decode: cap max_new_tokens low on Exam; Generation subsets need higher caps (summaries)."
+    ]
+  }
+}

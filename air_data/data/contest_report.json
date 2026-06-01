@@ -1,0 +1,485 @@
+{
+  "hf_data_root": "/home/admin1/Desktop/git_hub/Personal_Lab_DngBack/air_data/data/hf",
+  "datasets": {
+    "LEval": {
+      "status": "ok",
+      "repo": "L4NLP/LEval",
+      "benchmark": "Long-context evaluation (Exam + Generation)",
+      "total_rows": 537,
+      "exam_rows": 292,
+      "generation_rows": 245,
+      "subsets": {
+        "LEval/Exam/codeU.jsonl": {
+          "num_rows": 90,
+          "columns": [
+            "input",
+            "instructions",
+            "outputs",
+            "source",
+            "evaluation"
+          ],
+          "evaluation_types": [
+            "exam"
+          ],
+          "avg_lengths": {
+            "input_chars": 100059.3,
+            "instruction_chars": 173.1,
+            "output_chars": 14.6
+          },
+          "task_hint": "Code understanding over long repos."
+        },
+        "LEval/Exam/coursera.jsonl": {
+          "num_rows": 15,
+          "columns": [
+            "instructions",
+            "outputs",
+            "input",
+            "source",
+            "evaluation"
+          ],
+          "evaluation_types": [
+            "exam"
+          ],
+          "avg_lengths": {
+            "input_chars": 39206.4,
+            "instruction_chars": 3477.4,
+            "output_chars": 31.4
+          },
+          "task_hint": "Course transcript QA."
+        },
+        "LEval/Exam/gsm100.jsonl": {
+          "num_rows": 100,
+          "columns": [
+            "instructions",
+            "outputs",
+            "input",
+            "evaluation",
+            "source"
+          ],
+          "evaluation_types": [
+            "exam"
+          ],
+          "avg_lengths": {
+            "input_chars": 16795.0,
+            "instruction_chars": 267.3,
+            "output_chars": 2.3
+          },
+          "task_hint": "Math word problems (GSM-style); numeric answer in outputs."
+        },
+        "LEval/Exam/quality.jsonl": {
+          "num_rows": 15,
+          "columns": [
+            "instructions",
+            "outputs",
+            "input",
+            "source",
+            "evaluation"
+          ],
+          "evaluation_types": [
+            "exam"
+          ],
+          "avg_lengths": {
+            "input_chars": 24569.7,
+            "instruction_chars": 4589.5,
+            "output_chars": 936.1
+          },
+          "task_hint": "Multiple-choice reading comprehension."
+        },
+        "LEval/Exam/sci_fi.jsonl": {
+          "num_rows": 7,
+          "columns": [
+            "instructions",
+            "outputs",
+            "input",
+            "evaluation",
+            "source"
+          ],
+          "evaluation_types": [
+            "exam"
+          ],
+          "avg_lengths": {
+            "input_chars": 59890.6,
+            "instruction_chars": 1549.3,
+            "output_chars": 174.0
+          },
+          "task_hint": "Exam-style long-context QA"
+        },
+        "LEval/Exam/topic_retrieval_longchat.jsonl": {
+          "num_rows": 50,
+          "columns": [
+            "input",
+            "instructions",
+            "outputs",
+            "source",
+            "evaluation"
+          ],
+          "evaluation_types": [
+            "exam"
+          ],
+          "avg_lengths": {
+            "input_chars": 56371.9,
+            "instruction_chars": 282.0,
+            "output_chars": 113.3
+          },
+          "task_hint": "Topic retrieval in long chats."
+        },
+        "LEval/Exam/tpo.jsonl": {
+          "num_rows": 15,
+          "columns": [
+            "instructions",
+            "outputs",
+            "input",
+            "source",
+            "evaluation"
+          ],
+          "evaluation_types": [
+            "exam"
+          ],
+          "avg_lengths": {
+            "input_chars": 16181.4,
+            "instruction_chars": 5529.0,
+            "output_chars": 34.9
+          },
+          "task_hint": "Exam-style long-context QA"
+        },
+        "LEval/Generation/financial_qa.jsonl": {
+          "num_rows": 8,
+          "columns": [
+            "instructions",
+            "outputs",
+            "input",
+            "source",
+            "evaluation"
+          ],
+          "evaluation_types": [
+            "LLM",
+            "f1",
+            "human"
+          ],
+          "avg_lengths": {
+            "input_chars": 24031.8,
+            "instruction_chars": 1871.5,
+            "output_chars": 3140.5
+          },
+          "task_hint": "Generation task (f1)"
+        },
+        "LEval/Generation/gov_report_summ.jsonl": {
+          "num_rows": 14,
+          "columns": [
+            "instructions",
+            "outputs",
+            "input",
+            "source",
+            "evaluation"
+          ],
+          "evaluation_types": [
+            "LLM",
+            "rouge"
+          ],
+          "avg_lengths": {
+            "input_chars": 27897.6,
+            "instruction_chars": 48.0,
+            "output_chars": 1760.6
+          },
+          "task_hint": "Government report summarization."
+        },
+        "LEval/Generation/legal_contract_qa.jsonl": {
+          "num_rows": 23,
+          "columns": [
+            "input",
+            "instructions",
+            "outputs",
+            "source",
+            "evaluation"
+          ],
+          "evaluation_types": [
+            "LLM",
+            "f1",
+            "human"
+          ],
+          "avg_lengths": {
+            "input_chars": 110968.5,
+            "instruction_chars": 1545.8,
+            "output_chars": 2699.1
+          },
+          "task_hint": "Legal contract QA."
+        },
+        "LEval/Generation/meeting_summ.jsonl": {
+          "num_rows": 23,
+          "columns": [
+            "instructions",
+            "outputs",
+            "input",
+            "source",
+            "evaluation"
+          ],
+          "evaluation_types": [
+            "LLM",
+            "human",
+            "rouge"
+          ],
+          "avg_lengths": {
+            "input_chars": 57024.3,
+            "instruction_chars": 529.7,
+            "output_chars": 2952.3
+          },
+          "task_hint": "Generation task (rouge)"
+        },
+        "LEval/Generation/multidoc_qa.jsonl": {
+          "num_rows": 23,
+          "columns": [
+            "instructions",
+            "outputs",
+            "input",
+            "source",
+            "evaluation"
+          ],
+          "evaluation_types": [
+            "f1",
+            "human"
+          ],
+          "avg_lengths": {
+            "input_chars": 16324.0,
+            "instruction_chars": 526.8,
+            "output_chars": 830.1
+          },
+          "task_hint": "Generation task (f1)"
+        },
+        "LEval/Generation/narrative_qa.jsonl": {
+          "num_rows": 23,
+          "columns": [
+            "instructions",
+            "outputs",
+            "input",
+            "source",
+            "evaluation"
+          ],
+          "evaluation_types": [
+            "LLM",
+            "f1",
+            "human"
+          ],
+          "avg_lengths": {
+            "input_chars": 215417.1,
+            "instruction_chars": 513.1,
+            "output_chars": 495.0
+          },
+          "task_hint": "Long narrative QA."
+        },
+        "LEval/Generation/natural_question.jsonl": {
+          "num_rows": 21,
+          "columns": [
+            "instructions",
+            "outputs",
+            "input",
+            "source",
+            "evaluation"
+          ],
+          "evaluation_types": [
+            "LLM",
+            "f1"
+          ],
+          "avg_lengths": {
+            "input_chars": 72203.8,
+            "instruction_chars": 269.1,
+            "output_chars": 132.3
+          },
+          "task_hint": "Generation task (f1)"
+        },
+        "LEval/Generation/news_summ.jsonl": {
+          "num_rows": 12,
+          "columns": [
+            "instructions",
+            "outputs",
+            "input",
+            "source",
+            "evaluation"
+          ],
+          "evaluation_types": [
+            "LLM",
+            "rouge"
+          ],
+          "avg_lengths": {
+            "input_chars": 28406.6,
+            "instruction_chars": 37.0,
+            "output_chars": 1630.4
+          },
+          "task_hint": "Generation task (rouge)"
+        },
+        "LEval/Generation/paper_assistant.jsonl": {
+          "num_rows": 23,
+          "columns": [
+            "instructions",
+            "outputs",
+            "input",
+            "source",
+            "evaluation"
+          ],
+          "evaluation_types": [
+            "LLM",
+            "human",
+            "rouge"
+          ],
+          "avg_lengths": {
+            "input_chars": 34490.6,
+            "instruction_chars": 1450.1,
+            "output_chars": 5188.7
+          },
+          "task_hint": "Generation task (rouge)"
+        },
+        "LEval/Generation/patent_summ.jsonl": {
+          "num_rows": 14,
+          "columns": [
+            "instructions",
+            "outputs",
+            "input",
+            "source",
+            "evaluation"
+          ],
+          "evaluation_types": [
+            "LLM",
+            "rouge"
+          ],
+          "avg_lengths": {
+            "input_chars": 28014.4,
+            "instruction_chars": 65.0,
+            "output_chars": 760.0
+          },
+          "task_hint": "Generation task (rouge)"
+        },
+        "LEval/Generation/review_summ.jsonl": {
+          "num_rows": 24,
+          "columns": [
+            "instructions",
+            "outputs",
+            "input",
+            "source",
+            "evaluation"
+          ],
+          "evaluation_types": [
+            "LLM",
+            "human",
+            "rouge"
+          ],
+          "avg_lengths": {
+            "input_chars": 80514.9,
+            "instruction_chars": 533.7,
+            "output_chars": 3506.4
+          },
+          "task_hint": "Generation task (rouge)"
+        },
+        "LEval/Generation/scientific_qa.jsonl": {
+          "num_rows": 23,
+          "columns": [
+            "instructions",
+            "outputs",
+            "input",
+            "source",
+            "evaluation"
+          ],
+          "evaluation_types": [
+            "LLM",
+            "f1",
+            "human"
+          ],
+          "avg_lengths": {
+            "input_chars": 20596.6,
+            "instruction_chars": 372.0,
+            "output_chars": 659.7
+          },
+          "task_hint": "Generation task (f1)"
+        },
+        "LEval/Generation/tv_show_summ.jsonl": {
+          "num_rows": 14,
+          "columns": [
+            "instructions",
+            "outputs",
+            "input",
+            "source",
+            "evaluation"
+          ],
+          "evaluation_types": [
+            "LLM",
+            "rouge"
+          ],
+          "avg_lengths": {
+            "input_chars": 31524.4,
+            "instruction_chars": 30.0,
+            "output_chars": 594.9
+          },
+          "task_hint": "Generation task (rouge)"
+        }
+      },
+      "contest_notes": [
+        "Exam: QA / reasoning over very long `input` with few-shot chain-of-thought in prompt.",
+        "Generation: summarization & long-form QA; judge with task-specific metrics (ROUGE, etc.).",
+        "Typical fields: instructions (question), input (context), outputs (gold), evaluation tag."
+      ]
+    },
+    "LooGLE": {
+      "status": "ok",
+      "repo": "bigai-nlco/LooGLE",
+      "benchmark": "Long dependency benchmark (QA, cloze, summarization)",
+      "total_rows": 6448,
+      "configs": {
+        "longdep_qa/test.jsonl": {
+          "num_rows": 1101,
+          "task": "longdep_qa",
+          "avg_context_chars": 116776.7,
+          "avg_question_chars": 111.7,
+          "avg_answer_chars": 59.4,
+          "unique_docs": 140
+        },
+        "shortdep_cloze/test.jsonl": {
+          "num_rows": 2880,
+          "task": "shortdep_cloze",
+          "avg_context_chars": 127623.0,
+          "avg_question_chars": 737.2,
+          "avg_answer_chars": 23.3,
+          "unique_docs": 155
+        },
+        "shortdep_qa/test.jsonl": {
+          "num_rows": 1951,
+          "task": "shortdep_qa",
+          "avg_context_chars": 99985.6,
+          "avg_question_chars": 60.0,
+          "avg_answer_chars": 64.2,
+          "unique_docs": 105
+        },
+        "summarization/test.jsonl": {
+          "num_rows": 516,
+          "task": "summarization",
+          "avg_context_chars": 90754.1,
+          "avg_question_chars": 0.0,
+          "avg_answer_chars": 1259.2,
+          "unique_docs": 516
+        }
+      },
+      "contest_notes": [
+        "longdep_qa: answer needs info far from question in context.",
+        "shortdep_qa: answer near relevant span (easier retrieval).",
+        "shortdep_cloze: fill-in-the-blank style.",
+        "summarization: long doc -> short summary (gold in answer).",
+        "All splits are `test`; metrics often use token-level F1 / ROUGE."
+      ]
+    },
+    "ShareChat": {
+      "status": "missing",
+      "repo": "tucnguyen/ShareChat",
+      "contest_notes": [
+        "Gated on Hugging Face — accept license, then: huggingface-cli login",
+        "Download: python3 src/data/down_data.py tucnguyen/ShareChat"
+      ]
+    }
+  },
+  "cross_benchmark": {
+    "shared_theme": "Long-context understanding (Vietnamese + English benchmarks in repo list)",
+    "suggested_prep_order": [
+      "1. LEval gsm100 + quality (smaller Exam sets) — format & prompting",
+      "2. LooGLE shortdep_qa — baseline retrieval difficulty",
+      "3. LooGLE longdep_qa — hard long-range dependency",
+      "4. LEval Generation subsets — summarization / long QA",
+      "5. ShareChat — after HF access (Vietnamese long-context)"
+    ]
+  }
+}

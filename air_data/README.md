@@ -86,6 +86,26 @@ Metadata is written to:
 air_data/data/hf/<repo_id>/dataset_info.json
 ```
 
+## Analyze (contest prep)
+
+After downloads, summarize row counts, context lengths, and task hints:
+
+```bash
+python3 src/data/analyze_data.py
+python3 src/data/analyze_data.py --json-out data/contest_report.json
+```
+
+## Inference optimization (researcher view)
+
+Long-context means, percentiles, document/prefix reuse, and prefill vs decode budgeting:
+
+```bash
+python3 src/data/analyze_inference.py
+python3 src/data/analyze_inference.py --json-out data/inference_research_report.json
+```
+
+`ShareChat` is gated on the Hub — run `huggingface-cli login` and accept the dataset license before downloading.
+
 ## Repo list
 
 Edit `data/data_hf.txt` (one Hugging Face repo id per line):
