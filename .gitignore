@@ -233,3 +233,5 @@ layoutDectectionCan/outputs/*
 
 layoutAgent/data/*
 air_data/data/hf/*
+
+air_mini_bench/output/*

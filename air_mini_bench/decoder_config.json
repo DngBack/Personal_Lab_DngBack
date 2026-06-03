@@ -1,0 +1,6 @@
+{
+  "temperature": 0.0,
+  "top_p": 1.0,
+  "top_k": -1,
+  "note": "Mirror contest decoder_config.json — fixed at bench time."
+}
