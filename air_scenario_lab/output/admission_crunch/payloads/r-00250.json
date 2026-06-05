@@ -1,0 +1,15 @@
+{
+  "request_id": "r-00250",
+  "workload_type": "conversation",
+  "encoding": "utf-8+b64",
+  "hash_ids": [
+    11805376
+  ],
+  "prompt_b64": "d2hvIGJlY29tZXMgcHJlc2lkZW50IGlmIHRoZSB2aWNlIHByZXNpZGVudCBkaWVzIGFuZCBwcmVzaWRlbnQgZGllcwp3aG8gYmVjb21lcyB0aGUgYWN0aW5nIHByZXNpZGVudCBpZiB0aGUgcHJlc2lkZW50IGlzIGRpc2FibGVkCndobyBiZWNvbWVzIHRoZSBwcmVzaWRlbnQgaWYgdGhlIHByZXNpZGVudCBkaWVzCndobyBnZXRzIG9mZmljZSBpZiB0aGUgcHJlc2lkZW50IGlzIGltcGVhY2hlZAp3aG8gaXMgYWZ0ZXIgdGhlIHNwZWFrZXIgb2YgdGhlIGhvdXNlIHRvIGJlIHByZXNpZGVudA==",
+  "max_tokens": 175,
+  "input_length": 69,
+  "output_length": 175,
+  "reference_answer": "Speaker of the House of Representatives\nVice President\nVice President\nVice President\nPresident pro tempore of the Senate",
+  "task": "chat",
+  "hf_root": "/home/bachdx2/Personal_Lab_DngBack/air_data/data/hf"
+}

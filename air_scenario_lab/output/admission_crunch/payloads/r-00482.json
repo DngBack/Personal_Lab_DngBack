@@ -1,0 +1,15 @@
+{
+  "request_id": "r-00482",
+  "workload_type": "conversation",
+  "encoding": "utf-8+b64",
+  "hash_ids": [
+    1843022
+  ],
+  "prompt_b64": "d2hvIG5vbWluYXRlcyBhIG5ldyBzdXByZW1lIGNvdXJ0IGp1c3RpY2UgdG8gc2VydmUgb24gdGhlIHUucy4gc3VwcmVtZSBjb3VydAp3aG8gaGFzIHRoZSBwb3dlciB0byByZWplY3QgdGhlIHByZXNpZGVudCdzIG5vbWluYXRpb25zIGZvciB0aGUgc3VwcmVtZSBjb3VydAphZnRlciB0aGUgcHJlc2lkZW50IGFwcG9pbnRzIGEgbmV3IHN1cHJlbWUgY291cnQganVzdGljZSB3aGljaCBjb21taXR0ZWUgaG9sZHMgaGVhcmluZ3MgdG8gY29uc2lkZXIKaG93IG1hbnkgdm90ZXMgaW4gc2VuYXRlIG5lZWRlZCB0byBjb25maXJtIHN1cHJlbWUgY291cnQganVzdGljZQ==",
+  "max_tokens": 158,
+  "input_length": 80,
+  "output_length": 158,
+  "reference_answer": "the President of the United States\nthe Senate\nSenate Judiciary Committee\nA simple majority",
+  "task": "chat",
+  "hf_root": "/home/bachdx2/Personal_Lab_DngBack/air_data/data/hf"
+}

@@ -1,0 +1,15 @@
+{
+  "request_id": "r-00247",
+  "workload_type": "conversation",
+  "encoding": "utf-8+b64",
+  "hash_ids": [
+    5089872
+  ],
+  "prompt_b64": "UXVlc3Rpb246IEEgbWVjaGFuaWMgY2hhcmdlcyBkaWZmZXJlbnQgcmF0ZXMgdG8gcmVwYWlyIHRoZSB0aXJlcyBvZiB0cnVja3MgYW5kIGNhcnMuICBGb3IgZWFjaCB0cnVjayB0aXJlIHRoYXQgaXMgcmVwYWlyZWQsIHRoZSBtZWNoYW5pYyB3aWxsIGNoYXJnZSAkNjAgYW5kIGZvciBlYWNoIGNhciB0aXJlIHRoYXQgaXMgcmVwYWlyZWQsIHRoZSBtZWNoYW5pYyB3aWxsIGNoYXJnZSAkNDAuICBPbiBUaHVyc2RheSwgdGhlIG1lY2hhbmljIHJlcGFpcnMgNiB0cnVjayB0aXJlcyBhbmQgNCBjYXIgdGlyZXMuICBPbiBGcmlkYXksIHRoZSBtZWNoYW5pYyByZXBhaXJzIDEyIGNhciB0cmllcyBhbmQgZG9lc24ndCByZXBhaXIgYW55IHRydWNrIHRpcmVzLiAgSG93IG11Y2ggbW9yZSByZXZlbnVlIGRpZCB0aGUgbWVjaGFuaWMgZWFybiBvbiB0aGUgZGF5IHdpdGggaGlnaGVyIHJldmVudWU/CkxldCdzIHRoaW5rIHN0ZXAgYnkgc3RlcA==",
+  "max_tokens": 229,
+  "input_length": 118,
+  "output_length": 229,
+  "reference_answer": "40",
+  "task": "chat",
+  "hf_root": "/home/bachdx2/Personal_Lab_DngBack/air_data/data/hf"
+}

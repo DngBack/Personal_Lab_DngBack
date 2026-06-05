@@ -1,0 +1,15 @@
+{
+  "request_id": "r-00040",
+  "workload_type": "conversation",
+  "encoding": "utf-8+b64",
+  "hash_ids": [
+    13092930
+  ],
+  "prompt_b64": "d2hvIHdvbiB0aGUgbW9zdCBzdXBlcmJvd2xzIGluIGEgcm93CndoYXQgbmZsIHRlYW0gaGFzIGJlZW4gdG8gbW9zdCBzdXBlciBib3dscwp3aG8gd29uIGxhc3QgeWVhcidzIG5mbCBzdXBlciBib3dsCndobyBoYXMgdGhlIG1vc3Qgc3VwZXIgYm93bCBsb3NzZXMgaW4gbmZsIGhpc3RvcnkKd2hhdCB0ZWFtIHdvbiB0aGUgZmlyc3QgbmZsIHN1cGVyIGJvd2wKd2hvIGdvdCB0aGUgbW9zdCBzdXBlciBib3dscyBpbiBuZmw=",
+  "max_tokens": 178,
+  "input_length": 60,
+  "output_length": 178,
+  "reference_answer": "Green Bay Packers\nNew England Patriots\nNew England Patriots\nNew England Patriots\nGreen Bay Packers\nThe Pittsburgh Steelers",
+  "task": "chat",
+  "hf_root": "/home/bachdx2/Personal_Lab_DngBack/air_data/data/hf"
+}

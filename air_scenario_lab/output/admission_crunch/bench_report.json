@@ -1,0 +1,284 @@
+{
+  "phase": "phase2",
+  "scenario": "admission_crunch",
+  "wall_time_s": 643.96,
+  "slo_ttft_ms": 10000,
+  "slo_tbt_ms": 200,
+  "erc": {
+    "n_total": 450,
+    "n_effective": 450,
+    "erc": 1.0,
+    "erc_percent": 100.0,
+    "by_workload": {
+      "conversation": {
+        "n": 140,
+        "n_effective": 140,
+        "erc": 1.0
+      },
+      "long_context": {
+        "n": 48,
+        "n_effective": 48,
+        "erc": 1.0
+      },
+      "tool_agent": {
+        "n": 262,
+        "n_effective": 262,
+        "erc": 1.0
+      }
+    }
+  },
+  "latency": {
+    "ttft_ms": {
+      "count": 450,
+      "min": 19.73,
+      "p50": 124.85,
+      "p90": 1240.28,
+      "p95": 2263.62,
+      "max": 3626.53
+    },
+    "tbt_ms": {
+      "count": 450,
+      "min": 9.75,
+      "p50": 10.87,
+      "p90": 11.0,
+      "p95": 11.01,
+      "max": 11.24
+    },
+    "slo_fail_ttft": 0,
+    "slo_fail_tbt": 0
+  },
+  "accuracy": {
+    "accuracy_drop": 0.8295,
+    "baseline_mean": 0.831,
+    "submission_mean": 0.0015,
+    "n_probes": 36,
+    "pass_gate": false
+  },
+  "score": {
+    "erc": 1.0,
+    "accuracy_drop": 0.8295168962763302,
+    "f_delta": 0.0,
+    "score": 0.0
+  },
+  "errors": [],
+  "debug": {
+    "requests": {
+      "n_total": 500,
+      "n_warmup": 50,
+      "n_scored": 450,
+      "n_errors": 0,
+      "throughput_rps": 0.78
+    },
+    "by_workload": {
+      "conversation": {
+        "n_total": 155,
+        "n_warmup": 15,
+        "n_scored": 140,
+        "n_effective": 140,
+        "erc_percent": 100.0,
+        "input_length": {
+          "count": 155,
+          "min": 30,
+          "p50": 64.0,
+          "p95": 548.4,
+          "max": 1164,
+          "mean": 118.9
+        },
+        "output_tokens": {
+          "count": 140,
+          "min": 127,
+          "p50": 173.0,
+          "p95": 230.0,
+          "max": 397,
+          "mean": 178.2
+        },
+        "ttft_ms": {
+          "count": 140,
+          "min": 19.73,
+          "p50": 22.41,
+          "p90": 26.79,
+          "p95": 49.86,
+          "max": 83.17
+        },
+        "tbt_ms": {
+          "count": 140,
+          "min": 9.75,
+          "p50": 9.77,
+          "p90": 9.77,
+          "p95": 9.87,
+          "max": 9.89
+        },
+        "slo_fail_ttft": 0,
+        "slo_fail_tbt": 0,
+        "errors": 0,
+        "zero_output": 0
+      },
+      "long_context": {
+        "n_total": 50,
+        "n_warmup": 2,
+        "n_scored": 48,
+        "n_effective": 48,
+        "erc_percent": 100.0,
+        "input_length": {
+          "count": 50,
+          "min": 15634,
+          "p50": 24920.5,
+          "p95": 24996.5,
+          "max": 24998,
+          "mean": 22534.7
+        },
+        "output_tokens": {
+          "count": 48,
+          "min": 17,
+          "p50": 342.0,
+          "p95": 560.1,
+          "max": 852,
+          "mean": 342.7
+        },
+        "ttft_ms": {
+          "count": 48,
+          "min": 89.05,
+          "p50": 2168.07,
+          "p90": 3300.6,
+          "p95": 3383.33,
+          "max": 3626.53
+        },
+        "tbt_ms": {
+          "count": 48,
+          "min": 10.56,
+          "p50": 10.9,
+          "p90": 11.19,
+          "p95": 11.21,
+          "max": 11.24
+        },
+        "slo_fail_ttft": 0,
+        "slo_fail_tbt": 0,
+        "errors": 0,
+        "zero_output": 0
+      },
+      "tool_agent": {
+        "n_total": 295,
+        "n_warmup": 33,
+        "n_scored": 262,
+        "n_effective": 262,
+        "erc_percent": 100.0,
+        "input_length": {
+          "count": 295,
+          "min": 4230,
+          "p50": 4263.0,
+          "p95": 4312.0,
+          "max": 4344,
+          "mean": 4267.2
+        },
+        "output_tokens": {
+          "count": 262,
+          "min": 42,
+          "p50": 62.0,
+          "p95": 137.5,
+          "max": 215,
+          "mean": 67.4
+        },
+        "ttft_ms": {
+          "count": 262,
+          "min": 77.65,
+          "p50": 144.27,
+          "p90": 179.56,
+          "p95": 187.88,
+          "max": 627.5
+        },
+        "tbt_ms": {
+          "count": 262,
+          "min": 10.05,
+          "p50": 10.95,
+          "p90": 11.0,
+          "p95": 11.0,
+          "max": 11.02
+        },
+        "slo_fail_ttft": 0,
+        "slo_fail_tbt": 0,
+        "errors": 0,
+        "zero_output": 0
+      }
+    },
+    "probes": {
+      "n_total": 36,
+      "by_workload": {
+        "long_context": {
+          "n": 1,
+          "f1_mean": 0.0,
+          "em_mean": 0.0
+        },
+        "tool_agent": {
+          "n": 35,
+          "f1_mean": 0.0015,
+          "em_mean": 0.0
+        }
+      },
+      "worst_5": [
+        {
+          "request_id": "r-00203",
+          "workload_type": "tool_agent",
+          "evaluation_method": "f1_em",
+          "reference_preview": "694",
+          "completion_preview": "Sure, let's break down the problem step by step.\n\n1. **Calculate the cost of the donuts:**\n   - Toula bought 3 dozen donuts.\n   - Each dozen donuts costs $68.\n   \\[\n   \\text{Cost of don",
+          "scores": {
+            "f1": 0.0,
+            "em": 0.0
+          }
+        },
+        {
+          "request_id": "r-00205",
+          "workload_type": "tool_agent",
+          "evaluation_method": "f1_em",
+          "reference_preview": "7425",
+          "completion_preview": "Sure, let's break down the problem step by step:\n\n1. **Determine the number of dance classes Judy teaches in a week:**\n   - Judy teaches 5 dance classes every weekday. There are 5 weekdays in a week.\n",
+          "scores": {
+            "f1": 0.0,
+            "em": 0.0
+          }
+        },
+        {
+          "request_id": "r-00396",
+          "workload_type": "tool_agent",
+          "evaluation_method": "f1_em",
+          "reference_preview": "36",
+          "completion_preview": "Sure, let's break down the problem step by step:\n\n1. **Time spent watching TV and reading each session:**\n   - Jim spends 2 hours watching TV.\n   - He reads for half as long as he watches TV, which is",
+          "scores": {
+            "f1": 0.0,
+            "em": 0.0
+          }
+        },
+        {
+          "request_id": "r-00099",
+          "workload_type": "tool_agent",
+          "evaluation_method": "f1_em",
+          "reference_preview": "23",
+          "completion_preview": "Sure, let's break down the problem step by step:\n\n1. **Determine the number of jewels Raymond has:**\n   Raymond has 40 jewels.\n\n2. **Calculate the number of jewels Aaron has:**\n   According to the pro",
+          "scores": {
+            "f1": 0.0,
+            "em": 0.0
+          }
+        },
+        {
+          "request_id": "r-00403",
+          "workload_type": "tool_agent",
+          "evaluation_method": "f1_em",
+          "reference_preview": "694",
+          "completion_preview": "Sure, let's break down the problem step by step.\n\n1. **Calculate the cost of the donuts:**\n   - Toula bought 3 dozen donuts.\n   - Each dozen donuts costs $68.\n   \\[\n   \\text{Cost of donuts} = 3 \\times",
+          "scores": {
+            "f1": 0.0,
+            "em": 0.0
+          }
+        }
+      ]
+    },
+    "score_explanation": {
+      "formula": "Score = 100 * ERC * f(accuracy_drop)",
+      "erc": 1.0,
+      "f_delta": 0.0,
+      "accuracy_drop": 0.8295,
+      "accuracy_gate_pass": false,
+      "reason": "accuracy_gate_fail: drop 82.95% >= 2%"
+    }
+  }
+}

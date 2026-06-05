@@ -1,0 +1,15 @@
+{
+  "request_id": "r-00195",
+  "workload_type": "conversation",
+  "encoding": "utf-8+b64",
+  "hash_ids": [
+    5553809
+  ],
+  "prompt_b64": "d2hlcmUgZG8gdGhleSBmaWxtIHRoZSBuZXcgbG9zdCBpbiBzcGFjZQp3aG8gcGxheXMgZHIgc21pdGggbG9zdCBpbiBzcGFjZSAyMDE4CndobyBwbGF5cyBhbmdlbGEgaW4gbG9zdCBpbiBzcGFjZSAyMDE4CndobyBwbGF5cyB0aGUgbW90aGVyIGluIGxvc3QgaW4gc3BhY2UgMjAxOAp3aGVyZSB3YXMgdGhlIG5ldGZsaXggc2hvdyBsb3N0IGluIHNwYWNlIGZpbG1lZA==",
+  "max_tokens": 175,
+  "input_length": 52,
+  "output_length": 175,
+  "reference_answer": "Vancouver , British Columbia\nParker Posey\nSibongile Mlambo\nMolly Parker\nVancouver , British Columbia",
+  "task": "chat",
+  "hf_root": "/home/bachdx2/Personal_Lab_DngBack/air_data/data/hf"
+}

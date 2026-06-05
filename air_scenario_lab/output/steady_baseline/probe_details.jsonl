@@ -1,0 +1,2 @@
+{"request_id": "r-00014", "workload_type": "tool_agent", "evaluation_method": "f1_em", "reference_preview": "300", "completion_preview": "tok0 tok1 tok2 tok3 tok4 tok5 tok6 tok7", "scores": {"f1": 0.0, "em": 0.0}}
+{"request_id": "r-00019", "workload_type": "tool_agent", "evaluation_method": "f1_em", "reference_preview": "5", "completion_preview": "tok0 tok1 tok2 tok3 tok4 tok5 tok6 tok7", "scores": {"f1": 0.0, "em": 0.0}}

@@ -1,0 +1,15 @@
+{
+  "request_id": "r-00113",
+  "workload_type": "conversation",
+  "encoding": "utf-8+b64",
+  "hash_ids": [
+    9515099
+  ],
+  "prompt_b64": "d2hvIGNhc3RzIHRoZSBzcGVsbCBpbiBiZWF1dHkgYW5kIHRoZSBiZWFzdAp3aG8gdm9pY2VzIGJlYXN0IGluIGJlYXV0eSBhbmQgdGhlIGJlYXN0IDIwMTcKd2hvIGlzIGNoaXBzIHZvaWNlIGluIGJlYXV0eSBhbmQgdGhlIGJlYXN0CndobyBkb2VzIGV3YW4gbWNncmVnb3IgcGxheSBpbiBiZWF1dHkgYW5kIHRoZSBiZWFzdCAyMDE3CndobyBwbGF5ZWQgbWF1cmljZSBpbiBiZWF1dHkgYW5kIHRoZSBiZWFzdCAyMDE3",
+  "max_tokens": 143,
+  "input_length": 59,
+  "output_length": 143,
+  "reference_answer": "Hattie Morahan\nDan Stevens\nNathan Mack\nLumière\nKevin Kline",
+  "task": "chat",
+  "hf_root": "/home/bachdx2/Personal_Lab_DngBack/air_data/data/hf"
+}

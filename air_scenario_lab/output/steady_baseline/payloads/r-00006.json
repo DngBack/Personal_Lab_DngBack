@@ -1,0 +1,15 @@
+{
+  "request_id": "r-00006",
+  "workload_type": "conversation",
+  "encoding": "utf-8+b64",
+  "hash_ids": [
+    8299218
+  ],
+  "prompt_b64": "d2hlbiBkaWQgc2Vhc29uIDIgb2YgaGFuZG1haWQncyB0YWxlIHN0YXJ0CmhvdyBtYW55IGVwaXNvZGVzIGluIHNlYXNvbiAxIG9mIGhhbmRtYWRlcyB0YWxlCmhvdyBtYW55IGVwaXNvZGVzIG9mIHNlYXNvbiB0d28gb2YgdGhlIGhhbmRtYWlkcyB0YWxlIGFyZSB0aGVyZQp3aGF0IGlzIHRoZSBtb3N0IGN1cnJlbnQgZXBpc29kZSBvZiBoYW5kbWFpZHMgdGFsZQpoYW5kbWFpZCdzIHRhbGUgaG93IG1hbnkgZXBpc29kZXMgaW4gc2VyaWVzIDI=",
+  "max_tokens": 136,
+  "input_length": 63,
+  "output_length": 136,
+  "reference_answer": "April 25 , 2018\n10\n13\n`` The Word ''\n13",
+  "task": "chat",
+  "hf_root": "/home/bachdx2/Personal_Lab_DngBack/air_data/data/hf"
+}

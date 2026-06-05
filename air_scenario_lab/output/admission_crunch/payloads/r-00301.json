@@ -1,0 +1,15 @@
+{
+  "request_id": "r-00301",
+  "workload_type": "conversation",
+  "encoding": "utf-8+b64",
+  "hash_ids": [
+    4353060
+  ],
+  "prompt_b64": "d2hvIGRvZXMgdGhlIHZvaWNlIG9mIGplcmVteSBvbiBwaGluZWFzIGFuZCBmZXJiCndobyBkb2VzIGNhbmRhY2UgbGlrZSBpbiBwaGluZWFzIGFuZCBmZXJiCndoYXQgaXMgdGhlIGV2aWwgZ3V5J3MgbmFtZSBpbiBwaGluZWFzIGFuZCBmZXJiCndobyBwbGF5cyB0aGUgbW9tIG9uIHBoaW5lYXMgYW5kIGZlcmIKd2hvIGRvZXMgdGhlIHZvaWNlIG9mIHBoaW5lYXMgb24gcGhpbmVhcyBhbmQgZmVyYg==",
+  "max_tokens": 146,
+  "input_length": 56,
+  "output_length": 146,
+  "reference_answer": "Mitchel Musso\nJeremy Johnson\nDr. Heinz Doofenshmirtz\nCaroline Rhea\nVincent Martella",
+  "task": "chat",
+  "hf_root": "/home/bachdx2/Personal_Lab_DngBack/air_data/data/hf"
+}

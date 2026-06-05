@@ -1,0 +1,15 @@
+{
+  "request_id": "r-00378",
+  "workload_type": "conversation",
+  "encoding": "utf-8+b64",
+  "hash_ids": [
+    10053550
+  ],
+  "prompt_b64": "d2hlbiBkaWQgdGhlIGZpcnN0IGhhcnJ5IHBvdHRlciBtb3ZpZSBjb25lIG91dAp3aGF0IGFyZSB0aGUgbmFtZXMgb2YgdGhlIGhhcnJ5IHBvdHRlciBib29rcwp3aGVuIHdhcyB0aGUgZmlyc3QgaGFycnkgcG90dGVyIGJvb2sgcmVsZWFzZWQgaW4gdWsKd2hlbiBkaWQgYWxsIHRoZSBmaXJzdCBoYXJyeSBwb3R0ZXIgYm9vayBjb21lIG91dApXaGF0IGlzIHRoZSBtYWluIHN0b3J5IGFyYyBvZiB0aGUgSGFycnkgUG90dGVyIHNlcmllcz8=",
+  "max_tokens": 169,
+  "input_length": 62,
+  "output_length": 169,
+  "reference_answer": "14 November 2001\nHarry Potter and the Philosopher's Stone \nHarry Potter and the Chamber of Secrets\nHarry Potter and the Prisoner of Azkaban\nHarry Potter and the Goblet of Fire\nHarry Potter and the Order of the Phoenix\nHarry Potter and the Half-Blood Prince\nHarry Potter and the Deathly Hallows\n26 June 1997\nThe Philosopher 's Stone ( 1997 )\nThe main story arc of the Harry Potter series concerns Harry Potter's struggle against Lord Voldemort, a dark wizard.",
+  "task": "chat",
+  "hf_root": "/home/bachdx2/Personal_Lab_DngBack/air_data/data/hf"
+}

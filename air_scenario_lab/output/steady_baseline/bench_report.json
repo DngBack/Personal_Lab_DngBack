@@ -1,0 +1,198 @@
+{
+  "phase": "phase2",
+  "scenario": "steady_baseline",
+  "wall_time_s": 0.1,
+  "slo_ttft_ms": 10000,
+  "slo_tbt_ms": 200,
+  "erc": {
+    "n_total": 7,
+    "n_effective": 7,
+    "erc": 1.0,
+    "erc_percent": 100.0,
+    "by_workload": {
+      "conversation": {
+        "n": 1,
+        "n_effective": 1,
+        "erc": 1.0
+      },
+      "tool_agent": {
+        "n": 6,
+        "n_effective": 6,
+        "erc": 1.0
+      }
+    }
+  },
+  "latency": {
+    "ttft_ms": {
+      "count": 7,
+      "min": 50.0,
+      "p50": 50.0,
+      "p90": 50.0,
+      "p95": 50.0,
+      "max": 50.0
+    },
+    "tbt_ms": {
+      "count": 7,
+      "min": 30.0,
+      "p50": 30.0,
+      "p90": 30.0,
+      "p95": 30.0,
+      "max": 30.0
+    },
+    "slo_fail_ttft": 0,
+    "slo_fail_tbt": 0
+  },
+  "accuracy": {
+    "accuracy_drop": 0.831,
+    "baseline_mean": 0.831,
+    "submission_mean": 0.0,
+    "n_probes": 2,
+    "pass_gate": false
+  },
+  "score": {
+    "erc": 1.0,
+    "accuracy_drop": 0.831,
+    "f_delta": 0.0,
+    "score": 0.0
+  },
+  "errors": [],
+  "debug": {
+    "requests": {
+      "n_total": 10,
+      "n_warmup": 3,
+      "n_scored": 7,
+      "n_errors": 0,
+      "throughput_rps": 97.63
+    },
+    "by_workload": {
+      "conversation": {
+        "n_total": 1,
+        "n_warmup": 0,
+        "n_scored": 1,
+        "n_effective": 1,
+        "erc_percent": 100.0,
+        "input_length": {
+          "count": 1,
+          "min": 63,
+          "p50": 63.0,
+          "p95": 63.0,
+          "max": 63,
+          "mean": 63.0
+        },
+        "output_tokens": {
+          "count": 1,
+          "min": 8,
+          "p50": 8.0,
+          "p95": 8.0,
+          "max": 8,
+          "mean": 8.0
+        },
+        "ttft_ms": {
+          "count": 1,
+          "min": 50.0,
+          "p50": 50.0,
+          "p90": 50.0,
+          "p95": 50.0,
+          "max": 50.0
+        },
+        "tbt_ms": {
+          "count": 1,
+          "min": 30.0,
+          "p50": 30.0,
+          "p90": 30.0,
+          "p95": 30.0,
+          "max": 30.0
+        },
+        "slo_fail_ttft": 0,
+        "slo_fail_tbt": 0,
+        "errors": 0,
+        "zero_output": 0
+      },
+      "tool_agent": {
+        "n_total": 9,
+        "n_warmup": 3,
+        "n_scored": 6,
+        "n_effective": 6,
+        "erc_percent": 100.0,
+        "input_length": {
+          "count": 9,
+          "min": 4241,
+          "p50": 4252.0,
+          "p95": 4304.6,
+          "max": 4307,
+          "mean": 4266.1
+        },
+        "output_tokens": {
+          "count": 6,
+          "min": 8,
+          "p50": 8.0,
+          "p95": 8.0,
+          "max": 8,
+          "mean": 8.0
+        },
+        "ttft_ms": {
+          "count": 6,
+          "min": 50.0,
+          "p50": 50.0,
+          "p90": 50.0,
+          "p95": 50.0,
+          "max": 50.0
+        },
+        "tbt_ms": {
+          "count": 6,
+          "min": 30.0,
+          "p50": 30.0,
+          "p90": 30.0,
+          "p95": 30.0,
+          "max": 30.0
+        },
+        "slo_fail_ttft": 0,
+        "slo_fail_tbt": 0,
+        "errors": 0,
+        "zero_output": 0
+      }
+    },
+    "probes": {
+      "n_total": 2,
+      "by_workload": {
+        "tool_agent": {
+          "n": 2,
+          "f1_mean": 0.0,
+          "em_mean": 0.0
+        }
+      },
+      "worst_5": [
+        {
+          "request_id": "r-00014",
+          "workload_type": "tool_agent",
+          "evaluation_method": "f1_em",
+          "reference_preview": "300",
+          "completion_preview": "tok0 tok1 tok2 tok3 tok4 tok5 tok6 tok7",
+          "scores": {
+            "f1": 0.0,
+            "em": 0.0
+          }
+        },
+        {
+          "request_id": "r-00019",
+          "workload_type": "tool_agent",
+          "evaluation_method": "f1_em",
+          "reference_preview": "5",
+          "completion_preview": "tok0 tok1 tok2 tok3 tok4 tok5 tok6 tok7",
+          "scores": {
+            "f1": 0.0,
+            "em": 0.0
+          }
+        }
+      ]
+    },
+    "score_explanation": {
+      "formula": "Score = 100 * ERC * f(accuracy_drop)",
+      "erc": 1.0,
+      "f_delta": 0.0,
+      "accuracy_drop": 0.831,
+      "accuracy_gate_pass": false,
+      "reason": "accuracy_gate_fail: drop 83.10% >= 2%"
+    }
+  }
+}

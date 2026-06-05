@@ -1,0 +1,15 @@
+{
+  "request_id": "r-00096",
+  "workload_type": "conversation",
+  "encoding": "utf-8+b64",
+  "hash_ids": [
+    4565545
+  ],
+  "prompt_b64": "UXVlc3Rpb246IEphbWVzIGRlY2lkZXMgdG8gcnVuIDMgc3ByaW50cyAzIHRpbWVzIGEgd2Vlay4gIEhlIHJ1bnMgNjAgbWV0ZXJzIGVhY2ggc3ByaW50LiAgSG93IG1hbnkgdG90YWwgbWV0ZXJzIGRvZXMgaGUgcnVuIGEgd2Vlaz8KTGV0J3MgdGhpbmsgc3RlcCBieSBzdGVw",
+  "max_tokens": 688,
+  "input_length": 39,
+  "output_length": 688,
+  "reference_answer": "540",
+  "task": "chat",
+  "hf_root": "/home/bachdx2/Personal_Lab_DngBack/air_data/data/hf"
+}

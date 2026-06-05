@@ -1,0 +1,15 @@
+{
+  "request_id": "r-00141",
+  "workload_type": "conversation",
+  "encoding": "utf-8+b64",
+  "hash_ids": [
+    1591520
+  ],
+  "prompt_b64": "d2hhdCBpcyB0aGUgYmFzZSBvZiB0aGUgc3RhdHVlIG9mIGxpYmVydHkgbWFkZSBvZgp3aGVuIGRpZCB0aGUgZnJlbmNoIGdhdmUgdGhlIHN0YXR1ZSBvZiBsaWJlcnR5IHRvIHRoZSB1bml0ZWQgc3RhdGVzCndoZW4gZGlkIHN0YXR1ZSBvZiBsaWJlcnR5IGJlY2FtZSBhIG5hdGlvbmFsIG1vbnVtZW50CndoZW4gd2FzIHRoZSBzdGF0dWUgb2YgbGliZXJ0eSBkZWxpdmVyZWQgdG8gdGhlIHVuaXRlZCBzdGF0ZXMKd2hlcmUgaXMgdGhlIHN0YXR1ZSBvZiBsaWJlcnR5IGxvY2F0ZWQgb24gYSBtYXAKd2hvIGdpZnRlZCB0aGUgc3RhdHVlIG9mIGxpYmVydHkgdG8gdXNhCndoZW4gZGlkIG5ldyB5b3JrIGdldCB0aGUgc3RhdHVlIG9mIGxpYmVydHk=",
+  "max_tokens": 217,
+  "input_length": 91,
+  "output_length": 217,
+  "reference_answer": "poured concrete walls , up to 20 feet ( 6.1 m ) thick , faced with granite blocks\nJune 17 , 1885\n1924\nOn June 17 , 1885\non Liberty Island in New York Harbor in New York City , in the United States\nthe people of France\nOctober 28 , 1886",
+  "task": "chat",
+  "hf_root": "/home/bachdx2/Personal_Lab_DngBack/air_data/data/hf"
+}

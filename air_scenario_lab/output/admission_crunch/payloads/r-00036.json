@@ -1,0 +1,15 @@
+{
+  "request_id": "r-00036",
+  "workload_type": "conversation",
+  "encoding": "utf-8+b64",
+  "hash_ids": [
+    5424430
+  ],
+  "prompt_b64": "d2hvIGhpdCB0aGUgbW9zdCAzIHBvaW50ZXJzIGluIGEgbmJhIGdhbWUKd2hvIGhhcyB0aGUgbW9zdCB0aHJlZSBwb2ludGVycyBpbiBvbmUgZ2FtZQp3aG8gaGFzIG1hZGUgdGhlIG1vc3Qgc2hvdHMgaW4gdGhlIG5iYQp3aGF0IGlzIHRoZSByZWNvcmQgZm9yIHRoZSBtb3N0IDMgcG9pbnRlcnMgaW4gb25lIGdhbWUKd2hhdCBhcmUgdGhlIG1vc3QgcG9pbnRzIHNjb3JlZCBpbiBhbiBuYmEgcXVhcnRlcg==",
+  "max_tokens": 138,
+  "input_length": 57,
+  "output_length": 138,
+  "reference_answer": "13\nStephen Curry\nKareem Abdul - Jabbar\nStephen Curry\n58",
+  "task": "chat",
+  "hf_root": "/home/bachdx2/Personal_Lab_DngBack/air_data/data/hf"
+}

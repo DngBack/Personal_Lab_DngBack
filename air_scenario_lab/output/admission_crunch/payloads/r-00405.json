@@ -1,0 +1,15 @@
+{
+  "request_id": "r-00405",
+  "workload_type": "conversation",
+  "encoding": "utf-8+b64",
+  "hash_ids": [
+    8339615
+  ],
+  "prompt_b64": "d2hlcmUgZGlkIHRoZSBmcmVuY2ggYW5kIGluZGlhbiB3YXIgc3RhcnQKd2hpY2ggc3RhdGUgZGlkIGdyZWF0IGJyaXRhaW4gdGFrZSBjb250cm9sIG9mIGZyb20gc3BhaW4gYXQgdGhlIGVuZCBvZiB0aGUgZnJlbmNoIGFuZCBpbmRpYW4gd2FyCndobyB3b24gdGhlIHdhciBiZXR3ZWVuIHRoZSBmcmVuY2ggYW5kIGluZGlhbgp3aGVyZSB3YXMgdGhlIGZyZW5jaCBhbmQgaW5kaWFuIHdhciBtYWlubHkgZm91Z2h0CndobyBsZWZ0IG5vcnRoIGFtZXJpY2EgYWZ0ZXIgdGhlIGZyZW5jaCBhbmQgaW5kaWFuIHdhcg==",
+  "max_tokens": 211,
+  "input_length": 72,
+  "output_length": 211,
+  "reference_answer": "Pennsylvania\nFlorida\nGreat Britain\nalong the frontiers between New France and the British colonies , from Virginia in the south to Newfoundland in the north\nFrance",
+  "task": "chat",
+  "hf_root": "/home/bachdx2/Personal_Lab_DngBack/air_data/data/hf"
+}

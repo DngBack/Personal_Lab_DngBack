@@ -1,0 +1,15 @@
+{
+  "request_id": "r-00114",
+  "workload_type": "conversation",
+  "encoding": "utf-8+b64",
+  "hash_ids": [
+    8943629
+  ],
+  "prompt_b64": "bmFtZSBvZiB0aGUgc2NpZW50aXN0IGluIGJhY2sgdG8gdGhlIGZ1dHVyZQp3aG8gcGxheXMgamVubmlmZXIgaW4gYmFjayB0byB0aGUgZnV0dXJlIDEKd2hvIHBsYXlzIGxvcnJhaW5lIGluIGJhY2sgdG8gdGhlIGZ1dHVyZQp3aG8gcGxheWVkIG1hcnR5J3Mgc2lzdGVyIGluIGJhY2sgdG8gdGhlIGZ1dHVyZQ==",
+  "max_tokens": 169,
+  "input_length": 44,
+  "output_length": 169,
+  "reference_answer": "Doctor Emmett Lathrop `` Doc '' Brown\nClaudia Wells\nLea Thompson\nWendie Jo Sperber",
+  "task": "chat",
+  "hf_root": "/home/bachdx2/Personal_Lab_DngBack/air_data/data/hf"
+}

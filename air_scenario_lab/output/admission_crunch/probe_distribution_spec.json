@@ -1,0 +1,10 @@
+{
+  "phase": "phase2",
+  "probe_slot_ratio": 0.08,
+  "total_probe_slots": 36,
+  "by_workload": {
+    "tool_agent": 27,
+    "long_context": 9
+  },
+  "note": "LLM Inference Optimization Challenge V2 — Section 6–7"
+}

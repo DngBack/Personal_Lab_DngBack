@@ -1,0 +1,15 @@
+{
+  "request_id": "r-00391",
+  "workload_type": "conversation",
+  "encoding": "utf-8+b64",
+  "hash_ids": [
+    12770815
+  ],
+  "prompt_b64": "d2hhdCBzZWFzb24gb2YgdGhlIGdhbWUgb2YgdGhyb25lcyBpcyBpdAp3aGVuIGlzIGdvdCBzZWFzb24gNyBlcGlzb2RlIDQgY29taW5nIG91dApob3cgbWFueSBlcGlzb2RlcyBmb3IgZ2FtZXMgb2YgdGhyb25lcyBzZWFzb24gNwp3aGVuIGlzIHRoZSBsYXN0IGdhbWUgb2YgdGhyb25lcyAyMDE3CndoZW4gZG9lcyBzZWFzb24gNyBvZiBnYW1lIG9mIHRocm9uZXMgY29tZSBvdXQ=",
+  "max_tokens": 193,
+  "input_length": 54,
+  "output_length": 193,
+  "reference_answer": "seventh season\nAugust 6 , 2017\nseven\nAugust 27 , 2017\nJuly 16 , 2017",
+  "task": "chat",
+  "hf_root": "/home/bachdx2/Personal_Lab_DngBack/air_data/data/hf"
+}

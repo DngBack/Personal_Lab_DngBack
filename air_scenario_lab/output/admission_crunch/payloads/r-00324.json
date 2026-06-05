@@ -1,0 +1,15 @@
+{
+  "request_id": "r-00324",
+  "workload_type": "conversation",
+  "encoding": "utf-8+b64",
+  "hash_ids": [
+    8077807
+  ],
+  "prompt_b64": "YWZ0ZXIgY29tcGxldGUgb3hpZGF0aW9uIG9mIGEgZ2x1Y29zZSBtb2xlY3VsZSBob3cgbWFueSBudW1iZXIgb2YgYXRwIG1vbGVjdWxlcyBhcmUgZm9ybWVkCndoYXQgaXMgdGhlIGZpbmFsIGVsZWN0cm9uIGFjY2VwdG9yIGluIHRoZSBlbGVjdHJvbiB0cmFuc3BvcnQgY2hhaW4gb2YgY2VsbHVsYXIgcmVzcGlyYXRpb24Kd2hpY2ggcHJvY2VzcyBwcm9kdWNlcyB0aGUgbW9zdCBhdHAgbW9sZWN1bGVzIGluIGFlcm9iaWMgY2VsbHVsYXIgcmVzcGlyYXRpb24KdGhlIHB1cnBvc2Ugb2YgY2VsbHVsYXIgcmVzcGlyYXRpb24gaXMgdG8gZW5hYmxlIGNlbGxzIHRvIGNyZWF0ZSBhbmQgdXNlIHdoYXQKd2hhdCBpcyB0aGUgbmV0IHlpZWxkIG9mIGF0cCBmcm9tIGdseWNvbHlzaXMgb2Ygb25lIGdsdWNvc2UgbW9sZWN1bGU=",
+  "max_tokens": 229,
+  "input_length": 102,
+  "output_length": 229,
+  "reference_answer": "2 molecules ATP\nother inorganic molecules\noxidative phosphorylation\nbiochemical energy\ntwo net molecules of ATP",
+  "task": "chat",
+  "hf_root": "/home/bachdx2/Personal_Lab_DngBack/air_data/data/hf"
+}

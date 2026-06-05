@@ -1,0 +1,15 @@
+{
+  "request_id": "r-00158",
+  "workload_type": "conversation",
+  "encoding": "utf-8+b64",
+  "hash_ids": [
+    2008170
+  ],
+  "prompt_b64": "d2hvIGRvZXMgdGhlIGNhbmFkaWFuIGNoYXJ0ZXIgb2YgcmlnaHRzIGFwcGx5IHRvCndobyBoYXMgZmluYWwgYXV0aG9yaXR5IG9mIGludGVycHJldGF0aW9uIG9mIHRoZSBjYW5hZGlhbiBjaGFydGVyIG9mIHJpZ2h0cyBhbmQgZnJlZWRvbXMKd2hlbiB3YXMgdGhlIGNoYXJ0ZXIgb2YgcmlnaHRzIGFuZCBmcmVlZG9tcyBzaWduZWQKd2hlbiB3YXMgdGhlIGNhbmFkaWFuIGNoYXJ0ZXIgb2YgcmlnaHRzIGFuZCBmcmVlZG9tcyB3cml0dGVuCndoZW4gd2FzIHRoZSBjaGFydGVyIG9mIHJpZ2h0cyBhbmQgZnJlZWRvbXMgZXN0YWJsaXNoZWQgaW4gY2FuYWRh",
+  "max_tokens": 219,
+  "input_length": 79,
+  "output_length": 219,
+  "reference_answer": "political rights to Canadian citizens and civil rights of everyone in Canada\nthe Supreme Court of Canada\nApril 17 , 1982\n1982\nApril 17 , 1982",
+  "task": "chat",
+  "hf_root": "/home/bachdx2/Personal_Lab_DngBack/air_data/data/hf"
+}

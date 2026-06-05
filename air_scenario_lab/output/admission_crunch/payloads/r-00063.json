@@ -1,0 +1,15 @@
+{
+  "request_id": "r-00063",
+  "workload_type": "conversation",
+  "encoding": "utf-8+b64",
+  "hash_ids": [
+    11149889
+  ],
+  "prompt_b64": "UXVlc3Rpb246IEkgaGF2ZSAxMCBsaXRlcnMgb2Ygb3JhbmdlIGRyaW5rIHRoYXQgYXJlIHR3by10aGlyZHMgd2F0ZXIgYW5kIEkgd2lzaCB0byBhZGQgaXQgdG8gMTUgbGl0ZXJzIG9mIHBpbmVhcHBsZSBkcmluayB0aGF0IGlzIHRocmVlLWZpZnRocyB3YXRlci4gQnV0IGFzIEkgcG91ciBpdCwgSSBzcGlsbCBvbmUgbGl0ZXIgb2YgdGhlIG9yYW5nZSBkcmluay4gSG93IG11Y2ggd2F0ZXIgaXMgaW4gdGhlIHJlbWFpbmluZyAyNCBsaXRlcnM/CkxldCdzIHRoaW5rIHN0ZXAgYnkgc3RlcA==",
+  "max_tokens": 150,
+  "input_length": 69,
+  "output_length": 150,
+  "reference_answer": "15",
+  "task": "chat",
+  "hf_root": "/home/bachdx2/Personal_Lab_DngBack/air_data/data/hf"
+}

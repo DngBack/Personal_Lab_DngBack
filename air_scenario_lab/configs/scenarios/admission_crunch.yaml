@@ -1,0 +1,20 @@
+name: admission_crunch
+phase: phase2
+total_requests: 500
+mix:
+  conversation: 0.31
+  tool_agent: 0.59
+  long_context: 0.10
+arrival: steady_poisson
+arrival_params:
+  mean_ms: 16
+cache_mode: hot
+warmup_ratio: 0.10
+probe_slot_ratio: 0.08
+length_profile: realistic
+slo_ttft_ms: 10000
+slo_tbt_ms: 200
+seed: 42
+description: >
+  P2 mix + fast queue (16ms mean) + shared LEval gsm100 prefix.
+  Stresses ERC via concurrent long prefill and queue overlap.

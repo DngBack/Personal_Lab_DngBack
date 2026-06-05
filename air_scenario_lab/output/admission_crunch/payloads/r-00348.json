@@ -1,0 +1,15 @@
+{
+  "request_id": "r-00348",
+  "workload_type": "conversation",
+  "encoding": "utf-8+b64",
+  "hash_ids": [
+    16293545
+  ],
+  "prompt_b64": "d2hlbiBpcyBzY291dCBpbnRyb2R1Y2VkIGluIHRvIGtpbGwgYSBtb2NraW5nYmlyZAp3aG8gaXMgc2NvdXRzIGZhdGhlciBpbiB0byBraWxsIGEgbW9ja2luZ2JpcmQKd2hvIGlzIHRoZSBwZXJzb24gd2hvIGhlbHBzIHRvIHRha2UgY2FyZSBvZiBqZW0gYW5kIHNjb3V0CndobyBpcyBtcnMgZmFycm93IGluIHRvIGtpbGwgYSBtb2NraW5nYmlyZAp3aGVyZSBkb2VzIGRpbGwgbGl2ZSBpbiB0byBraWxsIGEgbW9ja2luZ2JpcmQ=",
+  "max_tokens": 295,
+  "input_length": 60,
+  "output_length": 295,
+  "reference_answer": "At the beginning of the book\nGregory Peck\nCalpurnia\na lady in the missionary society who visits the Finch house occasionally\nMeridian , Mississippi ",
+  "task": "chat",
+  "hf_root": "/home/bachdx2/Personal_Lab_DngBack/air_data/data/hf"
+}

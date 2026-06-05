@@ -1,0 +1,15 @@
+{
+  "request_id": "r-00491",
+  "workload_type": "conversation",
+  "encoding": "utf-8+b64",
+  "hash_ids": [
+    11933103
+  ],
+  "prompt_b64": "d2hvIHBsYXlzIGxlbW9ueSBzbmlja2V0IGluIGEgc2VyaWVzIG9mIHVuZm9ydHVuYXRlIGV2ZW50cyBuZXRmbGl4CndobyBwbGF5cyBjaGFybGVzIGEgc2VyaWVzIG9mIHVuZm9ydHVuYXRlIGV2ZW50cwp3aG8gcGxheXMgbGFycnkgaW4gc2VyaWVzIG9mIHVuZm9ydHVuYXRlIGV2ZW50cwp3aGVuIGRvZXMgczIgb2YgYSBzZXJpZXMgb2YgdW5mb3J0dW5hdGUgZXZlbnRzIGNvbWUgb3V0CndobyBwbGF5cyBjb3VudCBvbGFmIGluIHNlcmllcyBvZiB1bmZvcnR1bmF0ZSBldmVudHM=",
+  "max_tokens": 136,
+  "input_length": 68,
+  "output_length": 136,
+  "reference_answer": "Patrick Warburton\nRhys Darby\nPatrick Breen\nMarch 30 , 2018\nNeil Patrick Harris",
+  "task": "chat",
+  "hf_root": "/home/bachdx2/Personal_Lab_DngBack/air_data/data/hf"
+}

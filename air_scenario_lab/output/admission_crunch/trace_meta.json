@@ -1,0 +1,55 @@
+{
+  "suite": "admission_crunch",
+  "phase": "phase2",
+  "scenario_spec": {
+    "mix": {
+      "conversation": 0.31,
+      "tool_agent": 0.59,
+      "long_context": 0.1
+    },
+    "arrival": "steady_poisson",
+    "arrival_params": {
+      "mean_ms": 16
+    },
+    "output_bias": "default",
+    "cache_mode": "hot",
+    "description": "P2 mix + fast queue (16ms mean) + shared LEval gsm100 prefix. Stresses ERC via concurrent long prefill and queue overlap.\n"
+  },
+  "total_requests": 500,
+  "workload_counts": {
+    "conversation": 155,
+    "tool_agent": 295,
+    "long_context": 50
+  },
+  "warmup_requests": 50,
+  "warmup_ratio": 0.1,
+  "scored_requests": 450,
+  "probe_slots": 36,
+  "hf_data_used": true,
+  "length_profile": "realistic",
+  "max_context_tokens": 32768,
+  "arrival_analysis": {
+    "n_requests": 500,
+    "trace_span_ms": 8450,
+    "gap_ms": {
+      "min": 0,
+      "mean": 16.93,
+      "p50": 30.0,
+      "p95": 50.0
+    },
+    "concurrent_starts": {
+      "max_at_one_timestamp": 8,
+      "n_unique_timestamps": 252,
+      "pct_batched": 49.6
+    }
+  },
+  "prefix_cache": {
+    "sessions": 47,
+    "sessions_with_2plus_requests": 47,
+    "sample_shared_hash_blocks_first_pair": 376,
+    "note": "gsm100 shared input prefix; vLLM caches real token prefix."
+  },
+  "contest_ref": "LLM Inference Optimization Challenge V2 — Section 6–7",
+  "slo_ttft_ms": 10000,
+  "slo_tbt_ms": 200
+}

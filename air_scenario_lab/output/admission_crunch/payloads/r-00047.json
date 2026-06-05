@@ -1,0 +1,15 @@
+{
+  "request_id": "r-00047",
+  "workload_type": "conversation",
+  "encoding": "utf-8+b64",
+  "hash_ids": [
+    13176778
+  ],
+  "prompt_b64": "d2hhdCBoYXBwZW5zIHRvIGRyIHNoZXBoZXJkIG9uIGdyZXkncwp3aGVuIGRvIGRlcmVrIGFuZCBtZXJlZGl0aCBnZXQgYSBraWQKd2hlbiBkaWQgZGVyZWsgc2hlcGhlcmQgbGVhdmUgZ3JleSdzIGFuYXRvbXkKd2hlbiBkbyBtZXJlZGl0aCBhbmQgZGVyZWsgb2ZmaWNpYWxseSBiZWNhbWUgYSBjb3VwbGU=",
+  "max_tokens": 218,
+  "input_length": 43,
+  "output_length": 218,
+  "reference_answer": "a fatal car accident\nseason seven\n2015\nseason seven",
+  "task": "chat",
+  "hf_root": "/home/bachdx2/Personal_Lab_DngBack/air_data/data/hf"
+}

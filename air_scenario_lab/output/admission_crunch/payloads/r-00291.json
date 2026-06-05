@@ -1,0 +1,15 @@
+{
+  "request_id": "r-00291",
+  "workload_type": "conversation",
+  "encoding": "utf-8+b64",
+  "hash_ids": [
+    5685472
+  ],
+  "prompt_b64": "d2hlbiB3YXMgdGhlIGxhc3QgdGltZSBlbmdsYW5kIG1hZGUgaXQgdG8gYSB3b3JsZCBjdXAgc2VtaSBmaW5hbAp3aGVuIGRpZCBlbmdsYW5kIG1ha2UgaXQgdG8gdGhlIHdvcmxkIGN1cCBmaW5hbApsYXN0IHRpbWUgZW5nbGFuZCBtYWRlIHRoZSB3b3JsZCBjdXAgcXVhcnRlciBmaW5hbHMKd2hlbiB3YXMgdGhlIGxhc3QgdGltZSBlbmdsYW5kIGdvdCB0aHJvdWdoIHRvIHRoZSBxdWFydGVyZmluYWxzCndoZW4gd2FzIHRoZSBsYXN0IHRpbWUgZW5nbGFuZCBnb3QgdGhpcyBmYXIgaW4gdGhlIHdvcmxkIGN1cAp3aGVuIGRpZCBlbmdsYW5kIGdldCB0byB0aGUgZmluYWwgb2Ygd29ybGQgY3VwCndoZW4gd2FzIGxhc3QgdGltZSBlbmdsYW5kIHJlYWNoZWQgdGhlIGZpbmFsCndoZW4gd2FzIHRoZSBsYXN0IHRpbWUgZW5nbGFuZCBnb3QgdG8gc2VtaWZpbmFscwp3aGVuIHdhcyB0aGUgbGFzdCB0aW1lIGVuZ2xhbmQgcGxheWVkIHNlbWkgZmluYWxzIHdvcmxkIGN1cAp3aGVuIHdhcyB0aGUgbGFzdCB0aW1lIGVuZ2xhbmQgcGxheWVkIHdvcmxkIGN1cCBmaW5hbA==",
+  "max_tokens": 194,
+  "input_length": 136,
+  "output_length": 194,
+  "reference_answer": "1990\n1966\n2018\n2006\n1990\n1966\n1966\n2018\n2018\n1966",
+  "task": "chat",
+  "hf_root": "/home/bachdx2/Personal_Lab_DngBack/air_data/data/hf"
+}

@@ -1,0 +1,15 @@
+{
+  "request_id": "r-00237",
+  "workload_type": "conversation",
+  "encoding": "utf-8+b64",
+  "hash_ids": [
+    1829597
+  ],
+  "prompt_b64": "d2hvIHBsYXllZCB0aGUgbW90aGVyIG9uIHRoZSBjb3NieSBzaG93CndobyBwbGF5ZWQgZGVuaXNlIGh1c2JhbmQgb24gdGhlIGNvc2J5IHNob3cKdGhlIGNvc2J5IHNob3cgc29uZHJhIGFuZCBlbHZpbiBnZXQgbWFycmllZAp3aG8gcGxheWVkIGJpbGwgY29zYnkncyBzb24gb24gdGhlIGNvc2J5IHNob3c=",
+  "max_tokens": 208,
+  "input_length": 43,
+  "output_length": 208,
+  "reference_answer": "Phylicia Rashād\nJoseph C. Phillips\nseason four\nMalcolm - Jamal Warner",
+  "task": "chat",
+  "hf_root": "/home/bachdx2/Personal_Lab_DngBack/air_data/data/hf"
+}
