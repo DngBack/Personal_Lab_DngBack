@@ -22,11 +22,29 @@ fi
 mkdir -p "$LOG_DIR"
 export CUDA_VISIBLE_DEVICES="${GPUS}"
 
+# Container/dev: FlashInfer JIT cần curand.h + nvcc đầy đủ. Tắt sampler mặc định.
+# Bật lại: VLLM_USE_FLASHINFER_SAMPLER=1 ./scripts/start_vllm.sh
+export VLLM_USE_FLASHINFER_SAMPLER="${VLLM_USE_FLASHINFER_SAMPLER:-0}"
+
+if [[ -n "${CONDA_PREFIX:-}" ]]; then
+  export CUDA_HOME="${CUDA_HOME:-$CONDA_PREFIX}"
+  export PATH="$CONDA_PREFIX/bin:$PATH"
+fi
+
+# Tránh torch.compile khi thiếu gcc/nvcc đầy đủ. Tắt: VLLM_ENFORCE_EAGER=0
+ENFORCE_EAGER="${VLLM_ENFORCE_EAGER:-1}"
+EXTRA_ARGS=()
+if [[ "${ENFORCE_EAGER}" == "1" ]]; then
+  EXTRA_ARGS+=(--enforce-eager)
+fi
+
 {
   echo "=== vLLM start $(date -Iseconds) ==="
   echo "Model: ${MODEL}"
   echo "max-model-len: ${MAX_MODEL_LEN}"
   echo "GPU(s): ${CUDA_VISIBLE_DEVICES}  TP=${TP}  mem_util=${GPU_UTIL}  port=${PORT}"
+  echo "FlashInfer sampler: ${VLLM_USE_FLASHINFER_SAMPLER}  enforce_eager: ${ENFORCE_EAGER}"
+  echo "CUDA_HOME: ${CUDA_HOME:-unset}"
   echo "Log file: ${LOG_FILE}"
   echo "==================================="
 } | tee "$LOG_FILE"
@@ -40,4 +58,5 @@ vllm serve "${MODEL}" \
   --port "${PORT}" \
   --max-model-len "${MAX_MODEL_LEN}" \
   --dtype auto \
+  "${EXTRA_ARGS[@]}" \
   2>&1 | tee -a "$LOG_FILE"
