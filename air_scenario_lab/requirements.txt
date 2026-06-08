@@ -1,6 +1,7 @@
 httpx>=0.27.0
 pyyaml>=6.0
 pandas
-datasets==3.5.1
+datasets==4.4.1
 huggingface_hub==0.34.4
+transformers==4.57.1
 charset-normalizer>=3.0
