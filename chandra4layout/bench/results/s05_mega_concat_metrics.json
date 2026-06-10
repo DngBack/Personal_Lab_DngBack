@@ -1,0 +1,36 @@
+{
+  "summary": {
+    "scenario_id": "s05_mega_concat",
+    "title": "Mega prompt – gộp 8 trang blocks",
+    "n_requests": 1,
+    "ok_count": 1,
+    "wall_time_s": 19.672,
+    "latency_s": {
+      "mean": 19.661,
+      "p50": 19.661,
+      "max": 19.661
+    },
+    "prompt_tokens": {
+      "mean": 22306,
+      "max": 22306
+    },
+    "completion_tokens": {
+      "mean": 1618
+    }
+  },
+  "requests": [
+    {
+      "scenario_id": "s05_mega_concat",
+      "request_idx": 0,
+      "page": "all_8",
+      "ok": true,
+      "latency_s": 19.66090484894812,
+      "prompt_tokens": 22306,
+      "completion_tokens": 1618,
+      "total_tokens": 23924,
+      "n_schema_hit": 34,
+      "n_schema_total": 41,
+      "error": ""
+    }
+  ]
+}

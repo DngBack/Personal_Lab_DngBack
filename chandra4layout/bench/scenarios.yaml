@@ -1,0 +1,61 @@
+# Kịch bản benchmark extraction (schema_align LLM) qua vLLM.
+# Dữ liệu: 8 ảnh/PDF GIAY_GUI_TIEN_TIET_KIEM + prompt lớn (blocks JSON + fewshots).
+
+model: Qwen/Qwen2.5-3B-Instruct
+max_new_tokens: 4096
+temperature: 0.0
+
+scenarios:
+  - id: s01_single_baseline
+    title: "1 trang – prompt schema_align chuẩn"
+    description: "Baseline: test_7 blocks, system + fewshots + schema_fields."
+    mode: single
+    pages: [test_7]
+    large_prompt: false
+    concurrency: 1
+    arrival: sequential
+
+  - id: s02_single_large_prompt
+    title: "1 trang – prompt lớn (Chandra HTML đầy đủ)"
+    description: "User message chứa toàn bộ raw HTML Chandra (~3k chars) thay vì blocks compact."
+    mode: single_html
+    pages: [test_7]
+    large_prompt: true
+    concurrency: 1
+    arrival: sequential
+
+  - id: s03_eight_serial
+    title: "8 trang – tuần tự"
+    description: "8 request lần lượt, mỗi trang một bộ blocks (mô phỏng batch extraction)."
+    mode: single
+    pages: all
+    large_prompt: false
+    concurrency: 1
+    arrival: sequential
+
+  - id: s04_eight_parallel
+    title: "8 trang – song song"
+    description: "8 request đồng thời (stress continuous batching / queue)."
+    mode: single
+    pages: all
+    large_prompt: false
+    concurrency: 8
+    arrival: burst
+
+  - id: s05_mega_concat
+    title: "Mega prompt – gộp 8 trang blocks"
+    description: "Một request duy nhất: concat blocks của cả 8 trang → prefill rất dài."
+    mode: mega_concat
+    pages: all
+    large_prompt: false
+    concurrency: 1
+    arrival: sequential
+
+  - id: s06_prefix_cache_hot
+    title: "8 trang – shared prefix (prefix cache)"
+    description: "8 request burst; system+fewshots+schema giống nhau, chỉ đổi blocks → test prefix KV."
+    mode: single
+    pages: all
+    large_prompt: false
+    concurrency: 8
+    arrival: burst_same_prefix

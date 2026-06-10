@@ -1,0 +1,83 @@
+{
+  "tag": "round2_optimized",
+  "vllm_profile": "optimized",
+  "scenarios_file": "/home/bachdx2/Personal_Lab_DngBack/chandra4layout/bench/scenarios_round2_optimized.yaml",
+  "base_url": "http://localhost:8000",
+  "model": "Qwen/Qwen2.5-3B-Instruct",
+  "max_new_tokens": 8192,
+  "n_schema_fields": 41,
+  "scenarios": [
+    {
+      "scenario_id": "opt_ccu4_parallel",
+      "title": "Optimized vLLM CCU=4",
+      "technique": "vllm_max_num_seqs_4",
+      "concurrency": 4,
+      "n_requests": 8,
+      "ok_count": 8,
+      "ok_rate": 1.0,
+      "wall_time_s": 37.01,
+      "throughput_docs_per_s": 0.2162,
+      "latency_per_doc_amortized_s": 4.626,
+      "latency_s": {
+        "mean": 17.1,
+        "p50": 17.394,
+        "max": 18.842
+      },
+      "prompt_tokens": {
+        "mean": 4127,
+        "max": 4248
+      },
+      "completion_tokens": {
+        "mean": 1559.4
+      }
+    },
+    {
+      "scenario_id": "opt_ccu8_parallel",
+      "title": "Optimized vLLM CCU=8",
+      "technique": "vllm_max_num_seqs_4",
+      "concurrency": 8,
+      "n_requests": 8,
+      "ok_count": 6,
+      "ok_rate": 0.75,
+      "wall_time_s": 86.94,
+      "throughput_docs_per_s": 0.092,
+      "latency_per_doc_amortized_s": 10.867,
+      "latency_s": {
+        "mean": 41.983,
+        "p50": 33.422,
+        "max": 86.927
+      },
+      "prompt_tokens": {
+        "mean": 4127,
+        "max": 4248
+      },
+      "completion_tokens": {
+        "mean": 3003.4
+      }
+    },
+    {
+      "scenario_id": "opt_serial_baseline",
+      "title": "Optimized vLLM serial",
+      "technique": "vllm_max_num_seqs_4",
+      "concurrency": 1,
+      "n_requests": 8,
+      "ok_count": 8,
+      "ok_rate": 1.0,
+      "wall_time_s": 105.685,
+      "throughput_docs_per_s": 0.0757,
+      "latency_per_doc_amortized_s": 13.211,
+      "latency_s": {
+        "mean": 13.208,
+        "p50": 13.678,
+        "max": 13.726
+      },
+      "prompt_tokens": {
+        "mean": 4127,
+        "max": 4248
+      },
+      "completion_tokens": {
+        "mean": 1317.1
+      }
+    }
+  ]
+}

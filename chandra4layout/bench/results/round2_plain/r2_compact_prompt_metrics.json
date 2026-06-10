@@ -1,0 +1,41 @@
+{
+  "summary": {
+    "scenario_id": "r2_compact_prompt",
+    "title": "R2 compact – text_max 120",
+    "technique": "input_token_reduction",
+    "concurrency": 1,
+    "n_requests": 1,
+    "ok_count": 1,
+    "ok_rate": 1.0,
+    "wall_time_s": 15.24,
+    "throughput_docs_per_s": 0.0656,
+    "latency_per_doc_amortized_s": 15.24,
+    "latency_s": {
+      "mean": 15.232,
+      "p50": 15.232,
+      "max": 15.232
+    },
+    "prompt_tokens": {
+      "mean": 4091,
+      "max": 4091
+    },
+    "completion_tokens": {
+      "mean": 1517
+    }
+  },
+  "requests": [
+    {
+      "scenario_id": "r2_compact_prompt",
+      "request_idx": 0,
+      "page": "test_7",
+      "ok": true,
+      "latency_s": 15.232107025105506,
+      "prompt_tokens": 4091,
+      "completion_tokens": 1517,
+      "total_tokens": 5608,
+      "n_schema_hit": 31,
+      "n_schema_total": 41,
+      "error": ""
+    }
+  ]
+}

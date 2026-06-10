@@ -1,0 +1,179 @@
+{
+  "tag": "round2_plain",
+  "vllm_profile": "plain",
+  "scenarios_file": "/home/bachdx2/Personal_Lab_DngBack/chandra4layout/bench/scenarios_round2.yaml",
+  "base_url": "http://localhost:8000",
+  "model": "Qwen/Qwen2.5-3B-Instruct",
+  "max_new_tokens": 8192,
+  "n_schema_fields": 41,
+  "scenarios": [
+    {
+      "scenario_id": "r2_serial_baseline",
+      "title": "R2 serial – max_tokens 8192",
+      "technique": "reliability_fix",
+      "concurrency": 1,
+      "n_requests": 8,
+      "ok_count": 8,
+      "ok_rate": 1.0,
+      "wall_time_s": 105.608,
+      "throughput_docs_per_s": 0.0758,
+      "latency_per_doc_amortized_s": 13.201,
+      "latency_s": {
+        "mean": 13.199,
+        "p50": 13.665,
+        "max": 13.741
+      },
+      "prompt_tokens": {
+        "mean": 4127,
+        "max": 4248
+      },
+      "completion_tokens": {
+        "mean": 1317.1
+      }
+    },
+    {
+      "scenario_id": "r2_compact_prompt",
+      "title": "R2 compact – text_max 120",
+      "technique": "input_token_reduction",
+      "concurrency": 1,
+      "n_requests": 1,
+      "ok_count": 1,
+      "ok_rate": 1.0,
+      "wall_time_s": 15.24,
+      "throughput_docs_per_s": 0.0656,
+      "latency_per_doc_amortized_s": 15.24,
+      "latency_s": {
+        "mean": 15.232,
+        "p50": 15.232,
+        "max": 15.232
+      },
+      "prompt_tokens": {
+        "mean": 4091,
+        "max": 4091
+      },
+      "completion_tokens": {
+        "mean": 1517
+      }
+    },
+    {
+      "scenario_id": "r2_ccu2_parallel",
+      "title": "R2 CCU=2 song song",
+      "technique": "concurrency_sweep",
+      "concurrency": 2,
+      "n_requests": 8,
+      "ok_count": 7,
+      "ok_rate": 0.875,
+      "wall_time_s": 124.122,
+      "throughput_docs_per_s": 0.0645,
+      "latency_per_doc_amortized_s": 15.515,
+      "latency_s": {
+        "mean": 22.511,
+        "p50": 13.614,
+        "max": 83.864
+      },
+      "prompt_tokens": {
+        "mean": 4127,
+        "max": 4248
+      },
+      "completion_tokens": {
+        "mean": 2205.1
+      }
+    },
+    {
+      "scenario_id": "r2_ccu4_parallel",
+      "title": "R2 CCU=4 song song",
+      "technique": "concurrency_sweep",
+      "concurrency": 4,
+      "n_requests": 8,
+      "ok_count": 8,
+      "ok_rate": 1.0,
+      "wall_time_s": 28.778,
+      "throughput_docs_per_s": 0.278,
+      "latency_per_doc_amortized_s": 3.597,
+      "latency_s": {
+        "mean": 14.148,
+        "p50": 14.377,
+        "max": 14.401
+      },
+      "prompt_tokens": {
+        "mean": 4127,
+        "max": 4248
+      },
+      "completion_tokens": {
+        "mean": 1346.8
+      }
+    },
+    {
+      "scenario_id": "r2_ccu8_parallel",
+      "title": "R2 CCU=8 song song",
+      "technique": "concurrency_sweep",
+      "concurrency": 8,
+      "n_requests": 8,
+      "ok_count": 3,
+      "ok_rate": 0.375,
+      "wall_time_s": 100.329,
+      "throughput_docs_per_s": 0.0797,
+      "latency_per_doc_amortized_s": 12.541,
+      "latency_s": {
+        "mean": 68.389,
+        "p50": 100.311,
+        "max": 100.317
+      },
+      "prompt_tokens": {
+        "mean": 4127,
+        "max": 4248
+      },
+      "completion_tokens": {
+        "mean": 5627.5
+      }
+    },
+    {
+      "scenario_id": "r2_mega_concat",
+      "title": "R2 mega prompt 22k tokens",
+      "technique": "long_prefill",
+      "concurrency": 1,
+      "n_requests": 1,
+      "ok_count": 1,
+      "ok_rate": 1.0,
+      "wall_time_s": 14.339,
+      "throughput_docs_per_s": 0.0697,
+      "latency_per_doc_amortized_s": 14.339,
+      "latency_s": {
+        "mean": 14.327,
+        "p50": 14.327,
+        "max": 14.327
+      },
+      "prompt_tokens": {
+        "mean": 22306,
+        "max": 22306
+      },
+      "completion_tokens": {
+        "mean": 1302
+      }
+    },
+    {
+      "scenario_id": "r2_prefix_burst",
+      "title": "R2 prefix cache burst CCU=8",
+      "technique": "prefix_cache_stress",
+      "concurrency": 8,
+      "n_requests": 8,
+      "ok_count": 3,
+      "ok_rate": 0.375,
+      "wall_time_s": 100.27,
+      "throughput_docs_per_s": 0.0798,
+      "latency_per_doc_amortized_s": 12.534,
+      "latency_s": {
+        "mean": 68.359,
+        "p50": 100.253,
+        "max": 100.258
+      },
+      "prompt_tokens": {
+        "mean": 4127,
+        "max": 4248
+      },
+      "completion_tokens": {
+        "mean": 5627.5
+      }
+    }
+  ]
+}

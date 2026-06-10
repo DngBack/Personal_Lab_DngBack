@@ -1,0 +1,993 @@
+{
+  "pdf": "/home/bachdx2/Personal_Lab_DngBack/chandra4layout/data/test/GIAY_GUI_TIEN_TIET_KIEM/test_1.pdf",
+  "image": "/home/bachdx2/Personal_Lab_DngBack/chandra4layout/bench/data/images/test_1_page01.jpg",
+  "source": "legacy_json:test_1_page01_chandra_blocks.json",
+  "n_blocks": 41,
+  "blocks": [
+    {
+      "label": "Image",
+      "bbox": [
+        123.0,
+        76.0,
+        260.0,
+        111.0
+      ],
+      "text": "",
+      "lines": []
+    },
+    {
+      "label": "Section-Header",
+      "bbox": [
+        371.0,
+        96.0,
+        626.0,
+        113.0
+      ],
+      "text": "GIẤY GỬI TIỀN TIẾT KIỆM",
+      "lines": [
+        "GIẤY GỬI TIỀN TIẾT KIỆM"
+      ]
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        704.0,
+        75.0,
+        897.0,
+        102.0
+      ],
+      "text": "Liên 1/2 dành cho Ngân hàng Ngày (Date): 05-01-2026",
+      "lines": [
+        "Liên 1/2 dành cho Ngân hàng",
+        "Ngày (Date): 05-01-2026"
+      ]
+    },
+    {
+      "label": "Section-Header",
+      "bbox": [
+        118.0,
+        139.0,
+        407.0,
+        151.0
+      ],
+      "text": "THÔNG TIN YÊU CẦU CỦA KHÁCH HÀNG",
+      "lines": [
+        "THÔNG TIN YÊU CẦU CỦA KHÁCH HÀNG"
+      ]
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        118.0,
+        161.0,
+        407.0,
+        174.0
+      ],
+      "text": "Tên khách hàng: NGUYEN VAN THUONG",
+      "lines": [
+        "Tên khách hàng: NGUYEN VAN THUONG"
+      ]
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        688.0,
+        160.0,
+        788.0,
+        172.0
+      ],
+      "text": "CIF: 10023856",
+      "lines": [
+        "CIF: 10023856"
+      ]
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        118.0,
+        181.0,
+        339.0,
+        193.0
+      ],
+      "text": "CMND/CCCD/HC: 052066000965",
+      "lines": [
+        "CMND/CCCD/HC: 052066000965"
+      ]
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        118.0,
+        199.0,
+        270.0,
+        212.0
+      ],
+      "text": "Ngày cấp: 10/04/2021",
+      "lines": [
+        "Ngày cấp: 10/04/2021"
+      ]
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        495.0,
+        196.0,
+        709.0,
+        209.0
+      ],
+      "text": "Nơi cấp: CUC CSQLHCVTTXH",
+      "lines": [
+        "Nơi cấp: CUC CSQLHCVTTXH"
+      ]
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        118.0,
+        217.0,
+        287.0,
+        230.0
+      ],
+      "text": "Số tiền gửi: 200,000,000",
+      "lines": [
+        "Số tiền gửi: 200,000,000"
+      ]
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        491.0,
+        215.0,
+        600.0,
+        228.0
+      ],
+      "text": "Loại tiền: VND",
+      "lines": [
+        "Loại tiền: VND"
+      ]
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        118.0,
+        235.0,
+        422.0,
+        248.0
+      ],
+      "text": "Số tiền bằng chữ: Hai Trăm Triệu dong chẵn",
+      "lines": [
+        "Số tiền bằng chữ: Hai Trăm Triệu dong chẵn"
+      ]
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        118.0,
+        254.0,
+        434.0,
+        267.0
+      ],
+      "text": "Loại hình sản phẩm: FD.DEPOSIT.AP.CK24M",
+      "lines": [
+        "Loại hình sản phẩm: FD.DEPOSIT.AP.CK24M"
+      ]
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        118.0,
+        273.0,
+        200.0,
+        286.0
+      ],
+      "text": "Kỳ hạn: 6M",
+      "lines": [
+        "Kỳ hạn: 6M"
+      ]
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        461.0,
+        271.0,
+        635.0,
+        284.0
+      ],
+      "text": "Định kỳ lính lãi: CUOI KY",
+      "lines": [
+        "Định kỳ lính lãi: CUOI KY"
+      ]
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        118.0,
+        291.0,
+        397.0,
+        304.0
+      ],
+      "text": "Phương thức gửi tiền: CHUYEN KHOAN",
+      "lines": [
+        "Phương thức gửi tiền: CHUYEN KHOAN"
+      ]
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        118.0,
+        310.0,
+        349.0,
+        322.0
+      ],
+      "text": "Tài khoản ghi nợ: 100006917253",
+      "lines": [
+        "Tài khoản ghi nợ: 100006917253"
+      ]
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        118.0,
+        328.0,
+        251.0,
+        341.0
+      ],
+      "text": "Tài khoản nhận lãi:",
+      "lines": [
+        "Tài khoản nhận lãi:"
+      ]
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        118.0,
+        347.0,
+        479.0,
+        360.0
+      ],
+      "text": "Phương thức quay vòng: QUAY VONG GOC VA LAI",
+      "lines": [
+        "Phương thức quay vòng: QUAY VONG GOC VA LAI"
+      ]
+    },
+    {
+      "label": "Section-Header",
+      "bbox": [
+        118.0,
+        366.0,
+        350.0,
+        379.0
+      ],
+      "text": "BẢNG KÊ TIỀN MẶT (CASH LIST)",
+      "lines": [
+        "BẢNG KÊ TIỀN MẶT (CASH LIST)"
+      ]
+    },
+    {
+      "label": "Table",
+      "bbox": [
+        121.0,
+        387.0,
+        481.0,
+        446.0
+      ],
+      "text": "Mệnh giá (Denomination)Số tờ (Quantity)Thành tiền (Amount)Tổng cộng (Total)",
+      "lines": [
+        "Mệnh giá",
+        "(Denomination)Số tờ",
+        "(Quantity)Thành tiền",
+        "(Amount)Tổng cộng (Total)"
+      ]
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        523.0,
+        388.0,
+        867.0,
+        413.0
+      ],
+      "text": "Tôi xác nhận đã đọc, hiểu và cam đoan các thông tin trên là đúng theo yêu cầu của tôi",
+      "lines": [
+        "Tôi xác nhận đã đọc, hiểu và cam đoan các thông tin trên là đúng theo yêu cầu của tôi"
+      ]
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        636.0,
+        419.0,
+        748.0,
+        443.0
+      ],
+      "text": "Người gửi tiền (Ký, ghi rõ họ tên)",
+      "lines": [
+        "Người gửi tiền",
+        "(Ký, ghi rõ họ tên)"
+      ]
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        548.0,
+        444.0,
+        827.0,
+        457.0
+      ],
+      "text": "Cam kết tài tục theo sản phẩm ban hành",
+      "lines": [
+        "Cam kết tài tục theo sản phẩm ban hành"
+      ]
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        604.0,
+        468.0,
+        844.0,
+        545.0
+      ],
+      "text": "Nguyễn Văn Thương",
+      "lines": [
+        "Nguyễn Văn Thương"
+      ]
+    },
+    {
+      "label": "Section-Header",
+      "bbox": [
+        118.0,
+        544.0,
+        336.0,
+        557.0
+      ],
+      "text": "PHẦN DÀNH CHO NGÂN HÀNG",
+      "lines": [
+        "PHẦN DÀNH CHO NGÂN HÀNG"
+      ]
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        118.0,
+        567.0,
+        372.0,
+        580.0
+      ],
+      "text": "Số bút toán: AAACT26005BB82ZSBZ",
+      "lines": [
+        "Số bút toán: AAACT26005BB82ZSBZ"
+      ]
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        507.0,
+        565.0,
+        663.0,
+        578.0
+      ],
+      "text": "Company: VN0010106",
+      "lines": [
+        "Company: VN0010106"
+      ]
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        118.0,
+        587.0,
+        270.0,
+        600.0
+      ],
+      "text": "Số seri: FDAB901325",
+      "lines": [
+        "Số seri: FDAB901325"
+      ]
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        507.0,
+        585.0,
+        626.0,
+        598.0
+      ],
+      "text": "Lãi suất: 8(+1.90)",
+      "lines": [
+        "Lãi suất: 8(+1.90)"
+      ]
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        118.0,
+        605.0,
+        272.0,
+        618.0
+      ],
+      "text": "Ngày mở: 05/01/2026",
+      "lines": [
+        "Ngày mở: 05/01/2026"
+      ]
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        507.0,
+        603.0,
+        685.0,
+        615.0
+      ],
+      "text": "Ngày đến hạn: 06/07/2026",
+      "lines": [
+        "Ngày đến hạn: 06/07/2026"
+      ]
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        118.0,
+        625.0,
+        264.0,
+        637.0
+      ],
+      "text": "Salecode: 12196051",
+      "lines": [
+        "Salecode: 12196051"
+      ]
+    },
+    {
+      "label": "Table",
+      "bbox": [
+        118.0,
+        632.0,
+        900.0,
+        708.0
+      ],
+      "text": "Số tài khoảnTên tài khoảnGhi nợGhi cóLoại tiền100006917253NGUYEN VAN THUONG200,000,000VND607901431738NGUYEN VAN THUONG200,000,000VND",
+      "lines": [
+        "Số tài khoảnTên tài khoảnGhi nợGhi cóLoại tiền100006917253NGUYEN VAN THUONG200,000,000VND607901431738NGUYEN VAN THUONG200,000,000VND"
+      ]
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        226.0,
+        714.0,
+        327.0,
+        726.0
+      ],
+      "text": "Giao dịch viên",
+      "lines": [
+        "Giao dịch viên"
+      ]
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        199.0,
+        733.0,
+        350.0,
+        746.0
+      ],
+      "text": "HOANNTQ.NCB 08:17",
+      "lines": [
+        "HOANNTQ.NCB 08:17"
+      ]
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        222.0,
+        751.0,
+        281.0,
+        796.0
+      ],
+      "text": "",
+      "lines": []
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        154.0,
+        814.0,
+        372.0,
+        848.0
+      ],
+      "text": "Nguyễn Thị Quỳnh Hoàn",
+      "lines": [
+        "Nguyễn Thị Quỳnh Hoàn"
+      ]
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        629.0,
+        712.0,
+        732.0,
+        725.0
+      ],
+      "text": "Kiểm soát viên",
+      "lines": [
+        "Kiểm soát viên"
+      ]
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        596.0,
+        712.0,
+        874.0,
+        833.0
+      ],
+      "text": "",
+      "lines": []
+    },
+    {
+      "label": "Text",
+      "bbox": [
+        640.0,
+        838.0,
+        838.0,
+        862.0
+      ],
+      "text": "Võ Thị Phương Thủy",
+      "lines": [
+        "Võ Thị Phương Thủy"
+      ]
+    }
+  ],
+  "blocks_compact": [
+    {
+      "i": 0,
+      "label": "Image",
+      "bbox": [
+        123.0,
+        76.0,
+        260.0,
+        111.0
+      ],
+      "text": ""
+    },
+    {
+      "i": 1,
+      "label": "Section-Header",
+      "bbox": [
+        371.0,
+        96.0,
+        626.0,
+        113.0
+      ],
+      "text": "GIẤY GỬI TIỀN TIẾT KIỆM"
+    },
+    {
+      "i": 2,
+      "label": "Text",
+      "bbox": [
+        704.0,
+        75.0,
+        897.0,
+        102.0
+      ],
+      "text": "Liên 1/2 dành cho Ngân hàng Ngày (Date): 05-01-2026"
+    },
+    {
+      "i": 3,
+      "label": "Section-Header",
+      "bbox": [
+        118.0,
+        139.0,
+        407.0,
+        151.0
+      ],
+      "text": "THÔNG TIN YÊU CẦU CỦA KHÁCH HÀNG"
+    },
+    {
+      "i": 4,
+      "label": "Text",
+      "bbox": [
+        118.0,
+        161.0,
+        407.0,
+        174.0
+      ],
+      "text": "Tên khách hàng: NGUYEN VAN THUONG"
+    },
+    {
+      "i": 5,
+      "label": "Text",
+      "bbox": [
+        688.0,
+        160.0,
+        788.0,
+        172.0
+      ],
+      "text": "CIF: 10023856"
+    },
+    {
+      "i": 6,
+      "label": "Text",
+      "bbox": [
+        118.0,
+        181.0,
+        339.0,
+        193.0
+      ],
+      "text": "CMND/CCCD/HC: 052066000965"
+    },
+    {
+      "i": 7,
+      "label": "Text",
+      "bbox": [
+        118.0,
+        199.0,
+        270.0,
+        212.0
+      ],
+      "text": "Ngày cấp: 10/04/2021"
+    },
+    {
+      "i": 8,
+      "label": "Text",
+      "bbox": [
+        495.0,
+        196.0,
+        709.0,
+        209.0
+      ],
+      "text": "Nơi cấp: CUC CSQLHCVTTXH"
+    },
+    {
+      "i": 9,
+      "label": "Text",
+      "bbox": [
+        118.0,
+        217.0,
+        287.0,
+        230.0
+      ],
+      "text": "Số tiền gửi: 200,000,000"
+    },
+    {
+      "i": 10,
+      "label": "Text",
+      "bbox": [
+        491.0,
+        215.0,
+        600.0,
+        228.0
+      ],
+      "text": "Loại tiền: VND"
+    },
+    {
+      "i": 11,
+      "label": "Text",
+      "bbox": [
+        118.0,
+        235.0,
+        422.0,
+        248.0
+      ],
+      "text": "Số tiền bằng chữ: Hai Trăm Triệu dong chẵn"
+    },
+    {
+      "i": 12,
+      "label": "Text",
+      "bbox": [
+        118.0,
+        254.0,
+        434.0,
+        267.0
+      ],
+      "text": "Loại hình sản phẩm: FD.DEPOSIT.AP.CK24M"
+    },
+    {
+      "i": 13,
+      "label": "Text",
+      "bbox": [
+        118.0,
+        273.0,
+        200.0,
+        286.0
+      ],
+      "text": "Kỳ hạn: 6M"
+    },
+    {
+      "i": 14,
+      "label": "Text",
+      "bbox": [
+        461.0,
+        271.0,
+        635.0,
+        284.0
+      ],
+      "text": "Định kỳ lính lãi: CUOI KY"
+    },
+    {
+      "i": 15,
+      "label": "Text",
+      "bbox": [
+        118.0,
+        291.0,
+        397.0,
+        304.0
+      ],
+      "text": "Phương thức gửi tiền: CHUYEN KHOAN"
+    },
+    {
+      "i": 16,
+      "label": "Text",
+      "bbox": [
+        118.0,
+        310.0,
+        349.0,
+        322.0
+      ],
+      "text": "Tài khoản ghi nợ: 100006917253"
+    },
+    {
+      "i": 17,
+      "label": "Text",
+      "bbox": [
+        118.0,
+        328.0,
+        251.0,
+        341.0
+      ],
+      "text": "Tài khoản nhận lãi:"
+    },
+    {
+      "i": 18,
+      "label": "Text",
+      "bbox": [
+        118.0,
+        347.0,
+        479.0,
+        360.0
+      ],
+      "text": "Phương thức quay vòng: QUAY VONG GOC VA LAI"
+    },
+    {
+      "i": 19,
+      "label": "Section-Header",
+      "bbox": [
+        118.0,
+        366.0,
+        350.0,
+        379.0
+      ],
+      "text": "BẢNG KÊ TIỀN MẶT (CASH LIST)"
+    },
+    {
+      "i": 20,
+      "label": "Table",
+      "bbox": [
+        121.0,
+        387.0,
+        481.0,
+        446.0
+      ],
+      "text": "Mệnh giá (Denomination)Số tờ (Quantity)Thành tiền (Amount)Tổng cộng (Total)"
+    },
+    {
+      "i": 21,
+      "label": "Text",
+      "bbox": [
+        523.0,
+        388.0,
+        867.0,
+        413.0
+      ],
+      "text": "Tôi xác nhận đã đọc, hiểu và cam đoan các thông tin trên là đúng theo yêu cầu của tôi"
+    },
+    {
+      "i": 22,
+      "label": "Text",
+      "bbox": [
+        636.0,
+        419.0,
+        748.0,
+        443.0
+      ],
+      "text": "Người gửi tiền (Ký, ghi rõ họ tên)"
+    },
+    {
+      "i": 23,
+      "label": "Text",
+      "bbox": [
+        548.0,
+        444.0,
+        827.0,
+        457.0
+      ],
+      "text": "Cam kết tài tục theo sản phẩm ban hành"
+    },
+    {
+      "i": 24,
+      "label": "Text",
+      "bbox": [
+        604.0,
+        468.0,
+        844.0,
+        545.0
+      ],
+      "text": "Nguyễn Văn Thương"
+    },
+    {
+      "i": 25,
+      "label": "Section-Header",
+      "bbox": [
+        118.0,
+        544.0,
+        336.0,
+        557.0
+      ],
+      "text": "PHẦN DÀNH CHO NGÂN HÀNG"
+    },
+    {
+      "i": 26,
+      "label": "Text",
+      "bbox": [
+        118.0,
+        567.0,
+        372.0,
+        580.0
+      ],
+      "text": "Số bút toán: AAACT26005BB82ZSBZ"
+    },
+    {
+      "i": 27,
+      "label": "Text",
+      "bbox": [
+        507.0,
+        565.0,
+        663.0,
+        578.0
+      ],
+      "text": "Company: VN0010106"
+    },
+    {
+      "i": 28,
+      "label": "Text",
+      "bbox": [
+        118.0,
+        587.0,
+        270.0,
+        600.0
+      ],
+      "text": "Số seri: FDAB901325"
+    },
+    {
+      "i": 29,
+      "label": "Text",
+      "bbox": [
+        507.0,
+        585.0,
+        626.0,
+        598.0
+      ],
+      "text": "Lãi suất: 8(+1.90)"
+    },
+    {
+      "i": 30,
+      "label": "Text",
+      "bbox": [
+        118.0,
+        605.0,
+        272.0,
+        618.0
+      ],
+      "text": "Ngày mở: 05/01/2026"
+    },
+    {
+      "i": 31,
+      "label": "Text",
+      "bbox": [
+        507.0,
+        603.0,
+        685.0,
+        615.0
+      ],
+      "text": "Ngày đến hạn: 06/07/2026"
+    },
+    {
+      "i": 32,
+      "label": "Text",
+      "bbox": [
+        118.0,
+        625.0,
+        264.0,
+        637.0
+      ],
+      "text": "Salecode: 12196051"
+    },
+    {
+      "i": 33,
+      "label": "Table",
+      "bbox": [
+        118.0,
+        632.0,
+        900.0,
+        708.0
+      ],
+      "text": "Số tài khoảnTên tài khoảnGhi nợGhi cóLoại tiền100006917253NGUYEN VAN THUONG200,000,000VND607901431738NGUYEN VAN THUONG200,000,000VND"
+    },
+    {
+      "i": 34,
+      "label": "Text",
+      "bbox": [
+        226.0,
+        714.0,
+        327.0,
+        726.0
+      ],
+      "text": "Giao dịch viên"
+    },
+    {
+      "i": 35,
+      "label": "Text",
+      "bbox": [
+        199.0,
+        733.0,
+        350.0,
+        746.0
+      ],
+      "text": "HOANNTQ.NCB 08:17"
+    },
+    {
+      "i": 36,
+      "label": "Text",
+      "bbox": [
+        222.0,
+        751.0,
+        281.0,
+        796.0
+      ],
+      "text": ""
+    },
+    {
+      "i": 37,
+      "label": "Text",
+      "bbox": [
+        154.0,
+        814.0,
+        372.0,
+        848.0
+      ],
+      "text": "Nguyễn Thị Quỳnh Hoàn"
+    },
+    {
+      "i": 38,
+      "label": "Text",
+      "bbox": [
+        629.0,
+        712.0,
+        732.0,
+        725.0
+      ],
+      "text": "Kiểm soát viên"
+    },
+    {
+      "i": 39,
+      "label": "Text",
+      "bbox": [
+        596.0,
+        712.0,
+        874.0,
+        833.0
+      ],
+      "text": ""
+    },
+    {
+      "i": 40,
+      "label": "Text",
+      "bbox": [
+        640.0,
+        838.0,
+        838.0,
+        862.0
+      ],
+      "text": "Võ Thị Phương Thủy"
+    }
+  ]
+}

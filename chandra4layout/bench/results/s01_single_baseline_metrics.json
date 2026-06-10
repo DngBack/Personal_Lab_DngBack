@@ -1,0 +1,36 @@
+{
+  "summary": {
+    "scenario_id": "s01_single_baseline",
+    "title": "1 trang – prompt schema_align chuẩn",
+    "n_requests": 1,
+    "ok_count": 1,
+    "wall_time_s": 14.091,
+    "latency_s": {
+      "mean": 14.083,
+      "p50": 14.083,
+      "max": 14.083
+    },
+    "prompt_tokens": {
+      "mean": 4103,
+      "max": 4103
+    },
+    "completion_tokens": {
+      "mean": 1364
+    }
+  },
+  "requests": [
+    {
+      "scenario_id": "s01_single_baseline",
+      "request_idx": 0,
+      "page": "test_7",
+      "ok": true,
+      "latency_s": 14.08296627108939,
+      "prompt_tokens": 4103,
+      "completion_tokens": 1364,
+      "total_tokens": 5467,
+      "n_schema_hit": 33,
+      "n_schema_total": 41,
+      "error": ""
+    }
+  ]
+}

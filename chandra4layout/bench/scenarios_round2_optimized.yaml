@@ -1,0 +1,27 @@
+# Round 2b — chạy trên vLLM optimized (max-num-seqs=4, mem util 0.85).
+# Chỉ CCU scenarios để so sánh scheduling.
+model: Qwen/Qwen2.5-3B-Instruct
+max_new_tokens: 8192
+temperature: 0.0
+
+scenarios:
+  - id: opt_ccu4_parallel
+    title: "Optimized vLLM CCU=4"
+    technique: "vllm_max_num_seqs_4"
+    mode: single
+    pages: all
+    concurrency: 4
+
+  - id: opt_ccu8_parallel
+    title: "Optimized vLLM CCU=8"
+    technique: "vllm_max_num_seqs_4"
+    mode: single
+    pages: all
+    concurrency: 8
+
+  - id: opt_serial_baseline
+    title: "Optimized vLLM serial"
+    technique: "vllm_max_num_seqs_4"
+    mode: single
+    pages: all
+    concurrency: 1

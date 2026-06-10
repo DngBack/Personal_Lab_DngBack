@@ -1,0 +1,121 @@
+{
+  "base_url": "http://localhost:8000",
+  "model": "Qwen/Qwen2.5-3B-Instruct",
+  "n_schema_fields": 41,
+  "scenarios": [
+    {
+      "scenario_id": "s01_single_baseline",
+      "title": "1 trang – prompt schema_align chuẩn",
+      "n_requests": 1,
+      "ok_count": 1,
+      "wall_time_s": 14.091,
+      "latency_s": {
+        "mean": 14.083,
+        "p50": 14.083,
+        "max": 14.083
+      },
+      "prompt_tokens": {
+        "mean": 4103,
+        "max": 4103
+      },
+      "completion_tokens": {
+        "mean": 1364
+      }
+    },
+    {
+      "scenario_id": "s02_single_large_prompt",
+      "title": "1 trang – prompt lớn (Chandra HTML đầy đủ)",
+      "n_requests": 1,
+      "ok_count": 1,
+      "wall_time_s": 11.267,
+      "latency_s": {
+        "mean": 11.259,
+        "p50": 11.259,
+        "max": 11.259
+      },
+      "prompt_tokens": {
+        "mean": 4831,
+        "max": 4831
+      },
+      "completion_tokens": {
+        "mean": 1097
+      }
+    },
+    {
+      "scenario_id": "s03_eight_serial",
+      "title": "8 trang – tuần tự",
+      "n_requests": 8,
+      "ok_count": 8,
+      "wall_time_s": 109.328,
+      "latency_s": {
+        "mean": 13.664,
+        "p50": 13.664,
+        "max": 13.891
+      },
+      "prompt_tokens": {
+        "mean": 4127,
+        "max": 4248
+      },
+      "completion_tokens": {
+        "mean": 1359.4
+      }
+    },
+    {
+      "scenario_id": "s04_eight_parallel",
+      "title": "8 trang – song song",
+      "n_requests": 8,
+      "ok_count": 7,
+      "wall_time_s": 43.21,
+      "latency_s": {
+        "mean": 19.989,
+        "p50": 17.307,
+        "max": 43.197
+      },
+      "prompt_tokens": {
+        "mean": 4127,
+        "max": 4248
+      },
+      "completion_tokens": {
+        "mean": 1812.8
+      }
+    },
+    {
+      "scenario_id": "s05_mega_concat",
+      "title": "Mega prompt – gộp 8 trang blocks",
+      "n_requests": 1,
+      "ok_count": 1,
+      "wall_time_s": 19.672,
+      "latency_s": {
+        "mean": 19.661,
+        "p50": 19.661,
+        "max": 19.661
+      },
+      "prompt_tokens": {
+        "mean": 22306,
+        "max": 22306
+      },
+      "completion_tokens": {
+        "mean": 1618
+      }
+    },
+    {
+      "scenario_id": "s06_prefix_cache_hot",
+      "title": "8 trang – shared prefix (prefix cache)",
+      "n_requests": 8,
+      "ok_count": 3,
+      "wall_time_s": 46.525,
+      "latency_s": {
+        "mean": 34.756,
+        "p50": 46.51,
+        "max": 46.514
+      },
+      "prompt_tokens": {
+        "mean": 4127,
+        "max": 4248
+      },
+      "completion_tokens": {
+        "mean": 3067.5
+      }
+    }
+  ]
+}

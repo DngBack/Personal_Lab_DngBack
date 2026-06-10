@@ -1,0 +1,132 @@
+{
+  "summary": {
+    "scenario_id": "opt_ccu8_parallel",
+    "title": "Optimized vLLM CCU=8",
+    "technique": "vllm_max_num_seqs_4",
+    "concurrency": 8,
+    "n_requests": 8,
+    "ok_count": 6,
+    "ok_rate": 0.75,
+    "wall_time_s": 86.94,
+    "throughput_docs_per_s": 0.092,
+    "latency_per_doc_amortized_s": 10.867,
+    "latency_s": {
+      "mean": 41.983,
+      "p50": 33.422,
+      "max": 86.927
+    },
+    "prompt_tokens": {
+      "mean": 4127,
+      "max": 4248
+    },
+    "completion_tokens": {
+      "mean": 3003.4
+    }
+  },
+  "requests": [
+    {
+      "scenario_id": "opt_ccu8_parallel",
+      "request_idx": 0,
+      "page": "test_1",
+      "ok": true,
+      "latency_s": 14.37637035199441,
+      "prompt_tokens": 4150,
+      "completion_tokens": 1369,
+      "total_tokens": 5519,
+      "n_schema_hit": 33,
+      "n_schema_total": 41,
+      "error": ""
+    },
+    {
+      "scenario_id": "opt_ccu8_parallel",
+      "request_idx": 1,
+      "page": "test_2",
+      "ok": false,
+      "latency_s": 86.9264263920486,
+      "prompt_tokens": 4103,
+      "completion_tokens": 8192,
+      "total_tokens": 12295,
+      "n_schema_hit": 0,
+      "n_schema_total": 41,
+      "error": "JSON parse failed"
+    },
+    {
+      "scenario_id": "opt_ccu8_parallel",
+      "request_idx": 2,
+      "page": "test_3",
+      "ok": false,
+      "latency_s": 86.92735336511396,
+      "prompt_tokens": 4103,
+      "completion_tokens": 8192,
+      "total_tokens": 12295,
+      "n_schema_hit": 0,
+      "n_schema_total": 41,
+      "error": "JSON parse failed"
+    },
+    {
+      "scenario_id": "opt_ccu8_parallel",
+      "request_idx": 3,
+      "page": "test_4",
+      "ok": true,
+      "latency_s": 26.063689623959363,
+      "prompt_tokens": 4103,
+      "completion_tokens": 1238,
+      "total_tokens": 5341,
+      "n_schema_hit": 32,
+      "n_schema_total": 41,
+      "error": ""
+    },
+    {
+      "scenario_id": "opt_ccu8_parallel",
+      "request_idx": 4,
+      "page": "test_5",
+      "ok": true,
+      "latency_s": 13.004379916004837,
+      "prompt_tokens": 4103,
+      "completion_tokens": 1238,
+      "total_tokens": 5341,
+      "n_schema_hit": 32,
+      "n_schema_total": 41,
+      "error": ""
+    },
+    {
+      "scenario_id": "opt_ccu8_parallel",
+      "request_idx": 5,
+      "page": "test_6",
+      "ok": true,
+      "latency_s": 27.456365960882977,
+      "prompt_tokens": 4103,
+      "completion_tokens": 1238,
+      "total_tokens": 5341,
+      "n_schema_hit": 32,
+      "n_schema_total": 41,
+      "error": ""
+    },
+    {
+      "scenario_id": "opt_ccu8_parallel",
+      "request_idx": 6,
+      "page": "test_7",
+      "ok": true,
+      "latency_s": 39.38729587197304,
+      "prompt_tokens": 4103,
+      "completion_tokens": 1238,
+      "total_tokens": 5341,
+      "n_schema_hit": 32,
+      "n_schema_total": 41,
+      "error": ""
+    },
+    {
+      "scenario_id": "opt_ccu8_parallel",
+      "request_idx": 7,
+      "page": "test_8",
+      "ok": true,
+      "latency_s": 41.723666470032185,
+      "prompt_tokens": 4248,
+      "completion_tokens": 1322,
+      "total_tokens": 5570,
+      "n_schema_hit": 31,
+      "n_schema_total": 41,
+      "error": ""
+    }
+  ]
+}

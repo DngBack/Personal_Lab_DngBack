@@ -1,0 +1,132 @@
+{
+  "summary": {
+    "scenario_id": "r2_ccu8_parallel",
+    "title": "R2 CCU=8 song song",
+    "technique": "concurrency_sweep",
+    "concurrency": 8,
+    "n_requests": 8,
+    "ok_count": 3,
+    "ok_rate": 0.375,
+    "wall_time_s": 100.329,
+    "throughput_docs_per_s": 0.0797,
+    "latency_per_doc_amortized_s": 12.541,
+    "latency_s": {
+      "mean": 68.389,
+      "p50": 100.311,
+      "max": 100.317
+    },
+    "prompt_tokens": {
+      "mean": 4127,
+      "max": 4248
+    },
+    "completion_tokens": {
+      "mean": 5627.5
+    }
+  },
+  "requests": [
+    {
+      "scenario_id": "r2_ccu8_parallel",
+      "request_idx": 0,
+      "page": "test_1",
+      "ok": true,
+      "latency_s": 15.364738300908357,
+      "prompt_tokens": 4150,
+      "completion_tokens": 1369,
+      "total_tokens": 5519,
+      "n_schema_hit": 33,
+      "n_schema_total": 41,
+      "error": ""
+    },
+    {
+      "scenario_id": "r2_ccu8_parallel",
+      "request_idx": 1,
+      "page": "test_2",
+      "ok": false,
+      "latency_s": 100.31719725602306,
+      "prompt_tokens": 4103,
+      "completion_tokens": 8192,
+      "total_tokens": 12295,
+      "n_schema_hit": 0,
+      "n_schema_total": 41,
+      "error": "JSON parse failed"
+    },
+    {
+      "scenario_id": "r2_ccu8_parallel",
+      "request_idx": 2,
+      "page": "test_3",
+      "ok": true,
+      "latency_s": 15.352832563919947,
+      "prompt_tokens": 4103,
+      "completion_tokens": 1369,
+      "total_tokens": 5472,
+      "n_schema_hit": 32,
+      "n_schema_total": 41,
+      "error": ""
+    },
+    {
+      "scenario_id": "r2_ccu8_parallel",
+      "request_idx": 3,
+      "page": "test_4",
+      "ok": false,
+      "latency_s": 100.31364498613402,
+      "prompt_tokens": 4103,
+      "completion_tokens": 8192,
+      "total_tokens": 12295,
+      "n_schema_hit": 0,
+      "n_schema_total": 41,
+      "error": "JSON parse failed"
+    },
+    {
+      "scenario_id": "r2_ccu8_parallel",
+      "request_idx": 4,
+      "page": "test_5",
+      "ok": false,
+      "latency_s": 100.31463207607158,
+      "prompt_tokens": 4103,
+      "completion_tokens": 8192,
+      "total_tokens": 12295,
+      "n_schema_hit": 0,
+      "n_schema_total": 41,
+      "error": "JSON parse failed"
+    },
+    {
+      "scenario_id": "r2_ccu8_parallel",
+      "request_idx": 5,
+      "page": "test_6",
+      "ok": false,
+      "latency_s": 100.3100849040784,
+      "prompt_tokens": 4103,
+      "completion_tokens": 8192,
+      "total_tokens": 12295,
+      "n_schema_hit": 0,
+      "n_schema_total": 41,
+      "error": "JSON parse failed"
+    },
+    {
+      "scenario_id": "r2_ccu8_parallel",
+      "request_idx": 6,
+      "page": "test_7",
+      "ok": false,
+      "latency_s": 100.31118612596765,
+      "prompt_tokens": 4103,
+      "completion_tokens": 8192,
+      "total_tokens": 12295,
+      "n_schema_hit": 0,
+      "n_schema_total": 41,
+      "error": "JSON parse failed"
+    },
+    {
+      "scenario_id": "r2_ccu8_parallel",
+      "request_idx": 7,
+      "page": "test_8",
+      "ok": true,
+      "latency_s": 14.828713921830058,
+      "prompt_tokens": 4248,
+      "completion_tokens": 1322,
+      "total_tokens": 5570,
+      "n_schema_hit": 31,
+      "n_schema_total": 41,
+      "error": ""
+    }
+  ]
+}

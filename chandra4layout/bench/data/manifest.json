@@ -1,0 +1,32 @@
+{
+  "pdfs": [
+    "/home/bachdx2/Personal_Lab_DngBack/chandra4layout/data/test/GIAY_GUI_TIEN_TIET_KIEM/test_1.pdf",
+    "/home/bachdx2/Personal_Lab_DngBack/chandra4layout/data/test/GIAY_GUI_TIEN_TIET_KIEM/test_2.pdf",
+    "/home/bachdx2/Personal_Lab_DngBack/chandra4layout/data/test/GIAY_GUI_TIEN_TIET_KIEM/test_3.pdf",
+    "/home/bachdx2/Personal_Lab_DngBack/chandra4layout/data/test/GIAY_GUI_TIEN_TIET_KIEM/test_4.pdf",
+    "/home/bachdx2/Personal_Lab_DngBack/chandra4layout/data/test/GIAY_GUI_TIEN_TIET_KIEM/test_5.pdf",
+    "/home/bachdx2/Personal_Lab_DngBack/chandra4layout/data/test/GIAY_GUI_TIEN_TIET_KIEM/test_6.pdf",
+    "/home/bachdx2/Personal_Lab_DngBack/chandra4layout/data/test/GIAY_GUI_TIEN_TIET_KIEM/test_7.pdf",
+    "/home/bachdx2/Personal_Lab_DngBack/chandra4layout/data/test/GIAY_GUI_TIEN_TIET_KIEM/test_8.pdf"
+  ],
+  "images": [
+    "data/images/test_1_page01.jpg",
+    "data/images/test_2_page01.jpg",
+    "data/images/test_3_page01.jpg",
+    "data/images/test_4_page01.jpg",
+    "data/images/test_5_page01.jpg",
+    "data/images/test_6_page01.jpg",
+    "data/images/test_7_page01.jpg",
+    "data/images/test_8_page01.jpg"
+  ],
+  "blocks": [
+    "data/blocks/test_1_blocks.json",
+    "data/blocks/test_2_blocks.json",
+    "data/blocks/test_3_blocks.json",
+    "data/blocks/test_4_blocks.json",
+    "data/blocks/test_5_blocks.json",
+    "data/blocks/test_6_blocks.json",
+    "data/blocks/test_7_blocks.json",
+    "data/blocks/test_8_blocks.json"
+  ]
+}

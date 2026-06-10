@@ -1,0 +1,127 @@
+{
+  "summary": {
+    "scenario_id": "s04_eight_parallel",
+    "title": "8 trang – song song",
+    "n_requests": 8,
+    "ok_count": 7,
+    "wall_time_s": 43.21,
+    "latency_s": {
+      "mean": 19.989,
+      "p50": 17.307,
+      "max": 43.197
+    },
+    "prompt_tokens": {
+      "mean": 4127,
+      "max": 4248
+    },
+    "completion_tokens": {
+      "mean": 1812.8
+    }
+  },
+  "requests": [
+    {
+      "scenario_id": "s04_eight_parallel",
+      "request_idx": 0,
+      "page": "test_1",
+      "ok": true,
+      "latency_s": 15.348352490924299,
+      "prompt_tokens": 4150,
+      "completion_tokens": 1369,
+      "total_tokens": 5519,
+      "n_schema_hit": 33,
+      "n_schema_total": 41,
+      "error": ""
+    },
+    {
+      "scenario_id": "s04_eight_parallel",
+      "request_idx": 1,
+      "page": "test_2",
+      "ok": true,
+      "latency_s": 17.306000558193773,
+      "prompt_tokens": 4103,
+      "completion_tokens": 1543,
+      "total_tokens": 5646,
+      "n_schema_hit": 32,
+      "n_schema_total": 41,
+      "error": ""
+    },
+    {
+      "scenario_id": "s04_eight_parallel",
+      "request_idx": 2,
+      "page": "test_3",
+      "ok": true,
+      "latency_s": 17.30966686992906,
+      "prompt_tokens": 4103,
+      "completion_tokens": 1543,
+      "total_tokens": 5646,
+      "n_schema_hit": 32,
+      "n_schema_total": 41,
+      "error": ""
+    },
+    {
+      "scenario_id": "s04_eight_parallel",
+      "request_idx": 3,
+      "page": "test_4",
+      "ok": true,
+      "latency_s": 17.307409974047914,
+      "prompt_tokens": 4103,
+      "completion_tokens": 1543,
+      "total_tokens": 5646,
+      "n_schema_hit": 32,
+      "n_schema_total": 41,
+      "error": ""
+    },
+    {
+      "scenario_id": "s04_eight_parallel",
+      "request_idx": 4,
+      "page": "test_5",
+      "ok": true,
+      "latency_s": 17.309817587025464,
+      "prompt_tokens": 4103,
+      "completion_tokens": 1543,
+      "total_tokens": 5646,
+      "n_schema_hit": 32,
+      "n_schema_total": 41,
+      "error": ""
+    },
+    {
+      "scenario_id": "s04_eight_parallel",
+      "request_idx": 5,
+      "page": "test_6",
+      "ok": false,
+      "latency_s": 43.19717823714018,
+      "prompt_tokens": 4103,
+      "completion_tokens": 4096,
+      "total_tokens": 8199,
+      "n_schema_hit": 0,
+      "n_schema_total": 41,
+      "error": "JSON parse failed"
+    },
+    {
+      "scenario_id": "s04_eight_parallel",
+      "request_idx": 6,
+      "page": "test_7",
+      "ok": true,
+      "latency_s": 17.30726572498679,
+      "prompt_tokens": 4103,
+      "completion_tokens": 1543,
+      "total_tokens": 5646,
+      "n_schema_hit": 32,
+      "n_schema_total": 41,
+      "error": ""
+    },
+    {
+      "scenario_id": "s04_eight_parallel",
+      "request_idx": 7,
+      "page": "test_8",
+      "ok": true,
+      "latency_s": 14.824381474871188,
+      "prompt_tokens": 4248,
+      "completion_tokens": 1322,
+      "total_tokens": 5570,
+      "n_schema_hit": 31,
+      "n_schema_total": 41,
+      "error": ""
+    }
+  ]
+}

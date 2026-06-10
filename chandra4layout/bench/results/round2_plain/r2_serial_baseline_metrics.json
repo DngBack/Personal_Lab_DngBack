@@ -1,0 +1,132 @@
+{
+  "summary": {
+    "scenario_id": "r2_serial_baseline",
+    "title": "R2 serial – max_tokens 8192",
+    "technique": "reliability_fix",
+    "concurrency": 1,
+    "n_requests": 8,
+    "ok_count": 8,
+    "ok_rate": 1.0,
+    "wall_time_s": 105.608,
+    "throughput_docs_per_s": 0.0758,
+    "latency_per_doc_amortized_s": 13.201,
+    "latency_s": {
+      "mean": 13.199,
+      "p50": 13.665,
+      "max": 13.741
+    },
+    "prompt_tokens": {
+      "mean": 4127,
+      "max": 4248
+    },
+    "completion_tokens": {
+      "mean": 1317.1
+    }
+  },
+  "requests": [
+    {
+      "scenario_id": "r2_serial_baseline",
+      "request_idx": 0,
+      "page": "test_1",
+      "ok": true,
+      "latency_s": 13.741435873089358,
+      "prompt_tokens": 4150,
+      "completion_tokens": 1369,
+      "total_tokens": 5519,
+      "n_schema_hit": 33,
+      "n_schema_total": 41,
+      "error": ""
+    },
+    {
+      "scenario_id": "r2_serial_baseline",
+      "request_idx": 1,
+      "page": "test_2",
+      "ok": true,
+      "latency_s": 13.665313123026863,
+      "prompt_tokens": 4103,
+      "completion_tokens": 1364,
+      "total_tokens": 5467,
+      "n_schema_hit": 33,
+      "n_schema_total": 41,
+      "error": ""
+    },
+    {
+      "scenario_id": "r2_serial_baseline",
+      "request_idx": 2,
+      "page": "test_3",
+      "ok": true,
+      "latency_s": 13.664904811186716,
+      "prompt_tokens": 4103,
+      "completion_tokens": 1364,
+      "total_tokens": 5467,
+      "n_schema_hit": 33,
+      "n_schema_total": 41,
+      "error": ""
+    },
+    {
+      "scenario_id": "r2_serial_baseline",
+      "request_idx": 3,
+      "page": "test_4",
+      "ok": true,
+      "latency_s": 13.66270756511949,
+      "prompt_tokens": 4103,
+      "completion_tokens": 1364,
+      "total_tokens": 5467,
+      "n_schema_hit": 33,
+      "n_schema_total": 41,
+      "error": ""
+    },
+    {
+      "scenario_id": "r2_serial_baseline",
+      "request_idx": 4,
+      "page": "test_5",
+      "ok": true,
+      "latency_s": 13.665543486131355,
+      "prompt_tokens": 4103,
+      "completion_tokens": 1364,
+      "total_tokens": 5467,
+      "n_schema_hit": 33,
+      "n_schema_total": 41,
+      "error": ""
+    },
+    {
+      "scenario_id": "r2_serial_baseline",
+      "request_idx": 5,
+      "page": "test_6",
+      "ok": true,
+      "latency_s": 13.66359740193002,
+      "prompt_tokens": 4103,
+      "completion_tokens": 1364,
+      "total_tokens": 5467,
+      "n_schema_hit": 33,
+      "n_schema_total": 41,
+      "error": ""
+    },
+    {
+      "scenario_id": "r2_serial_baseline",
+      "request_idx": 6,
+      "page": "test_7",
+      "ok": true,
+      "latency_s": 13.665015676990151,
+      "prompt_tokens": 4103,
+      "completion_tokens": 1364,
+      "total_tokens": 5467,
+      "n_schema_hit": 33,
+      "n_schema_total": 41,
+      "error": ""
+    },
+    {
+      "scenario_id": "r2_serial_baseline",
+      "request_idx": 7,
+      "page": "test_8",
+      "ok": true,
+      "latency_s": 9.86144729796797,
+      "prompt_tokens": 4248,
+      "completion_tokens": 984,
+      "total_tokens": 5232,
+      "n_schema_hit": 24,
+      "n_schema_total": 41,
+      "error": ""
+    }
+  ]
+}

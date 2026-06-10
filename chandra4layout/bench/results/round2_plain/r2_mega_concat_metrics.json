@@ -1,0 +1,41 @@
+{
+  "summary": {
+    "scenario_id": "r2_mega_concat",
+    "title": "R2 mega prompt 22k tokens",
+    "technique": "long_prefill",
+    "concurrency": 1,
+    "n_requests": 1,
+    "ok_count": 1,
+    "ok_rate": 1.0,
+    "wall_time_s": 14.339,
+    "throughput_docs_per_s": 0.0697,
+    "latency_per_doc_amortized_s": 14.339,
+    "latency_s": {
+      "mean": 14.327,
+      "p50": 14.327,
+      "max": 14.327
+    },
+    "prompt_tokens": {
+      "mean": 22306,
+      "max": 22306
+    },
+    "completion_tokens": {
+      "mean": 1302
+    }
+  },
+  "requests": [
+    {
+      "scenario_id": "r2_mega_concat",
+      "request_idx": 0,
+      "page": "all_8",
+      "ok": true,
+      "latency_s": 14.327379456954077,
+      "prompt_tokens": 22306,
+      "completion_tokens": 1302,
+      "total_tokens": 23608,
+      "n_schema_hit": 31,
+      "n_schema_total": 41,
+      "error": ""
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+# Round 2 — cải tiến app-layer + CCU sweep (max_new_tokens tăng, prompt compact).
+model: Qwen/Qwen2.5-3B-Instruct
+max_new_tokens: 8192
+temperature: 0.0
+
+scenarios:
+  - id: r2_serial_baseline
+    title: "R2 serial – max_tokens 8192"
+    technique: "reliability_fix"
+    description: "Baseline tuần tự 8 trang, max_new_tokens=8192 (fix JSON truncate)."
+    mode: single
+    pages: all
+    concurrency: 1
+
+  - id: r2_compact_prompt
+    title: "R2 compact – text_max 120"
+    technique: "input_token_reduction"
+    description: "Giảm text block 320→120 chars, 1 trang test_7."
+    mode: single
+    pages: [test_7]
+    compact_text_max: 120
+    concurrency: 1
+
+  - id: r2_ccu2_parallel
+    title: "R2 CCU=2 song song"
+    technique: "concurrency_sweep"
+    mode: single
+    pages: all
+    concurrency: 2
+
+  - id: r2_ccu4_parallel
+    title: "R2 CCU=4 song song"
+    technique: "concurrency_sweep"
+    mode: single
+    pages: all
+    concurrency: 4
+
+  - id: r2_ccu8_parallel
+    title: "R2 CCU=8 song song"
+    technique: "concurrency_sweep"
+    mode: single
+    pages: all
+    concurrency: 8
+
+  - id: r2_mega_concat
+    title: "R2 mega prompt 22k tokens"
+    technique: "long_prefill"
+    mode: mega_concat
+    pages: all
+    concurrency: 1
+
+  - id: r2_prefix_burst
+    title: "R2 prefix cache burst CCU=8"
+    technique: "prefix_cache_stress"
+    mode: single
+    pages: all
+    concurrency: 8

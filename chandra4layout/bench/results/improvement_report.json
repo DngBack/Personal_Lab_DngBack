@@ -1,0 +1,534 @@
+{
+  "techniques_analysis": [
+    {
+      "technique": "Tăng max_new_tokens (4096 → 8192)",
+      "layer": "application",
+      "scenario_compare": "s04_ccu8 vs r2_ccu8",
+      "before": {
+        "ok_rate": 0.875,
+        "lat_mean_s": 19.989
+      },
+      "after": {
+        "ok_rate": 0.375,
+        "lat_mean_s": 68.389
+      },
+      "impact": "Fix JSON truncate khi CCU cao; reliability tăng, latency có thể tăng nhẹ do decode dài hơn."
+    },
+    {
+      "technique": "Giảm input tokens (compact text_max 320→120)",
+      "layer": "application",
+      "before": {
+        "prompt_tokens": 4103,
+        "lat_mean_s": null
+      },
+      "after": {
+        "prompt_tokens": 4091,
+        "lat_mean_s": 15.232
+      },
+      "delta_prompt_tokens": "-0.3% (↓ tốt hơn)",
+      "delta_latency": "+8.2% (↑ tệ hơn)",
+      "impact": "Prefill ngắn hơn → latency giảm nếu decode không đổi."
+    },
+    {
+      "technique": "Tăng CCU (continuous batching)",
+      "layer": "vLLM scheduling",
+      "ccu_sweep": [
+        {
+          "ccu": 2,
+          "ok_rate": 0.875,
+          "wall_s": 124.122,
+          "lat_mean_s": 22.511,
+          "throughput_doc_s": 0.0645,
+          "vs_serial_wall": "+17.5% (↑ tệ hơn)"
+        },
+        {
+          "ccu": 4,
+          "ok_rate": 1.0,
+          "wall_s": 28.778,
+          "lat_mean_s": 14.148,
+          "throughput_doc_s": 0.278,
+          "vs_serial_wall": "-72.8% (↓ tốt hơn)"
+        },
+        {
+          "ccu": 8,
+          "ok_rate": 0.375,
+          "wall_s": 100.329,
+          "lat_mean_s": 68.389,
+          "throughput_doc_s": 0.0797,
+          "vs_serial_wall": "-5.0% (↓ tốt hơn)"
+        }
+      ],
+      "impact": "Throughput tăng, latency/request tăng; sweet spot thường CCU=2–4."
+    },
+    {
+      "technique": "vLLM max-num-seqs=4 (CCU=4)",
+      "layer": "vLLM config",
+      "before_plain": {
+        "ok_rate": 1.0,
+        "lat_mean_s": 14.148,
+        "wall_s": 28.778
+      },
+      "after_optimized": {
+        "ok_rate": 1.0,
+        "lat_mean_s": 17.1,
+        "wall_s": 37.01
+      },
+      "delta_latency": "+20.9% (↑ tệ hơn)",
+      "delta_wall": "+28.6% (↑ tệ hơn)",
+      "impact": "Giới hạn batch size → latency ổn định hơn dưới burst."
+    },
+    {
+      "technique": "vLLM max-num-seqs=4 (CCU=8)",
+      "layer": "vLLM config",
+      "before_plain": {
+        "ok_rate": 0.375,
+        "lat_mean_s": 68.389,
+        "wall_s": 100.329
+      },
+      "after_optimized": {
+        "ok_rate": 0.75,
+        "lat_mean_s": 41.983,
+        "wall_s": 86.94
+      },
+      "delta_latency": "-38.6% (↓ tốt hơn)",
+      "delta_wall": "-13.3% (↓ tốt hơn)",
+      "impact": "Giới hạn batch size → latency ổn định hơn dưới burst."
+    }
+  ],
+  "all_scenarios": [
+    {
+      "round": "round1_plain",
+      "vllm_profile": "round1_plain",
+      "description": "vLLM plain, max_tokens=4096",
+      "scenario_id": "s01_single_baseline",
+      "title": "1 trang – prompt schema_align chuẩn",
+      "n_requests": 1,
+      "ok_count": 1,
+      "wall_time_s": 14.091,
+      "latency_s": {
+        "mean": 14.083,
+        "p50": 14.083,
+        "max": 14.083
+      },
+      "prompt_tokens": {
+        "mean": 4103,
+        "max": 4103
+      },
+      "completion_tokens": {
+        "mean": 1364
+      }
+    },
+    {
+      "round": "round1_plain",
+      "vllm_profile": "round1_plain",
+      "description": "vLLM plain, max_tokens=4096",
+      "scenario_id": "s02_single_large_prompt",
+      "title": "1 trang – prompt lớn (Chandra HTML đầy đủ)",
+      "n_requests": 1,
+      "ok_count": 1,
+      "wall_time_s": 11.267,
+      "latency_s": {
+        "mean": 11.259,
+        "p50": 11.259,
+        "max": 11.259
+      },
+      "prompt_tokens": {
+        "mean": 4831,
+        "max": 4831
+      },
+      "completion_tokens": {
+        "mean": 1097
+      }
+    },
+    {
+      "round": "round1_plain",
+      "vllm_profile": "round1_plain",
+      "description": "vLLM plain, max_tokens=4096",
+      "scenario_id": "s03_eight_serial",
+      "title": "8 trang – tuần tự",
+      "n_requests": 8,
+      "ok_count": 8,
+      "wall_time_s": 109.328,
+      "latency_s": {
+        "mean": 13.664,
+        "p50": 13.664,
+        "max": 13.891
+      },
+      "prompt_tokens": {
+        "mean": 4127,
+        "max": 4248
+      },
+      "completion_tokens": {
+        "mean": 1359.4
+      }
+    },
+    {
+      "round": "round1_plain",
+      "vllm_profile": "round1_plain",
+      "description": "vLLM plain, max_tokens=4096",
+      "scenario_id": "s04_eight_parallel",
+      "title": "8 trang – song song",
+      "n_requests": 8,
+      "ok_count": 7,
+      "wall_time_s": 43.21,
+      "latency_s": {
+        "mean": 19.989,
+        "p50": 17.307,
+        "max": 43.197
+      },
+      "prompt_tokens": {
+        "mean": 4127,
+        "max": 4248
+      },
+      "completion_tokens": {
+        "mean": 1812.8
+      }
+    },
+    {
+      "round": "round1_plain",
+      "vllm_profile": "round1_plain",
+      "description": "vLLM plain, max_tokens=4096",
+      "scenario_id": "s05_mega_concat",
+      "title": "Mega prompt – gộp 8 trang blocks",
+      "n_requests": 1,
+      "ok_count": 1,
+      "wall_time_s": 19.672,
+      "latency_s": {
+        "mean": 19.661,
+        "p50": 19.661,
+        "max": 19.661
+      },
+      "prompt_tokens": {
+        "mean": 22306,
+        "max": 22306
+      },
+      "completion_tokens": {
+        "mean": 1618
+      }
+    },
+    {
+      "round": "round1_plain",
+      "vllm_profile": "round1_plain",
+      "description": "vLLM plain, max_tokens=4096",
+      "scenario_id": "s06_prefix_cache_hot",
+      "title": "8 trang – shared prefix (prefix cache)",
+      "n_requests": 8,
+      "ok_count": 3,
+      "wall_time_s": 46.525,
+      "latency_s": {
+        "mean": 34.756,
+        "p50": 46.51,
+        "max": 46.514
+      },
+      "prompt_tokens": {
+        "mean": 4127,
+        "max": 4248
+      },
+      "completion_tokens": {
+        "mean": 3067.5
+      }
+    },
+    {
+      "round": "round2_plain",
+      "vllm_profile": "plain",
+      "description": "vLLM plain, max_tokens=8192 + CCU sweep",
+      "scenario_id": "r2_serial_baseline",
+      "title": "R2 serial – max_tokens 8192",
+      "technique": "reliability_fix",
+      "concurrency": 1,
+      "n_requests": 8,
+      "ok_count": 8,
+      "ok_rate": 1.0,
+      "wall_time_s": 105.608,
+      "throughput_docs_per_s": 0.0758,
+      "latency_per_doc_amortized_s": 13.201,
+      "latency_s": {
+        "mean": 13.199,
+        "p50": 13.665,
+        "max": 13.741
+      },
+      "prompt_tokens": {
+        "mean": 4127,
+        "max": 4248
+      },
+      "completion_tokens": {
+        "mean": 1317.1
+      }
+    },
+    {
+      "round": "round2_plain",
+      "vllm_profile": "plain",
+      "description": "vLLM plain, max_tokens=8192 + CCU sweep",
+      "scenario_id": "r2_compact_prompt",
+      "title": "R2 compact – text_max 120",
+      "technique": "input_token_reduction",
+      "concurrency": 1,
+      "n_requests": 1,
+      "ok_count": 1,
+      "ok_rate": 1.0,
+      "wall_time_s": 15.24,
+      "throughput_docs_per_s": 0.0656,
+      "latency_per_doc_amortized_s": 15.24,
+      "latency_s": {
+        "mean": 15.232,
+        "p50": 15.232,
+        "max": 15.232
+      },
+      "prompt_tokens": {
+        "mean": 4091,
+        "max": 4091
+      },
+      "completion_tokens": {
+        "mean": 1517
+      }
+    },
+    {
+      "round": "round2_plain",
+      "vllm_profile": "plain",
+      "description": "vLLM plain, max_tokens=8192 + CCU sweep",
+      "scenario_id": "r2_ccu2_parallel",
+      "title": "R2 CCU=2 song song",
+      "technique": "concurrency_sweep",
+      "concurrency": 2,
+      "n_requests": 8,
+      "ok_count": 7,
+      "ok_rate": 0.875,
+      "wall_time_s": 124.122,
+      "throughput_docs_per_s": 0.0645,
+      "latency_per_doc_amortized_s": 15.515,
+      "latency_s": {
+        "mean": 22.511,
+        "p50": 13.614,
+        "max": 83.864
+      },
+      "prompt_tokens": {
+        "mean": 4127,
+        "max": 4248
+      },
+      "completion_tokens": {
+        "mean": 2205.1
+      }
+    },
+    {
+      "round": "round2_plain",
+      "vllm_profile": "plain",
+      "description": "vLLM plain, max_tokens=8192 + CCU sweep",
+      "scenario_id": "r2_ccu4_parallel",
+      "title": "R2 CCU=4 song song",
+      "technique": "concurrency_sweep",
+      "concurrency": 4,
+      "n_requests": 8,
+      "ok_count": 8,
+      "ok_rate": 1.0,
+      "wall_time_s": 28.778,
+      "throughput_docs_per_s": 0.278,
+      "latency_per_doc_amortized_s": 3.597,
+      "latency_s": {
+        "mean": 14.148,
+        "p50": 14.377,
+        "max": 14.401
+      },
+      "prompt_tokens": {
+        "mean": 4127,
+        "max": 4248
+      },
+      "completion_tokens": {
+        "mean": 1346.8
+      }
+    },
+    {
+      "round": "round2_plain",
+      "vllm_profile": "plain",
+      "description": "vLLM plain, max_tokens=8192 + CCU sweep",
+      "scenario_id": "r2_ccu8_parallel",
+      "title": "R2 CCU=8 song song",
+      "technique": "concurrency_sweep",
+      "concurrency": 8,
+      "n_requests": 8,
+      "ok_count": 3,
+      "ok_rate": 0.375,
+      "wall_time_s": 100.329,
+      "throughput_docs_per_s": 0.0797,
+      "latency_per_doc_amortized_s": 12.541,
+      "latency_s": {
+        "mean": 68.389,
+        "p50": 100.311,
+        "max": 100.317
+      },
+      "prompt_tokens": {
+        "mean": 4127,
+        "max": 4248
+      },
+      "completion_tokens": {
+        "mean": 5627.5
+      }
+    },
+    {
+      "round": "round2_plain",
+      "vllm_profile": "plain",
+      "description": "vLLM plain, max_tokens=8192 + CCU sweep",
+      "scenario_id": "r2_mega_concat",
+      "title": "R2 mega prompt 22k tokens",
+      "technique": "long_prefill",
+      "concurrency": 1,
+      "n_requests": 1,
+      "ok_count": 1,
+      "ok_rate": 1.0,
+      "wall_time_s": 14.339,
+      "throughput_docs_per_s": 0.0697,
+      "latency_per_doc_amortized_s": 14.339,
+      "latency_s": {
+        "mean": 14.327,
+        "p50": 14.327,
+        "max": 14.327
+      },
+      "prompt_tokens": {
+        "mean": 22306,
+        "max": 22306
+      },
+      "completion_tokens": {
+        "mean": 1302
+      }
+    },
+    {
+      "round": "round2_plain",
+      "vllm_profile": "plain",
+      "description": "vLLM plain, max_tokens=8192 + CCU sweep",
+      "scenario_id": "r2_prefix_burst",
+      "title": "R2 prefix cache burst CCU=8",
+      "technique": "prefix_cache_stress",
+      "concurrency": 8,
+      "n_requests": 8,
+      "ok_count": 3,
+      "ok_rate": 0.375,
+      "wall_time_s": 100.27,
+      "throughput_docs_per_s": 0.0798,
+      "latency_per_doc_amortized_s": 12.534,
+      "latency_s": {
+        "mean": 68.359,
+        "p50": 100.253,
+        "max": 100.258
+      },
+      "prompt_tokens": {
+        "mean": 4127,
+        "max": 4248
+      },
+      "completion_tokens": {
+        "mean": 5627.5
+      }
+    },
+    {
+      "round": "round2_optimized",
+      "vllm_profile": "optimized",
+      "description": "vLLM max-num-seqs=4, mem=0.85",
+      "scenario_id": "opt_ccu4_parallel",
+      "title": "Optimized vLLM CCU=4",
+      "technique": "vllm_max_num_seqs_4",
+      "concurrency": 4,
+      "n_requests": 8,
+      "ok_count": 8,
+      "ok_rate": 1.0,
+      "wall_time_s": 37.01,
+      "throughput_docs_per_s": 0.2162,
+      "latency_per_doc_amortized_s": 4.626,
+      "latency_s": {
+        "mean": 17.1,
+        "p50": 17.394,
+        "max": 18.842
+      },
+      "prompt_tokens": {
+        "mean": 4127,
+        "max": 4248
+      },
+      "completion_tokens": {
+        "mean": 1559.4
+      }
+    },
+    {
+      "round": "round2_optimized",
+      "vllm_profile": "optimized",
+      "description": "vLLM max-num-seqs=4, mem=0.85",
+      "scenario_id": "opt_ccu8_parallel",
+      "title": "Optimized vLLM CCU=8",
+      "technique": "vllm_max_num_seqs_4",
+      "concurrency": 8,
+      "n_requests": 8,
+      "ok_count": 6,
+      "ok_rate": 0.75,
+      "wall_time_s": 86.94,
+      "throughput_docs_per_s": 0.092,
+      "latency_per_doc_amortized_s": 10.867,
+      "latency_s": {
+        "mean": 41.983,
+        "p50": 33.422,
+        "max": 86.927
+      },
+      "prompt_tokens": {
+        "mean": 4127,
+        "max": 4248
+      },
+      "completion_tokens": {
+        "mean": 3003.4
+      }
+    },
+    {
+      "round": "round2_optimized",
+      "vllm_profile": "optimized",
+      "description": "vLLM max-num-seqs=4, mem=0.85",
+      "scenario_id": "opt_serial_baseline",
+      "title": "Optimized vLLM serial",
+      "technique": "vllm_max_num_seqs_4",
+      "concurrency": 1,
+      "n_requests": 8,
+      "ok_count": 8,
+      "ok_rate": 1.0,
+      "wall_time_s": 105.685,
+      "throughput_docs_per_s": 0.0757,
+      "latency_per_doc_amortized_s": 13.211,
+      "latency_s": {
+        "mean": 13.208,
+        "p50": 13.678,
+        "max": 13.726
+      },
+      "prompt_tokens": {
+        "mean": 4127,
+        "max": 4248
+      },
+      "completion_tokens": {
+        "mean": 1317.1
+      }
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "action": "max_new_tokens >= 8192 hoặc structured JSON output",
+      "reason": "Tránh truncate 41-field JSON khi CCU > 1"
+    },
+    {
+      "priority": 2,
+      "action": "CCU=4 + max-num-seqs=4",
+      "reason": "Cân bằng throughput (~2x serial) và latency ổn định"
+    },
+    {
+      "priority": 3,
+      "action": "compact_blocks text_max=120",
+      "reason": "Giảm ~5–15% prompt tokens mà không đổi logic"
+    },
+    {
+      "priority": 4,
+      "action": "Prefix cache: giữ system+fewshots+schema cố định",
+      "reason": "8 request burst cùng prefix — đo r2_prefix_burst vs r2_ccu8"
+    },
+    {
+      "priority": 5,
+      "action": "Hybrid match thay LLM cho field dễ (rule-based)",
+      "reason": "Bỏ hoàn toàn bước 14s/doc nếu accuracy đủ"
+    }
+  ],
+  "rounds_available": [
+    "round1_plain",
+    "round2_plain",
+    "round2_optimized"
+  ]
+}

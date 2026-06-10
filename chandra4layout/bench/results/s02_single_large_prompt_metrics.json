@@ -1,0 +1,36 @@
+{
+  "summary": {
+    "scenario_id": "s02_single_large_prompt",
+    "title": "1 trang – prompt lớn (Chandra HTML đầy đủ)",
+    "n_requests": 1,
+    "ok_count": 1,
+    "wall_time_s": 11.267,
+    "latency_s": {
+      "mean": 11.259,
+      "p50": 11.259,
+      "max": 11.259
+    },
+    "prompt_tokens": {
+      "mean": 4831,
+      "max": 4831
+    },
+    "completion_tokens": {
+      "mean": 1097
+    }
+  },
+  "requests": [
+    {
+      "scenario_id": "s02_single_large_prompt",
+      "request_idx": 0,
+      "page": "test_7",
+      "ok": true,
+      "latency_s": 11.258956487989053,
+      "prompt_tokens": 4831,
+      "completion_tokens": 1097,
+      "total_tokens": 5928,
+      "n_schema_hit": 40,
+      "n_schema_total": 41,
+      "error": ""
+    }
+  ]
+}
