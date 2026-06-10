@@ -1,0 +1,24 @@
+{
+  "project": "HiLeWM",
+  "date": "2026-06-09",
+  "stage": 0,
+  "decision": "GO to Stage 1",
+  "target_venue": "AAAI-27 Main Technical Track",
+  "hardware_constraint": "1x NVIDIA L40S",
+  "core_thesis": "Stable local latent prediction is not sufficient for long-horizon pixel planning; world models need temporally abstract, controllability-aligned latent structure.",
+  "mvp_method": [
+    "Frozen LeWM encoder",
+    "Latent cache",
+    "Fixed event segments",
+    "Event aggregator",
+    "Budget-conditioned reachability head",
+    "Hierarchical subgoal planner",
+    "Short-horizon CEM low-level controller"
+  ],
+  "primary_envs": [
+    "TwoRoom",
+    "Hard TwoRoom",
+    "PushT long-horizon"
+  ],
+  "stage1_next_task": "Reproduce LeWM baseline and log TwoRoom/PushT metrics."
+}
