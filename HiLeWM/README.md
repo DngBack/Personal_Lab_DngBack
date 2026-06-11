@@ -46,4 +46,5 @@ python ../scripts/cache_latents.py --dataset tworoom --max-episodes 200
 
 ## Stage status
 
-See [docs/stage1_go_nogo.md](docs/stage1_go_nogo.md).
+- **Stage 1 (complete):** [docs/stage1_report.md](docs/stage1_report.md)
+- Stage 1 summary: [docs/stage1_go_nogo.md](docs/stage1_go_nogo.md)
