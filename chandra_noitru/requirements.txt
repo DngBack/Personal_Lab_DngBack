@@ -1,0 +1,3 @@
+-r ../chandra4layout/requirements.txt
+# Chandra OCR 2 (qwen3_5) cần transformers >= 5.11
+transformers>=5.11.0
