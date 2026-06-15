@@ -1,0 +1,37 @@
+{
+  "THÔNG TIN CHUNG": {
+    "content": "Bộ Y tế (Sở Y tế): SỞ Y TẾ HÀ GIANG BV: BỆNH VIỆN ĐK ĐỨC MINH\nKhoa: Khoa Hồi sức tích cực",
+    "bbox": "64 92 446 221",
+    "type": "Section"
+  },
+  "Mã số phiếu": {
+    "content": "2300039471",
+    "bbox": "1439 48 1624 137",
+    "type": "QR code"
+  },
+  "Tên phiếu": {
+    "content": "PHIẾU CÔNG KHAI DỊCH VỤ KHÁM\nCHỮA BỆNH NỘI TRÚ",
+    "bbox": "551 128 1062 233",
+    "type": "Text"
+  },
+  "THÔNG TIN NGƯỜI BỆNH": {
+    "content": "Họ tên người bệnh: Tạ Thị Hương\nNgày sinh: 21/03/1970   Giới tính: Nam ☐ Nữ ☒\nGiường: H011   Buồng: Bệnh nhân TNT ngoại trú\nNgày vào viện: 28/09/2023",
+    "bbox": "1062 100 1620 289",
+    "type": "Section"
+  },
+  "Chẩn bệnh": {
+    "content": "Chẩn bệnh: N18.5-Suy thận mạn, giai đoạn 5/ M81-Loãng xương/ K29-Viêm dạ dày tá tràng",
+    "bbox": "64 260 927 309",
+    "type": "Section"
+  },
+  "BẢNG KÊ DỊCH VỤ": {
+    "content": "<table><tr><td rowspan='2'>STT</td><td rowspan='2'>TÊN DỊCH VỤ KHÁM BỆNH, CHỮA BỆNH</td><td rowspan='2'>ĐVT</td><td colspan='18'>SỐ LƯỢNG (THEO NGÀY/THÁNG)</td><td rowspan='2'>TỔNG SỐ</td><td rowspan='2'>ĐƠN GIÁ</td><td rowspan='2'>THÀNH TIỀN</td><td rowspan='2'>GHI CHÚ</td></tr><tr><td>11.09</td><td>12.09</td><td>13.09</td><td>14.09</td><td>15.09</td><td>16.09</td><td>17.09</td><td>18.09</td><td>19.09</td><td>20.09</td><td>21.09</td><td>22.09</td><td>23.09</td><td>24.09</td><td>25.09</td><td>26.09</td><td>27.09</td><td>28.09</td></tr><tr><td colspan='21'>1. Thuốc BH</td><td></td><td></td><td>20.648.113</td><td></td></tr><tr><td>1</td><td>Erythropoietin alfa 4000 IU</td><td>Lọ</td><td></td><td>9</td><td>5</td><td>6</td><td>7</td><td>3</td><td>6</td><td>5</td><td>5</td><td>7</td><td>1</td><td>7</td><td>3</td><td>4</td><td></td><td>1</td><td></td><td>6</td><td>75</td><td>168.000</td><td>12.600.000</td><td></td></tr><tr><td>2</td><td>Nước cất tiêm</td><td>Ống</td><td></td><td></td><td></td><td>2</td><td>10</td><td>1</td><td></td><td></td><td></td><td>3</td><td>5</td><td>5</td><td></td><td>6</td><td></td><td></td><td>5</td><td>6</td><td>43</td><td>690</td><td>29.670</td><td>Đã dùng</td></tr><tr><td>3</td><td>Jiracek</td><td>Viên</td><td>10</td><td>5</td><td></td><td>1</td><td></td><td>7</td><td></td><td>2</td><td>7</td><td>6</td><td>8</td><td></td><td>9</td><td>3</td><td></td><td>4</td><td>3</td><td>10</td><td>75</td><td>1.093</td><td>81.975</td><td></td></tr><tr><td>4</td><td>Alusi</td><td>Viên</td><td>6</td><td>3</td><td>1</td><td>7</td><td>4</td><td>1</td><td>3</td><td>10</td><td>1</td><td>10</td><td>6</td><td>7</td><td>9</td><td>8</td><td>4</td><td>5</td><td>5</td><td>8</td><td>98</td><td>1.600</td><td>156.800</td><td></td></tr><tr><td>5</td><td>Calcium carbonate 500mg</td><td>Viên</td><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td><td>5</td><td></td><td>8</td><td></td><td></td><td></td><td></td><td></td><td>4</td><td></td><td>7</td><td>25</td><td>950</td><td>23.750</td><td></td></tr><tr><td>6</td><td>Acid folic 5mg</td><td>Viên</td><td></td><td></td><td>10</td><td>9</td><td>10</td><td>10</td><td></td><td>7</td><td>6</td><td></td><td>2</td><td>8</td><td>6</td><td>3</td><td>5</td><td>7</td><td>3</td><td>4</td><td>90</td><td>420</td><td>37.800</td><td></td></tr><tr><td>7</td><td>Sắt sucrose 100mg/5ml</td><td>Ống</td><td></td><td>3</td><td></td><td>7</td><td></td><td>6</td><td></td><td></td><td></td><td>6</td><td>2</td><td>5</td><td>1</td><td>7</td><td>5</td><td></td><td>2</td><td></td><td>44</td><td>42.300</td><td>1.861.200</td><td></td></tr><tr><td>8</td><td>Heparin sodium 25000IU/5ml</td><td>Lọ</td><td>8</td><td>2</td><td>9</td><td>7</td><td>5</td><td>5</td><td>4</td><td>1</td><td>1</td><td>9</td><td>7</td><td>1</td><td>9</td><td>9</td><td>8</td><td>9</td><td>10</td><td>3</td><td>107</td><td>52.800</td><td>5.649.600</td><td></td></tr><tr><td>9</td><td>Amlodipin 5mg</td><td>Viên</td><td>5</td><td>2</td><td></td><td>4</td><td>6</td><td>6</td><td>9</td><td>4</td><td>1</td><td>8</td><td>7</td><td>7</td><td></td><td>8</td><td>9</td><td>2</td><td></td><td>9</td><td>87</td><td>650</td><td>56.550</td><td></td></tr><tr><td>10</td><td>Furosemid 40mg</td><td>Viên</td><td></td><td></td><td>4</td><td>4</td><td>10</td><td></td><td>6</td><td>3</td><td></td><td></td><td></td><td>7</td><td>4</td><td>9</td><td></td><td></td><td></td><td>10</td><td>57</td><td>184</td><td>10.488</td><td></td></tr><tr><td>11</td><td>Omeprazol 20mg</td><td>Viên</td><td>6</td><td>9</td><td></td><td>7</td><td>9</td><td></td><td></td><td></td><td>8</td><td></td><td>9</td><td>8</td><td>10</td><td>7</td><td></td><td>7</td><td>8</td><td>10</td><td>98</td><td>980</td><td>96.040</td><td></td></tr><tr><td>12</td><td>Paracetamol 500mg</td><td>Viên</td><td>2</td><td>3</td><td>3</td><td>1</td><td>1</td><td>5</td><td>4</td><td>7</td><td>8</td><td>4</td><td>9</td><td>2</td><td>5</td><td>10</td><td>1</td><td>7</td><td>3</td><td>4</td><td>79</td><td>560</td><td>44.240</td><td></td></tr><tr><td colspan='21'>2. Xét nghiệm - TDCN</td><td></td><td></td><td>44.150.600</td><td></td></tr><tr><td>1</td><td>Tổng phân tích tế bào máu ngoại vi</td><td>Lần</td><td>2</td><td>3</td><td>3</td><td>1</td><td>1</td><td>5</td><td>4</td><td>7</td><td>8</td><td>4</td><td>9</td><td>2</td><td>5</td><td>10</td><td>1</td><td>7</td><td>3</td><td>4</td><td>79</td><td>40.400</td><td>3.191.600</td><td></td></tr><tr><td>2</td><td>Định lượng Creatinin máu</td><td>Lần</td><td>9</td><td>2</td><td>7</td><td></td><td></td><td>3</td><td></td><td></td><td>3</td><td>9</td><td></td><td></td><td></td><td>3</td><td></td><td>4</td><td></td><td></td><td>40</td><td>21.900</td><td>876.000</td><td></td></tr><tr><td>3</td><td>Định lượng Urê máu</td><td>Lần</td><td>10</td><td>6</td><td></td><td>8</td><td></td><td>6</td><td>4</td><td>4</td><td>10</td><td>5</td><td>10</td><td>7</td><td>3</td><td>10</td><td>9</td><td>8</td><td>9</td><td>10</td><td>119</td><td>21.900</td><td>2.606.100</td><td></td></tr><tr><td>4</td><td>Điện giải đồ Na/K/Cl</td><td>Lần</td><td>1</td><td>4</td><td>1</td><td>5</td><td>8</td><td>4</td><td>7</td><td>1</td><td>2</td><td>6</td><td>6</td><td>10</td><td>10</td><td>8</td><td>1</td><td>2</td><td>3</td><td>2</td><td>81</td><td>44.800</td><td>3.628.800</td><td></td></tr></table>",
+    "bbox": "64 316 1620 1053",
+    "type": "Table"
+  },
+  "THÔNG TIN CHÂN TRANG": {
+    "content": "09.09.2023 09:34:10 - synthetic - 014 - MYBTH Trang 1 / 3",
+    "bbox": "64 1102 564 1134",
+    "type": "Section"
+  }
+}

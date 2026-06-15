@@ -1,0 +1,27 @@
+{
+  "BẢNG KÊ DỊCH VỤ": {
+    "content": "<table><tr><td rowspan='2'>STT</td><td rowspan='2'>TÊN DỊCH VỤ KHÁM BỆNH, CHỮA BỆNH</td><td rowspan='2'>ĐVT</td><td colspan='18'>SỐ LƯỢNG (THEO NGÀY/THÁNG)</td><td rowspan='2'>TỔNG SỐ</td><td rowspan='2'>ĐƠN GIÁ</td><td rowspan='2'>THÀNH TIỀN</td><td rowspan='2'>GHI CHÚ</td></tr><tr><td>11.09</td><td>12.09</td><td>13.09</td><td>14.09</td><td>15.09</td><td>16.09</td><td>17.09</td><td>18.09</td><td>19.09</td><td>20.09</td><td>21.09</td><td>22.09</td><td>23.09</td><td>24.09</td><td>25.09</td><td>26.09</td><td>27.09</td><td>28.09</td></tr><tr><td>2</td><td>Kim tiêm sử dụng 1 lần 18G</td><td>Cái</td><td>4</td><td></td><td>9</td><td>3</td><td>5</td><td>6</td><td>1</td><td>2</td><td>10</td><td>6</td><td>1</td><td>1</td><td>2</td><td>4</td><td>9</td><td></td><td>9</td><td>6</td><td>78</td><td>384</td><td>29.952</td><td></td></tr><tr><td>3</td><td>Quả lọc thận nhân tạo ELISSIO-17M</td><td>Quả</td><td>9</td><td>10</td><td>5</td><td>1</td><td>6</td><td>8</td><td></td><td></td><td>8</td><td>1</td><td>4</td><td>2</td><td></td><td>4</td><td>1</td><td></td><td>7</td><td></td><td>66</td><td>378.000</td><td>24.948.000</td><td></td></tr><tr><td>4</td><td>Dây lọc máu thận nhân tạo</td><td>Cái</td><td>2</td><td>9</td><td>5</td><td>2</td><td>10</td><td>2</td><td>6</td><td>8</td><td>2</td><td>7</td><td>6</td><td>2</td><td>2</td><td>4</td><td>3</td><td>6</td><td>6</td><td>10</td><td>92</td><td>82.800</td><td>7.617.600</td><td></td></tr><tr><td>5</td><td>Găng tay mỏng size M</td><td>Đôi</td><td>7</td><td>2</td><td>7</td><td></td><td>1</td><td>5</td><td>8</td><td>9</td><td>4</td><td></td><td>3</td><td></td><td>2</td><td></td><td>7</td><td>1</td><td></td><td>3</td><td>59</td><td>1.368</td><td>80.712</td><td></td></tr><tr><td>6</td><td>Natri Clorid 0,9% 1000ml</td><td>Chai</td><td>1</td><td>1</td><td>5</td><td>10</td><td>3</td><td>4</td><td>9</td><td>10</td><td>2</td><td>9</td><td>1</td><td>9</td><td>6</td><td>10</td><td>9</td><td>9</td><td>1</td><td>4</td><td>103</td><td>21.118</td><td>2.175.154</td><td></td></tr><tr><td>7</td><td>Natri Clorid 0,9% 500ml</td><td>Chai</td><td>8</td><td></td><td></td><td>9</td><td>1</td><td>7</td><td>7</td><td>7</td><td></td><td>2</td><td>5</td><td>6</td><td></td><td>3</td><td>10</td><td>8</td><td>3</td><td></td><td>76</td><td>23.400</td><td>1.778.400</td><td></td></tr><tr><td>8</td><td>Paringold</td><td>Lọ</td><td>1</td><td>3</td><td>3</td><td>2</td><td>0,2</td><td>0,2</td><td>10</td><td>10</td><td>0,5</td><td>3</td><td>2</td><td>3</td><td>0,2</td><td>5</td><td>0,2</td><td>0,2</td><td>3</td><td>2</td><td>48,5</td><td>176.400</td><td>8.555.400</td><td></td></tr><tr><td>9</td><td>Kim chạy thận nhân tạo</td><td>Cái</td><td>8</td><td>1</td><td>10</td><td>7</td><td>8</td><td>5</td><td></td><td>1</td><td>8</td><td>1</td><td>2</td><td>2</td><td>5</td><td>7</td><td>3</td><td></td><td>6</td><td>8</td><td>82</td><td>9.000</td><td>738.000</td><td></td></tr><tr><td>10</td><td>Gạc thận 3.5x4.5 80 lớp</td><td>Cái</td><td>9</td><td>7</td><td>5</td><td>7</td><td>2</td><td>3</td><td>7</td><td>5</td><td>3</td><td>3</td><td>6</td><td>5</td><td>5</td><td>6</td><td>10</td><td>7</td><td>4</td><td>10</td><td>104</td><td>4.800</td><td>499.200</td><td></td></tr><tr><td>11</td><td>Bơm tiêm SD 1 lần 10ml</td><td>Cái</td><td>6</td><td>1</td><td>4</td><td>6</td><td></td><td>8</td><td>1</td><td></td><td>9</td><td>7</td><td>6</td><td>5</td><td>10</td><td>9</td><td></td><td>8</td><td>5</td><td></td><td>85</td><td>1.260</td><td>107.100</td><td></td></tr><tr><td>12</td><td>Bơm tiêm SD 1 lần 20ml</td><td>Cái</td><td>4</td><td>8</td><td>8</td><td>2</td><td>3</td><td>4</td><td>10</td><td>4</td><td>6</td><td>6</td><td>2</td><td></td><td></td><td>1</td><td>8</td><td>2</td><td>1</td><td>7</td><td>76</td><td>2.100</td><td>159.600</td><td></td></tr><tr><td>13</td><td>Bơm tiêm sử dụng một lần 5ml 2</td><td>Cái</td><td>10</td><td>1</td><td>10</td><td>7</td><td>2</td><td>9</td><td>2</td><td>3</td><td>2</td><td>4</td><td>10</td><td>4</td><td>7</td><td>3</td><td>3</td><td>7</td><td>8</td><td>9</td><td>101</td><td>615</td><td>62.115</td><td></td></tr></table>",
+    "bbox": "64 96 1620 629",
+    "type": "Table"
+  },
+  "XÁC NHẬN": {
+    "content": "Người lập phiếu\n(Hằng ngày ký tên vào ô)\nKý xác nhận của\nBệnh nhân/Người nhà",
+    "bbox": "64 660 407 829",
+    "type": "Section"
+  },
+  "GHI CHÚ": {
+    "content": "Ghi chú: Phiếu được lập hằng ngày, treo ở đầu hoặc cuối giường bệnh. Khi bệnh nhân ra viện: Phiếu được dán sau phiếu Chăm sóc, lưu trong Hồ sơ bệnh án",
+    "bbox": "64 868 1333 900",
+    "type": "Section"
+  },
+  "BÁC SỸ ĐIỀU TRỊ": {
+    "content": "..............,Ngày 01 tháng 09 năm 2023\nBÁC SỸ ĐIỀU TRỊ\n(Ký, ghi rõ họ tên)",
+    "bbox": "1163 924 1604 1045",
+    "type": "Section"
+  },
+  "THÔNG TIN CHÂN TRANG": {
+    "content": "09.09.2023 09:34:10 - synthetic - 014 - MYBTH Trang 3 / 3",
+    "bbox": "64 1102 564 1134",
+    "type": "Section"
+  }
+}

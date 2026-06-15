@@ -1,0 +1,245 @@
+{
+  "sample_id": "000014",
+  "n_pages": 3,
+  "page_numbers": [
+    1,
+    2,
+    3
+  ],
+  "fields": {
+    "THÔNG TIN CHUNG": {
+      "content": "Bộ Y tế (Sở Y tế): SỞ Y TẾ HÀ GIANG BV: BỆNH VIỆN ĐK ĐỨC MINH\nKhoa: Khoa Hồi sức tích cực",
+      "type": "Section",
+      "source_pages": [
+        1
+      ],
+      "bbox": "64 92 446 221",
+      "merge_notes": [
+        "single occurrence"
+      ]
+    },
+    "Mã số phiếu": {
+      "content": "2300039471",
+      "type": "QR code",
+      "source_pages": [
+        1
+      ],
+      "bbox": "1439 48 1624 137",
+      "merge_notes": [
+        "single occurrence"
+      ]
+    },
+    "Tên phiếu": {
+      "content": "PHIẾU CÔNG KHAI DỊCH VỤ KHÁM\nCHỮA BỆNH NỘI TRÚ",
+      "type": "Text",
+      "source_pages": [
+        1
+      ],
+      "bbox": "551 128 1062 233",
+      "merge_notes": [
+        "single occurrence"
+      ]
+    },
+    "THÔNG TIN NGƯỜI BỆNH": {
+      "content": "Họ tên người bệnh: Tạ Thị Hương\nNgày sinh: 21/03/1970   Giới tính: Nam ☐ Nữ ☒\nGiường: H011   Buồng: Bệnh nhân TNT ngoại trú\nNgày vào viện: 28/09/2023",
+      "type": "Section",
+      "source_pages": [
+        1
+      ],
+      "bbox": "1062 100 1620 289",
+      "merge_notes": [
+        "single occurrence"
+      ]
+    },
+    "Chẩn bệnh": {
+      "content": "Chẩn bệnh: N18.5-Suy thận mạn, giai đoạn 5/ M81-Loãng xương/ K29-Viêm dạ dày tá tràng",
+      "type": "Section",
+      "source_pages": [
+        1
+      ],
+      "bbox": "64 260 927 309",
+      "merge_notes": [
+        "single occurrence"
+      ]
+    },
+    "BẢNG KÊ DỊCH VỤ": {
+      "content": "<table><tr><td rowspan='2'>STT</td><td rowspan='2'>TÊN DỊCH VỤ KHÁM BỆNH, CHỮA BỆNH</td><td rowspan='2'>ĐVT</td><td colspan='18'>SỐ LƯỢNG (THEO NGÀY/THÁNG)</td><td rowspan='2'>TỔNG SỐ</td><td rowspan='2'>ĐƠN GIÁ</td><td rowspan='2'>THÀNH TIỀN</td><td rowspan='2'>GHI CHÚ</td></tr><tr><td>11.09</td><td>12.09</td><td>13.09</td><td>14.09</td><td>15.09</td><td>16.09</td><td>17.09</td><td>18.09</td><td>19.09</td><td>20.09</td><td>21.09</td><td>22.09</td><td>23.09</td><td>24.09</td><td>25.09</td><td>26.09</td><td>27.09</td><td>28.09</td></tr><tr><td colspan='21'>1. Thuốc BH</td><td></td><td></td><td>20.648.113</td><td></td></tr><tr><td>1</td><td>Erythropoietin alfa 4000 IU</td><td>Lọ</td><td></td><td>9</td><td>5</td><td>6</td><td>7</td><td>3</td><td>6</td><td>5</td><td>5</td><td>7</td><td>1</td><td>7</td><td>3</td><td>4</td><td></td><td>1</td><td></td><td>6</td><td>75</td><td>168.000</td><td>12.600.000</td><td></td></tr><tr><td>2</td><td>Nước cất tiêm</td><td>Ống</td><td></td><td></td><td></td><td>2</td><td>10</td><td>1</td><td></td><td></td><td></td><td>3</td><td>5</td><td>5</td><td></td><td>6</td><td></td><td></td><td>5</td><td>6</td><td>43</td><td>690</td><td>29.670</td><td>Đã dùng</td></tr><tr><td>3</td><td>Jiracek</td><td>Viên</td><td>10</td><td>5</td><td></td><td>1</td><td></td><td>7</td><td></td><td>2</td><td>7</td><td>6</td><td>8</td><td></td><td>9</td><td>3</td><td></td><td>4</td><td>3</td><td>10</td><td>75</td><td>1.093</td><td>81.975</td><td></td></tr><tr><td>4</td><td>Alusi</td><td>Viên</td><td>6</td><td>3</td><td>1</td><td>7</td><td>4</td><td>1</td><td>3</td><td>10</td><td>1</td><td>10</td><td>6</td><td>7</td><td>9</td><td>8</td><td>4</td><td>5</td><td>5</td><td>8</td><td>98</td><td>1.600</td><td>156.800</td><td></td></tr><tr><td>5</td><td>Calcium carbonate 500mg</td><td>Viên</td><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td><td>5</td><td></td><td>8</td><td></td><td></td><td></td><td></td><td></td><td>4</td><td></td><td>7</td><td>25</td><td>950</td><td>23.750</td><td></td></tr><tr><td>6</td><td>Acid folic 5mg</td><td>Viên</td><td></td><td></td><td>10</td><td>9</td><td>10</td><td>10</td><td></td><td>7</td><td>6</td><td></td><td>2</td><td>8</td><td>6</td><td>3</td><td>5</td><td>7</td><td>3</td><td>4</td><td>90</td><td>420</td><td>37.800</td><td></td></tr><tr><td>7</td><td>Sắt sucrose 100mg/5ml</td><td>Ống</td><td></td><td>3</td><td></td><td>7</td><td></td><td>6</td><td></td><td></td><td></td><td>6</td><td>2</td><td>5</td><td>1</td><td>7</td><td>5</td><td></td><td>2</td><td></td><td>44</td><td>42.300</td><td>1.861.200</td><td></td></tr><tr><td>8</td><td>Heparin sodium 25000IU/5ml</td><td>Lọ</td><td>8</td><td>2</td><td>9</td><td>7</td><td>5</td><td>5</td><td>4</td><td>1</td><td>1</td><td>9</td><td>7</td><td>1</td><td>9</td><td>9</td><td>8</td><td>9</td><td>10</td><td>3</td><td>107</td><td>52.800</td><td>5.649.600</td><td></td></tr><tr><td>9</td><td>Amlodipin 5mg</td><td>Viên</td><td>5</td><td>2</td><td></td><td>4</td><td>6</td><td>6</td><td>9</td><td>4</td><td>1</td><td>8</td><td>7</td><td>7</td><td></td><td>8</td><td>9</td><td>2</td><td></td><td>9</td><td>87</td><td>650</td><td>56.550</td><td></td></tr><tr><td>10</td><td>Furosemid 40mg</td><td>Viên</td><td></td><td></td><td>4</td><td>4</td><td>10</td><td></td><td>6</td><td>3</td><td></td><td></td><td></td><td>7</td><td>4</td><td>9</td><td></td><td></td><td></td><td>10</td><td>57</td><td>184</td><td>10.488</td><td></td></tr><tr><td>11</td><td>Omeprazol 20mg</td><td>Viên</td><td>6</td><td>9</td><td></td><td>7</td><td>9</td><td></td><td></td><td></td><td>8</td><td></td><td>9</td><td>8</td><td>10</td><td>7</td><td></td><td>7</td><td>8</td><td>10</td><td>98</td><td>980</td><td>96.040</td><td></td></tr><tr><td>12</td><td>Paracetamol 500mg</td><td>Viên</td><td>2</td><td>3</td><td>3</td><td>1</td><td>1</td><td>5</td><td>4</td><td>7</td><td>8</td><td>4</td><td>9</td><td>2</td><td>5</td><td>10</td><td>1</td><td>7</td><td>3</td><td>4</td><td>79</td><td>560</td><td>44.240</td><td></td></tr><tr><td colspan='21'>2. Xét nghiệm - TDCN</td><td></td><td></td><td>44.150.600</td><td></td></tr><tr><td>1</td><td>Tổng phân tích tế bào máu ngoại vi</td><td>Lần</td><td>2</td><td>3</td><td>3</td><td>1</td><td>1</td><td>5</td><td>4</td><td>7</td><td>8</td><td>4</td><td>9</td><td>2</td><td>5</td><td>10</td><td>1</td><td>7</td><td>3</td><td>4</td><td>79</td><td>40.400</td><td>3.191.600</td><td></td></tr><tr><td>2</td><td>Định lượng Creatinin máu</td><td>Lần</td><td>9</td><td>2</td><td>7</td><td></td><td></td><td>3</td><td></td><td></td><td>3</td><td>9</td><td></td><td></td><td></td><td>3</td><td></td><td>4</td><td></td><td></td><td>40</td><td>21.900</td><td>876.000</td><td></td></tr><tr><td>3</td><td>Định lượng Urê máu</td><td>Lần</td><td>10</td><td>6</td><td></td><td>8</td><td></td><td>6</td><td>4</td><td>4</td><td>10</td><td>5</td><td>10</td><td>7</td><td>3</td><td>10</td><td>9</td><td>8</td><td>9</td><td>10</td><td>119</td><td>21.900</td><td>2.606.100</td><td></td></tr><tr><td>4</td><td>Điện giải đồ Na/K/Cl</td><td>Lần</td><td>1</td><td>4</td><td>1</td><td>5</td><td>8</td><td>4</td><td>7</td><td>1</td><td>2</td><td>6</td><td>6</td><td>10</td><td>10</td><td>8</td><td>1</td><td>2</td><td>3</td><td>2</td><td>81</td><td>44.800</td><td>3.628.800</td><td></td></tr><tr><td>5</td><td>Định lượng Glucose máu</td><td>Lần</td><td>3</td><td>8</td><td>4</td><td>7</td><td>3</td><td>8</td><td>6</td><td>5</td><td></td><td>1</td><td>8</td><td></td><td>1</td><td>4</td><td></td><td>4</td><td>8</td><td></td><td>70</td><td>21.900</td><td>1.533.000</td><td></td></tr><tr><td>6</td><td>Định lượng AST/ALT</td><td>Lần</td><td>3</td><td>3</td><td>7</td><td>8</td><td>10</td><td>1</td><td>9</td><td>5</td><td>3</td><td>2</td><td>9</td><td>6</td><td>4</td><td>8</td><td>9</td><td>4</td><td>7</td><td>6</td><td>104</td><td>43.800</td><td>4.555.200</td><td></td></tr><tr><td>7</td><td>Định lượng Canxi toàn phần</td><td>Lần</td><td>10</td><td>8</td><td></td><td>10</td><td></td><td>8</td><td></td><td>7</td><td></td><td></td><td>8</td><td></td><td>1</td><td>1</td><td></td><td></td><td>5</td><td>3</td><td>61</td><td>26.800</td><td>1.634.800</td><td></td></tr><tr><td>8</td><td>Định lượng Phospho máu</td><td>Lần</td><td></td><td>10</td><td></td><td>10</td><td></td><td>1</td><td>6</td><td>6</td><td>4</td><td>4</td><td>2</td><td>6</td><td>3</td><td>6</td><td>1</td><td>5</td><td>1</td><td>5</td><td>70</td><td>26.800</td><td>1.876.000</td><td></td></tr><tr><td>9</td><td>Định lượng Albumin máu</td><td>Lần</td><td>5</td><td>7</td><td>5</td><td>10</td><td>10</td><td>3</td><td>3</td><td>5</td><td>9</td><td>6</td><td>9</td><td>1</td><td>8</td><td>6</td><td>8</td><td>5</td><td>1</td><td>3</td><td>104</td><td>26.800</td><td>2.787.200</td><td></td></tr><tr><td>10</td><td>Định lượng CRP</td><td>Lần</td><td>8</td><td>3</td><td>10</td><td>2</td><td>4</td><td>8</td><td>6</td><td>1</td><td>5</td><td>5</td><td>7</td><td>9</td><td>5</td><td>5</td><td>10</td><td>6</td><td>3</td><td>9</td><td>106</td><td>72.900</td><td>7.727.400</td><td></td></tr><tr><td>11</td><td>HBsAg miễn dịch tự động</td><td>Lần</td><td>8</td><td>5</td><td>6</td><td>10</td><td>7</td><td>7</td><td>5</td><td>10</td><td>2</td><td>8</td><td>10</td><td>10</td><td>2</td><td>9</td><td>10</td><td>3</td><td>9</td><td>9</td><td>130</td><td>80.900</td><td>10.517.000</td><td></td></tr><tr><td>12</td><td>Điện tâm đồ thường</td><td>Lần</td><td>4</td><td>10</td><td>4</td><td>3</td><td>1</td><td>7</td><td>1</td><td>10</td><td>1</td><td>2</td><td>5</td><td>7</td><td>9</td><td>8</td><td>10</td><td>5</td><td>8</td><td>4</td><td>99</td><td>32.500</td><td>3.217.500</td><td></td></tr><tr><td colspan='21'>3. Phẫu thuật - thủ thuật</td><td></td><td></td><td>310.634.400</td><td></td></tr><tr><td>1</td><td>Thận nhân tạo thường qui</td><td>Lần</td><td>4</td><td>10</td><td>4</td><td>3</td><td>1</td><td>7</td><td>1</td><td>10</td><td>1</td><td>2</td><td>5</td><td>7</td><td>9</td><td>8</td><td>10</td><td>5</td><td>8</td><td>4</td><td>99</td><td>556.000</td><td>55.044.000</td><td></td></tr><tr><td>2</td><td>Lọc máu HDF online</td><td>Lần</td><td>4</td><td>5</td><td>9</td><td>9</td><td>8</td><td>3</td><td>10</td><td>10</td><td>6</td><td>9</td><td>7</td><td>4</td><td>2</td><td>5</td><td>9</td><td>6</td><td>8</td><td>9</td><td>123</td><td>1.320.000</td><td>162.360.000</td><td></td></tr><tr><td>3</td><td>Chăm sóc catheter tĩnh mạch trung tâm</td><td>Lần</td><td>5</td><td>3</td><td>4</td><td>2</td><td>10</td><td>5</td><td>7</td><td>2</td><td>5</td><td>3</td><td>8</td><td>6</td><td>6</td><td>2</td><td>7</td><td>8</td><td>7</td><td>3</td><td>93</td><td>118.000</td><td>10.974.000</td><td></td></tr><tr><td>4</td><td>Chọc kim đường dò động tĩnh mạch</td><td>Lần</td><td>7</td><td>7</td><td>5</td><td>8</td><td>4</td><td>1</td><td>1</td><td>3</td><td>1</td><td>3</td><td>10</td><td>8</td><td>5</td><td>1</td><td>7</td><td></td><td>1</td><td>2</td><td>74</td><td>62.000</td><td>4.588.000</td><td></td></tr><tr><td>5</td><td>Truyền khối hồng cầu</td><td>Lần</td><td>10</td><td>4</td><td>3</td><td>6</td><td></td><td>2</td><td></td><td>4</td><td>7</td><td></td><td>1</td><td>6</td><td></td><td>5</td><td>7</td><td>1</td><td>7</td><td></td><td>63</td><td>215.000</td><td>13.545.000</td><td></td></tr><tr><td>6</td><td>Thở oxy qua gọng kính</td><td>Lần</td><td></td><td>3</td><td>2</td><td></td><td>6</td><td>2</td><td>6</td><td></td><td>9</td><td></td><td>8</td><td>10</td><td></td><td>9</td><td>8</td><td>4</td><td></td><td>2</td><td>69</td><td>29.800</td><td>2.056.200</td><td></td></tr><tr><td>7</td><td>Tiêm tĩnh mạch</td><td>Lần</td><td></td><td>6</td><td>9</td><td></td><td>4</td><td></td><td>2</td><td>5</td><td></td><td>4</td><td>10</td><td>6</td><td>10</td><td>4</td><td>6</td><td>7</td><td>4</td><td></td><td>77</td><td>18.900</td><td>1.455.300</td><td></td></tr><tr><td>8</td><td>Truyền dịch tĩnh mạch</td><td>Lần</td><td>1</td><td></td><td>4</td><td>3</td><td>1</td><td>7</td><td>10</td><td></td><td>4</td><td></td><td>1</td><td></td><td>5</td><td>2</td><td>7</td><td>10</td><td>9</td><td></td><td>64</td><td>24.600</td><td>1.574.400</td><td></td></tr><tr><td>9</td><td>Thay băng vết thương</td><td>Lần</td><td>9</td><td></td><td>5</td><td></td><td></td><td></td><td>10</td><td>8</td><td></td><td>2</td><td></td><td>5</td><td>4</td><td>10</td><td></td><td>3</td><td>10</td><td></td><td>66</td><td>54.500</td><td>3.597.000</td><td></td></tr><tr><td>10</td><td>Khí dung thuốc</td><td>Lần</td><td></td><td>5</td><td>8</td><td>8</td><td>6</td><td>2</td><td>5</td><td>5</td><td></td><td>2</td><td>10</td><td>5</td><td>5</td><td>2</td><td>10</td><td>9</td><td>1</td><td>2</td><td>85</td><td>38.500</td><td>3.272.500</td><td></td></tr><tr><td>11</td><td>Theo dõi dấu hiệu sinh tồn</td><td>Lần</td><td>2</td><td>3</td><td>7</td><td>9</td><td>7</td><td></td><td></td><td></td><td>3</td><td></td><td>8</td><td></td><td></td><td>1</td><td>1</td><td></td><td>9</td><td></td><td>50</td><td>15.000</td><td>750.000</td><td></td></tr><tr><td>12</td><td>Tư vấn dinh dưỡng bệnh thận</td><td>Lần</td><td>9</td><td>3</td><td>1</td><td>10</td><td>6</td><td>6</td><td>10</td><td>9</td><td>4</td><td>9</td><td>5</td><td>10</td><td>5</td><td>1</td><td>6</td><td>8</td><td>9</td><td>4</td><td>115</td><td>70.000</td><td>8.050.000</td><td></td></tr><tr><td>13</td><td>Thận nhân tạo thường qui 2</td><td>Lần</td><td>4</td><td></td><td>9</td><td>3</td><td>5</td><td>6</td><td>1</td><td>2</td><td>10</td><td>6</td><td>1</td><td>1</td><td>2</td><td>4</td><td>9</td><td></td><td>9</td><td>6</td><td>78</td><td>556.000</td><td>43.368.000</td><td></td></tr><tr><td colspan='21'>4. Vật tư BH</td><td></td><td></td><td>46.821.958</td><td></td></tr><tr><td>1</td><td>Bơm tiêm sử dụng một lần 5ml</td><td>Cái</td><td>9</td><td>3</td><td>1</td><td>10</td><td>6</td><td>6</td><td>10</td><td>9</td><td>4</td><td>9</td><td>5</td><td>10</td><td>5</td><td>1</td><td>6</td><td>8</td><td>9</td><td>4</td><td>115</td><td>615</td><td>70.725</td><td></td></tr><tr><td>2</td><td>Kim tiêm sử dụng 1 lần 18G</td><td>Cái</td><td>4</td><td></td><td>9</td><td>3</td><td>5</td><td>6</td><td>1</td><td>2</td><td>10</td><td>6</td><td>1</td><td>1</td><td>2</td><td>4</td><td>9</td><td></td><td>9</td><td>6</td><td>78</td><td>384</td><td>29.952</td><td></td></tr><tr><td>3</td><td>Quả lọc thận nhân tạo ELISSIO-17M</td><td>Quả</td><td>9</td><td>10</td><td>5</td><td>1</td><td>6</td><td>8</td><td></td><td></td><td>8</td><td>1</td><td>4</td><td>2</td><td></td><td>4</td><td>1</td><td></td><td>7</td><td></td><td>66</td><td>378.000</td><td>24.948.000</td><td></td></tr><tr><td>4</td><td>Dây lọc máu thận nhân tạo</td><td>Cái</td><td>2</td><td>9</td><td>5</td><td>2</td><td>10</td><td>2</td><td>6</td><td>8</td><td>2</td><td>7</td><td>6</td><td>2</td><td>2</td><td>4</td><td>3</td><td>6</td><td>6</td><td>10</td><td>92</td><td>82.800</td><td>7.617.600</td><td></td></tr><tr><td>5</td><td>Găng tay mỏng size M</td><td>Đôi</td><td>7</td><td>2</td><td>7</td><td></td><td>1</td><td>5</td><td>8</td><td>9</td><td>4</td><td></td><td>3</td><td></td><td>2</td><td></td><td>7</td><td>1</td><td></td><td>3</td><td>59</td><td>1.368</td><td>80.712</td><td></td></tr><tr><td>6</td><td>Natri Clorid 0,9% 1000ml</td><td>Chai</td><td>1</td><td>1</td><td>5</td><td>10</td><td>3</td><td>4</td><td>9</td><td>10</td><td>2</td><td>9</td><td>1</td><td>9</td><td>6</td><td>10</td><td>9</td><td>9</td><td>1</td><td>4</td><td>103</td><td>21.118</td><td>2.175.154</td><td></td></tr><tr><td>7</td><td>Natri Clorid 0,9% 500ml</td><td>Chai</td><td>8</td><td></td><td></td><td>9</td><td>1</td><td>7</td><td>7</td><td>7</td><td></td><td>2</td><td>5</td><td>6</td><td></td><td>3</td><td>10</td><td>8</td><td>3</td><td></td><td>76</td><td>23.400</td><td>1.778.400</td><td></td></tr><tr><td>8</td><td>Paringold</td><td>Lọ</td><td>1</td><td>3</td><td>3</td><td>2</td><td>0,2</td><td>0,2</td><td>10</td><td>10</td><td>0,5</td><td>3</td><td>2</td><td>3</td><td>0,2</td><td>5</td><td>0,2</td><td>0,2</td><td>3</td><td>2</td><td>48,5</td><td>176.400</td><td>8.555.400</td><td></td></tr><tr><td>9</td><td>Kim chạy thận nhân tạo</td><td>Cái</td><td>8</td><td>1</td><td>10</td><td>7</td><td>8</td><td>5</td><td></td><td>1</td><td>8</td><td>1</td><td>2</td><td>2</td><td>5</td><td>7</td><td>3</td><td></td><td>6</td><td>8</td><td>82</td><td>9.000</td><td>738.000</td><td></td></tr><tr><td>10</td><td>Gạc thận 3.5x4.5 80 lớp</td><td>Cái</td><td>9</td><td>7</td><td>5</td><td>7</td><td>2</td><td>3</td><td>7</td><td>5</td><td>3</td><td>3</td><td>6</td><td>5</td><td>5</td><td>6</td><td>10</td><td>7</td><td>4</td><td>10</td><td>104</td><td>4.800</td><td>499.200</td><td></td></tr><tr><td>11</td><td>Bơm tiêm SD 1 lần 10ml</td><td>Cái</td><td>6</td><td>1</td><td>4</td><td>6</td><td></td><td>8</td><td>1</td><td></td><td>9</td><td>7</td><td>6</td><td>5</td><td>10</td><td>9</td><td></td><td>8</td><td>5</td><td></td><td>85</td><td>1.260</td><td>107.100</td><td></td></tr><tr><td>12</td><td>Bơm tiêm SD 1 lần 20ml</td><td>Cái</td><td>4</td><td>8</td><td>8</td><td>2</td><td>3</td><td>4</td><td>10</td><td>4</td><td>6</td><td>6</td><td>2</td><td></td><td></td><td>1</td><td>8</td><td>2</td><td>1</td><td>7</td><td>76</td><td>2.100</td><td>159.600</td><td></td></tr><tr><td>13</td><td>Bơm tiêm sử dụng một lần 5ml 2</td><td>Cái</td><td>10</td><td>1</td><td>10</td><td>7</td><td>2</td><td>9</td><td>2</td><td>3</td><td>2</td><td>4</td><td>10</td><td>4</td><td>7</td><td>3</td><td>3</td><td>7</td><td>8</td><td>9</td><td>101</td><td>615</td><td>62.115</td><td></td></tr></table>",
+      "type": "Table",
+      "source_pages": [
+        1,
+        2,
+        3
+      ],
+      "bbox": "64 316 1620 1053",
+      "merge_notes": [
+        "page_part_0: kept 20 rows (incl. header)",
+        "page_part_1: bbox page-cut continuation",
+        "page_part_1: stt continuation confirmed",
+        "page_part_1: skipped 2 repeated prefix rows, appended 24 rows",
+        "page_part_2: bbox page-cut continuation",
+        "page_part_2: stt continuation confirmed",
+        "page_part_2: skipped 2 repeated prefix rows, appended 12 rows",
+        "total_rows=56"
+      ]
+    },
+    "THÔNG TIN CHÂN TRANG": {
+      "content": "Trang 1: 09.09.2023 09:34:10 - synthetic - 014 - MYBTH Trang 1 / 3\nTrang 2: 09.09.2023 09:34:10 - synthetic - 014 - MYBTH Trang 2 / 3\nTrang 3: 09.09.2023 09:34:10 - synthetic - 014 - MYBTH Trang 3 / 3",
+      "type": "Section",
+      "source_pages": [
+        1,
+        2,
+        3
+      ],
+      "bbox": "64 1102 564 1134",
+      "merge_notes": [
+        "per-page footer preserved"
+      ]
+    },
+    "XÁC NHẬN": {
+      "content": "Người lập phiếu\n(Hằng ngày ký tên vào ô)\nKý xác nhận của\nBệnh nhân/Người nhà",
+      "type": "Section",
+      "source_pages": [
+        3
+      ],
+      "bbox": "64 660 407 829",
+      "merge_notes": [
+        "single occurrence"
+      ]
+    },
+    "GHI CHÚ": {
+      "content": "Ghi chú: Phiếu được lập hằng ngày, treo ở đầu hoặc cuối giường bệnh. Khi bệnh nhân ra viện: Phiếu được dán sau phiếu Chăm sóc, lưu trong Hồ sơ bệnh án",
+      "type": "Section",
+      "source_pages": [
+        3
+      ],
+      "bbox": "64 868 1333 900",
+      "merge_notes": [
+        "single occurrence"
+      ]
+    },
+    "BÁC SỸ ĐIỀU TRỊ": {
+      "content": "..............,Ngày 01 tháng 09 năm 2023\nBÁC SỸ ĐIỀU TRỊ\n(Ký, ghi rõ họ tên)",
+      "type": "Section",
+      "source_pages": [
+        3
+      ],
+      "bbox": "1163 924 1604 1045",
+      "merge_notes": [
+        "single occurrence"
+      ]
+    }
+  },
+  "merge_log": [
+    {
+      "field": "THÔNG TIN CHUNG",
+      "strategy": "as_is",
+      "source_pages": [
+        1
+      ],
+      "notes": [
+        "single occurrence"
+      ]
+    },
+    {
+      "field": "Mã số phiếu",
+      "strategy": "as_is",
+      "source_pages": [
+        1
+      ],
+      "notes": [
+        "single occurrence"
+      ]
+    },
+    {
+      "field": "Tên phiếu",
+      "strategy": "as_is",
+      "source_pages": [
+        1
+      ],
+      "notes": [
+        "single occurrence"
+      ]
+    },
+    {
+      "field": "THÔNG TIN NGƯỜI BỆNH",
+      "strategy": "as_is",
+      "source_pages": [
+        1
+      ],
+      "notes": [
+        "single occurrence"
+      ]
+    },
+    {
+      "field": "Chẩn bệnh",
+      "strategy": "as_is",
+      "source_pages": [
+        1
+      ],
+      "notes": [
+        "single occurrence"
+      ]
+    },
+    {
+      "field": "BẢNG KÊ DỊCH VỤ",
+      "strategy": "table_concat_drop_repeated_headers",
+      "source_pages": [
+        1,
+        2,
+        3
+      ],
+      "notes": [
+        "page_part_0: kept 20 rows (incl. header)",
+        "page_part_1: bbox page-cut continuation",
+        "page_part_1: stt continuation confirmed",
+        "page_part_1: skipped 2 repeated prefix rows, appended 24 rows",
+        "page_part_2: bbox page-cut continuation",
+        "page_part_2: stt continuation confirmed",
+        "page_part_2: skipped 2 repeated prefix rows, appended 12 rows",
+        "total_rows=56"
+      ]
+    },
+    {
+      "field": "THÔNG TIN CHÂN TRANG",
+      "strategy": "footer_per_page",
+      "source_pages": [
+        1,
+        2,
+        3
+      ],
+      "notes": [
+        "per-page footer preserved"
+      ]
+    },
+    {
+      "field": "XÁC NHẬN",
+      "strategy": "last_page",
+      "source_pages": [
+        3
+      ],
+      "notes": [
+        "single occurrence"
+      ]
+    },
+    {
+      "field": "GHI CHÚ",
+      "strategy": "last_page",
+      "source_pages": [
+        3
+      ],
+      "notes": [
+        "single occurrence"
+      ]
+    },
+    {
+      "field": "BÁC SỸ ĐIỀU TRỊ",
+      "strategy": "last_page",
+      "source_pages": [
+        3
+      ],
+      "notes": [
+        "single occurrence"
+      ]
+    }
+  ]
+}

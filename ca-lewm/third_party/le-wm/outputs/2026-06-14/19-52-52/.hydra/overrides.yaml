@@ -1,0 +1,6 @@
+- data=pusht
+- data.dataset.name=pusht_expert_train.h5
+- trainer.devices=1
+- trainer.max_epochs=1
+- num_workers=0
+- loader.batch_size=32
