@@ -1,0 +1,20 @@
+# TwoRoom training dataset config.
+#
+# Dataset file: tworoom.h5  (~12 GB)
+# Expected location: $STABLEWM_HOME/datasets/tworoom.h5
+#   default STABLEWM_HOME = ~/.stable_worldmodel  (or ~/.stable-wm if set via env)
+#
+# Keys match the TwoRoom HDF5 schema from quentinll/lewm-tworooms.
+# frameskip=5 is consistent with the PushT and DMC configs.
+
+dataset:
+  num_steps: ${eval:'${num_preds} + ${history_size}'}
+  frameskip: 5
+  name: tworoom.h5
+  keys_to_load:
+    - pixels
+    - action
+    - proprio
+  keys_to_cache:
+    - action
+    - proprio

@@ -1,0 +1,77 @@
+defaults:
+  - _self_
+  - launcher: local
+  - data: tworoom
+  - model: lewm
+
+output_model_name: lewm
+subdir: ${hydra:job.id}
+
+num_workers: 6
+train_split: 0.9
+seed: 3072
+img_size: 224
+embed_dim: 192
+history_size: 3
+
+trainer:
+  max_epochs: 100
+  devices: auto
+  accelerator: gpu
+  precision: bf16
+  gradient_clip_val: 1.0
+
+loader:
+  batch_size: 128
+  num_workers: ${num_workers}
+  persistent_workers: True
+  prefetch_factor: 3
+  pin_memory: True
+
+optimizer:
+  type: AdamW
+  lr: 5e-5
+  weight_decay: 1e-3
+
+num_preds: 1
+
+loss:
+  sigreg:
+    # Loss weights
+    weight: 0.09            # λ_sig  — SIGReg on active subspace (same as LeWM baseline)
+    inactive_weight: 0.01   # λ_inactive — L2 compression on inactive subspace
+    ctrl_weight: 0.0        # λ_ctrl — controllability alignment loss (off by default)
+    use_ctrl_loss: false    # enable to add ctrl_loss to the gradient graph
+
+    kwargs:
+      embed_dim: ${embed_dim}   # resolved to 192 via Hydra interpolation
+
+      # SketchSIGReg params
+      knots: 17
+      num_proj: 1024
+
+      # EMA covariance
+      ema: 0.99
+
+      # Basis update schedule
+      update_basis_every: 50   # steps between eigendecompositions
+      warmup_steps: 100        # steps before first basis update
+
+      # Active subspace selection
+      tau: 0.95                # cumulative score threshold
+      r_min: 4                 # minimum active dims
+      r_max: 64                # maximum active dims
+
+      # Score exponents — ablations:
+      #   PCA-Rank:  alpha=1.0, beta=0.0
+      #   Ctrl-Rank: alpha=0.0, beta=1.0
+      #   CAR full:  alpha=1.0, beta=1.0  (default)
+      alpha: 1.0
+      beta: 1.0
+
+      # Finite-difference step on act_emb for controllability
+      action_eps: 0.05
+
+      # Controllability loss params (only active when use_ctrl_loss=true)
+      ctrl_margin: 0.01
+      ctrl_gamma: 0.1
