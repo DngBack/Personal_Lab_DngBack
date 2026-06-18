@@ -1,0 +1,20 @@
+team_id: "minhlam"
+phase: "phase1_a"
+submission_name: "vllm-dp3-short-dp1-long"
+dockerfile: "./Dockerfile"
+entrypoint:
+  command: ["python3", "/app/scripts/run_baseline.py"]
+  port: 8000
+  health_path: "/health"
+  ready_timeout_sec: 1800
+resources:
+  gpus: 4
+  vram_gb_per_gpu: 141
+model:
+  name: "gpt-oss-20b"
+notes: |
+  Short pool: GPU 0-2, TP=1, native DP=3 (~32 max_num_seqs per rank).
+  Long pool: GPU 3, TP=1, DP=1 (max_model_len=28672).
+  Length router on port 8000; fast-path resolve_routing (fast-short/fast-long/tokenize/estimate).
+  V1-A profile: dp3_short | dp3_1. V1-B profile: v1b | v1b_2short_2long (SLO + prefix locality).
+  Profiles: dp3_short | dp3_1 | v1b | short_long | jit | native | tp4.

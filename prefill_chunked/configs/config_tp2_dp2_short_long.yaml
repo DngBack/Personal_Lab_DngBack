@@ -1,0 +1,141 @@
+# 2×TP + 2 pool ngắn/dài (2 process vLLM độc lập, mỗi process TP=2).
+# KV cache KHÔNG chia sẻ giữa 2 pool — mỗi pool giữ KV riêng trên GPU 0-1 / 2-3.
+# Router trên port 8000 chọn pool theo số token prompt (>= split -> long).
+
+model:
+  model_path: /models/gpt-oss-20b
+  served_model_name: /models/gpt-oss-20b
+
+default_chat_template_kwargs:
+  reasoning_effort: low
+
+server:
+  host: 0.0.0.0
+  port: 8000
+
+deployment:
+  mode: short_long
+  split_prompt_tokens: 8192
+  pools:
+    short:
+      cuda_visible_devices: "0,1"
+      internal_port: 8001
+      vllm:
+        tensor_parallel_size: 2
+        max_model_len: 12288
+        gpu_memory_utilization: 0.95
+        max_num_seqs: 96
+        max_num_partial_prefills: 2
+        enable_prefix_caching: true
+        enable_concurrent_prefill_patch: true
+        extra_args:
+          - --default-chat-template-kwargs
+          - '{"reasoning_effort":"low"}'
+          - --max-num-batched-tokens
+          - "12288"
+          - --enable-chunked-prefill
+          - --max-num-partial-prefills
+          - "2"
+          - --max-long-partial-prefills
+          - "2"
+          - --long-prefill-token-threshold
+          - "12288"
+          - --kv-cache-dtype
+          - auto
+          - --block-size
+          - "16"
+          - --max-cudagraph-capture-size
+          - "512"
+          - --async-scheduling
+          - --performance-mode
+          - interactivity
+    long:
+      cuda_visible_devices: "2,3"
+      internal_port: 8002
+      vllm:
+        tensor_parallel_size: 2
+        max_model_len: 28672
+        gpu_memory_utilization: 0.95
+        max_num_seqs: 48
+        max_num_partial_prefills: 3
+        enable_prefix_caching: true
+        enable_concurrent_prefill_patch: true
+        extra_args:
+          - --default-chat-template-kwargs
+          - '{"reasoning_effort":"low"}'
+          - --max-num-batched-tokens
+          - "16384"
+          - --enable-chunked-prefill
+          - --max-num-partial-prefills
+          - "3"
+          - --max-long-partial-prefills
+          - "2"
+          - --long-prefill-token-threshold
+          - "16384"
+          - --kv-cache-dtype
+          - auto
+          - --block-size
+          - "16"
+          - --max-cudagraph-capture-size
+          - "256"
+          - --async-scheduling
+          - --performance-mode
+          - interactivity
+
+# Defaults merged into each pool; pool vllm overrides win.
+vllm:
+  tensor_parallel_size: 2
+  max_model_len: 12288
+  gpu_memory_utilization: 0.95
+  max_num_seqs: 64
+  max_num_partial_prefills: 2
+  enable_prefix_caching: true
+  enable_concurrent_prefill_patch: true
+  extra_args: []
+
+warmup:
+  enabled: true
+  readiness_gate: true
+  health_timeout_sec: 1800
+  health_poll_interval_sec: 5
+  request_timeout_sec: 120
+  concurrency: 16
+  rounds: 2
+  stream: true
+  token_tolerance_pct: 0.05
+  scenarios:
+    - name: tiny_p10
+      prompt_tokens: 64
+      max_tokens: 64
+      weight: 4
+      reasoning_effort: low
+    - name: short_p25
+      prompt_tokens: 128
+      max_tokens: 96
+      weight: 4
+      reasoning_effort: low
+    - name: bulk_p50
+      prompt_tokens: 4256
+      max_tokens: 96
+      weight: 8
+      reasoning_effort: low
+    - name: bulk_long_decode
+      prompt_tokens: 4288
+      max_tokens: 256
+      weight: 4
+      reasoning_effort: low
+    - name: p90_prefill
+      prompt_tokens: 5504
+      max_tokens: 320
+      weight: 2
+      reasoning_effort: low
+    - name: tail_p95
+      prompt_tokens: 24256
+      max_tokens: 512
+      weight: 1
+      reasoning_effort: low
+
+logging:
+  log_dir: /app/logs/config_tp2_short_long
+  timezone: Asia/Ho_Chi_Minh
+  datetime_format: "%d/%m/%Y %H:%M:%S"

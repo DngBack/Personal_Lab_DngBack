@@ -1,0 +1,11 @@
+.git
+.gitignore
+*.zip
+*.tar
+*.tar.gz
+logs.txt
+metrics.txt
+**/__pycache__
+**/*.pyc
+.cursor
+agent-transcripts

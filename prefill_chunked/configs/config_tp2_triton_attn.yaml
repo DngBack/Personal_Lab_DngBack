@@ -1,0 +1,194 @@
+# A/B test: TRITON_ATTN backend + fuse flags vs default FLASH_ATTN.
+#
+# Thay đổi so với config_tp2_dp2_short_long.yaml:
+#   1. vllm.attention_backend: triton_attn  (VLLM_ATTENTION_BACKEND=TRITON_ATTN)
+#   2. extra_env.VLLM_COMPILE_CONFIG: bật fuse_gemm_comms + fuse_attn_quant
+#   3. warmup mở rộng: thêm batch-size 1/2/4/8 để pre-compile JIT Triton kernels
+#      (fix cảnh báo "Triton kernel JIT compilation during inference")
+#
+# Cách dùng:
+#   BASELINE_CONFIG_PATH=/app/configs/config_tp2_triton_attn.yaml python3 run_baseline.py
+#   BASELINE_JIT_MODE=1 docker run ...   # shortcut: chọn config này + bật JIT warmup
+#   BASELINE_CONFIG_PROFILE=jit docker run ...
+# Hoặc chỉ đổi backend mà giữ warmup gốc:
+#   BASELINE_ATTENTION_BACKEND=TRITON_ATTN + BASELINE_CONFIG_PATH=config_tp2_dp2_short_long.yaml
+
+model:
+  model_path: /models/gpt-oss-20b
+  served_model_name: /models/gpt-oss-20b
+
+default_chat_template_kwargs:
+  reasoning_effort: low
+
+server:
+  host: 0.0.0.0
+  port: 8000
+
+deployment:
+  mode: short_long
+  split_prompt_tokens: 8192
+  pools:
+    short:
+      cuda_visible_devices: "0,1"
+      internal_port: 8001
+      vllm:
+        tensor_parallel_size: 2
+        max_model_len: 12288
+        gpu_memory_utilization: 0.95
+        max_num_seqs: 96
+        max_num_partial_prefills: 2
+        enable_prefix_caching: true
+        enable_concurrent_prefill_patch: true
+        # Switch attention backend to Triton for short pool.
+        # Triton path is more flexible for mixed-length batches and
+        # may handle the GptOss hybrid (full+sliding) attention better.
+        attention_backend: triton_attn
+        extra_env:
+          # Overlap GEMM computation with TP all-reduce to hide comm latency.
+          # Requires the vLLM Triton allreduce backend to be active.
+          VLLM_COMPILE_CONFIG: '{"pass_config":{"fuse_gemm_comms":true,"fuse_attn_quant":true}}'
+        extra_args:
+          - --default-chat-template-kwargs
+          - '{"reasoning_effort":"low"}'
+          - --max-num-batched-tokens
+          - "12288"
+          - --enable-chunked-prefill
+          - --max-num-partial-prefills
+          - "2"
+          - --max-long-partial-prefills
+          - "2"
+          - --long-prefill-token-threshold
+          - "12288"
+          - --kv-cache-dtype
+          - auto
+          - --block-size
+          - "16"
+          - --max-cudagraph-capture-size
+          - "512"
+          - --async-scheduling
+          - --performance-mode
+          - interactivity
+    long:
+      cuda_visible_devices: "2,3"
+      internal_port: 8002
+      vllm:
+        tensor_parallel_size: 2
+        max_model_len: 28672
+        gpu_memory_utilization: 0.95
+        max_num_seqs: 32
+        max_num_partial_prefills: 2
+        enable_prefix_caching: true
+        enable_concurrent_prefill_patch: true
+        attention_backend: triton_attn
+        extra_env:
+          VLLM_COMPILE_CONFIG: '{"pass_config":{"fuse_gemm_comms":true,"fuse_attn_quant":true}}'
+        extra_args:
+          - --default-chat-template-kwargs
+          - '{"reasoning_effort":"low"}'
+          - --max-num-batched-tokens
+          - "16384"
+          - --enable-chunked-prefill
+          - --max-num-partial-prefills
+          - "2"
+          - --max-long-partial-prefills
+          - "1"
+          - --long-prefill-token-threshold
+          - "16384"
+          - --kv-cache-dtype
+          - auto
+          - --block-size
+          - "16"
+          - --max-cudagraph-capture-size
+          - "256"
+          - --async-scheduling
+
+vllm:
+  tensor_parallel_size: 2
+  max_model_len: 12288
+  gpu_memory_utilization: 0.95
+  max_num_seqs: 64
+  max_num_partial_prefills: 2
+  enable_prefix_caching: true
+  enable_concurrent_prefill_patch: true
+  attention_backend: triton_attn
+  extra_env: {}
+  extra_args: []
+
+warmup:
+  enabled: true
+  readiness_gate: true
+  health_timeout_sec: 1800
+  health_poll_interval_sec: 5
+  request_timeout_sec: 120
+  concurrency: 16
+  rounds: 3
+  stream: true
+  token_tolerance_pct: 0.05
+  jit_compile:
+    enabled: true
+    batch_sizes: [1, 2, 4, 8]
+    rounds: 1
+  scenarios:
+    # --- standard perf scenarios (same as baseline) ---
+    - name: tiny_p10
+      prompt_tokens: 64
+      max_tokens: 64
+      weight: 4
+      reasoning_effort: low
+    - name: short_p25
+      prompt_tokens: 128
+      max_tokens: 96
+      weight: 4
+      reasoning_effort: low
+    - name: bulk_p50
+      prompt_tokens: 4256
+      max_tokens: 96
+      weight: 8
+      reasoning_effort: low
+    - name: bulk_long_decode
+      prompt_tokens: 4288
+      max_tokens: 256
+      weight: 4
+      reasoning_effort: low
+    - name: p90_prefill
+      prompt_tokens: 5504
+      max_tokens: 320
+      weight: 2
+      reasoning_effort: low
+    - name: tail_p95
+      prompt_tokens: 24256
+      max_tokens: 512
+      weight: 1
+      reasoning_effort: low
+
+    # --- JIT pre-compile: single-request shapes để pre-heat Triton kernels ---
+    # Cảnh báo trong logs: _topk_forward, _compute_slot_mapping_kernel,
+    # _sum_bitmatrix_rows, _combined_routing_memset bị JIT compile khi inference.
+    # Các scenario jit_seed_* chạy ở phase riêng (warmup.jit_compile) với
+    # batch_sizes 1/2/4/8 để pre-compile Triton kernels theo batch.
+    - name: jit_seed_single_short
+      prompt_tokens: 64
+      max_tokens: 16
+      weight: 1
+      reasoning_effort: low
+      pool: short
+      jit_compile: true
+    - name: jit_seed_single_bulk
+      prompt_tokens: 4256
+      max_tokens: 16
+      weight: 1
+      reasoning_effort: low
+      pool: long
+      jit_compile: true
+    - name: jit_seed_single_long
+      prompt_tokens: 16384
+      max_tokens: 16
+      weight: 1
+      reasoning_effort: low
+      pool: long
+      jit_compile: true
+
+logging:
+  log_dir: /app/logs/config_tp2_triton_attn
+  timezone: Asia/Ho_Chi_Minh
+  datetime_format: "%d/%m/%Y %H:%M:%S"
