@@ -36,4 +36,4 @@ python -m vllm.entrypoints.openai.api_server \
     --gpu-memory-utilization "$GPU_MEM" \
     --port "$PORT" \
     --mamba-cache-mode align \
-    --disable-log-requests
+    --no-enable-log-requests

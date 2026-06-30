@@ -133,7 +133,7 @@ class TraceGenerator:
                     DEFAULT_MAX_CONTEXT_TOKENS - DEFAULT_CONTEXT_SAFETY_TOKENS - target_in,
                 )
 
-            hash_ids = compute_hash_ids(prompt)
+            hash_ids = compute_hash_ids(prompt, target_in)
             is_warmup = i < n_warmup
             rel_payload = f"payloads/{request_id}.json"
 

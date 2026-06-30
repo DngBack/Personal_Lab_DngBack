@@ -44,7 +44,8 @@ def _make_inputs(
     dt_bias = torch.zeros(nv, device=device, dtype=dtype)
 
     max_B = T + 4  # a bit larger than T
-    ssm_state = torch.randn(max_B, nv, DK, DV, device=device, dtype=torch.float32) * 0.01
+    # value-major state layout [max_B, nv, DV, DK] — matches vLLM
+    ssm_state = torch.randn(max_B, nv, DV, DK, device=device, dtype=torch.float32) * 0.01
     ssm_state_indices = torch.arange(T, device=device, dtype=torch.int32)
 
     return mixed_qkv, a, b, A_log, dt_bias, ssm_state, ssm_state_indices
@@ -89,7 +90,8 @@ class TestRefGdnDecode:
         ratio = nv // nk
         q_dim = nk * DK
         k_dim = nk * DK
-        q = F.normalize(mq[:, :q_dim].view(T, nk, DK), dim=-1).repeat_interleave(ratio, 1)
+        scale = DK ** -0.5
+        q = (F.normalize(mq[:, :q_dim].view(T, nk, DK), dim=-1) * scale).repeat_interleave(ratio, 1)
         k = F.normalize(mq[:, q_dim:q_dim+k_dim].view(T, nk, DK), dim=-1).repeat_interleave(ratio, 1)
         v = mq[:, q_dim+k_dim:].view(T, nv, DV)
         x = a.float() + dt_bias.float()
@@ -100,11 +102,13 @@ class TestRefGdnDecode:
         out_manual = torch.zeros(T, nv, DV)
         for t in range(T):
             for h in range(nv):
-                S = state_manual[idx[t], h].float()
-                o_pre = q[t, h] @ S
-                r = v[t, h].float() - o_pre
-                out_manual[t, h] = g_decay[t, h] * o_pre + beta[t, h] * qk[t, h] * r
-                state_manual[idx[t], h] = (g_decay[t, h] * S + beta[t, h] * torch.outer(k[t, h], r)).to(state_manual.dtype)
+                S = state_manual[idx[t], h].float()   # [DV, DK]
+                S_dec = g_decay[t, h] * S              # decay first
+                o_pre_k = S_dec @ k[t, h]              # [DV]
+                o_pre_q = S_dec @ q[t, h]              # [DV]
+                r = beta[t, h] * (v[t, h].float() - o_pre_k)
+                out_manual[t, h] = o_pre_q + r * qk[t, h]
+                state_manual[idx[t], h] = (S_dec + torch.outer(r, k[t, h])).to(state_manual.dtype)
 
         # ---- reference function ----
         out_ref = ref_gdn_decode(mq, a, b, A_log, dt_bias, state_ref2, idx, nk, nv, DK, DV)
@@ -138,14 +142,18 @@ class TestFusedKernelCuda:
         state_ref    = state_base.clone()
         state_fused  = state_base.clone()
 
-        # Reference (CPU-backed for precision)
+        # Reference (CPU-backed for precision).  Bind the CPU copy so we
+        # compare against the SAME tensor that ref_gdn_decode mutates in-place
+        # (state_ref.cpu() would create a throwaway copy and leave state_ref
+        # unmodified, making the state assertion below meaningless).
+        state_ref_cpu = state_ref.cpu()
         out_ref = ref_gdn_decode(
             mq.cpu().float(), a.cpu().float(), b.cpu().float(),
             A_log.cpu().float(), dt_bias.cpu().float(),
-            state_ref.cpu(), idx.cpu(),
+            state_ref_cpu, idx.cpu(),
             nk, nv, DK, DV,
         ).to(device=device, dtype=dtype)
-        state_ref_gpu = state_ref.cuda()
+        state_ref_gpu = state_ref_cpu.cuda()
 
         # Fused Triton kernel
         out_fused = fused_gdn_decode(mq, a, b, A_log, dt_bias, state_fused, idx, nk, nv, DK, DV)

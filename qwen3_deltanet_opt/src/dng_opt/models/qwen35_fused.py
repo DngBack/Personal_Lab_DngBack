@@ -23,6 +23,7 @@ loader pick them up.
 
 from __future__ import annotations
 
+import os
 import time
 from collections import defaultdict
 from typing import TYPE_CHECKING
@@ -37,6 +38,38 @@ from vllm.model_executor.layers.mamba.ops.causal_conv1d import causal_conv1d_upd
 
 if TYPE_CHECKING:
     from vllm.v1.attention.backends.gdn_attn import GDNAttentionMetadata
+
+
+# ---------------------------------------------------------------------------
+# Optional proof-of-execution counter.
+#
+# The vLLM engine runs in a spawned worker process, so an in-memory counter is
+# invisible from outside.  When DNGOPT_COUNTER_FILE is set, the fused override
+# below records how many times it actually ran by writing the count to that
+# file (and prints a one-time marker to the worker's stdout).  This makes it
+# possible to *prove* the fused decode path is on the live hot path rather than
+# being silently bypassed by a compiled custom op.
+# ---------------------------------------------------------------------------
+
+_FUSED_CALL_COUNT = 0
+_FUSED_COUNTER_FILE = os.environ.get("DNGOPT_COUNTER_FILE")
+
+
+def _record_fused_call() -> None:
+    global _FUSED_CALL_COUNT
+    _FUSED_CALL_COUNT += 1
+    if _FUSED_CALL_COUNT == 1:
+        print(
+            f"[dng_opt] FUSED decode path HIT (pid={os.getpid()}) — "
+            f"FusedQwenGDNAttention._forward_core_decode_non_spec is live.",
+            flush=True,
+        )
+    if _FUSED_COUNTER_FILE:
+        try:
+            with open(_FUSED_COUNTER_FILE, "w") as f:
+                f.write(str(_FUSED_CALL_COUNT))
+        except OSError:
+            pass
 
 
 # ---------------------------------------------------------------------------
@@ -171,6 +204,8 @@ class FusedQwenGDNAttention(QwenGatedDeltaNetAttention):
     ) -> None:
         from dng_opt.kernels.fused_gdn_decode import fused_gdn_decode
 
+        _record_fused_call()
+
         non_spec_state_indices_tensor = attn_metadata.non_spec_state_indices_tensor
         self_kv_cache = self.kv_cache
         conv_state = (
@@ -218,6 +253,7 @@ class FusedQwenGDNAttention(QwenGatedDeltaNetAttention):
             nv=nv,
             DK=DK,
             DV=DV,
+            scale=self.head_k_dim ** -0.5,
         )
 
         # Write into pre-allocated output buffer  [T, nv, DV]

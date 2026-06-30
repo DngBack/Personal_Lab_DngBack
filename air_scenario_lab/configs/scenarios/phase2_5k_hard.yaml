@@ -1,0 +1,23 @@
+name: phase2_5k_hard
+phase: phase2
+total_requests: 5000
+mix:
+  conversation: 0.31
+  tool_agent: 0.59
+  long_context: 0.10
+arrival: microburst
+arrival_params:
+  wave_min: 6
+  wave_max: 30
+  gap_ms: [40, 280]
+warmup_ratio: 0.10
+probe_slot_ratio: 0.08
+length_profile: realistic
+slo_ttft_ms: 10000
+slo_tbt_ms: 200
+seed: 42
+description: >
+  Phase 2 5k "hard" suite: 5000 requests with more aggressive microbursts —
+  larger waves (6-30 concurrent vs 3-20) and shorter inter-wave gaps (40-280ms vs
+  80-600ms). Higher peak concurrency and sustained load make this harder than
+  phase2_3k / phase2_6k. Same workload mix and real HF data (LEval + LooGLE).

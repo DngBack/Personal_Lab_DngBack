@@ -1,0 +1,22 @@
+name: phase2_6k
+phase: phase2
+total_requests: 6000
+mix:
+  conversation: 0.31
+  tool_agent: 0.59
+  long_context: 0.10
+arrival: microburst
+arrival_params:
+  wave_min: 3
+  wave_max: 20
+  gap_ms: [80, 600]
+warmup_ratio: 0.10
+probe_slot_ratio: 0.08
+length_profile: realistic
+slo_ttft_ms: 10000
+slo_tbt_ms: 200
+seed: 42
+description: >
+  Phase 2 6k suite: 6000 requests with the SAME microburst arrival as phase2_3k
+  (wave 3-20, inter-wave gap 80-600ms). Doubles total volume / trace duration at
+  identical per-wave intensity. Same workload mix and real HF data (LEval + LooGLE).

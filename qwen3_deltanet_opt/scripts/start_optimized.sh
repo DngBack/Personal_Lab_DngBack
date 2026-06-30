@@ -40,29 +40,9 @@ echo "  max-len : $MAX_LEN"
 echo "  port    : $PORT"
 echo ""
 
-# Launch via the patch shim instead of calling vllm directly so we can
-# apply_patch() before the engine initialises.
-python - <<'EOF'
-import sys, os
-# apply patch before vLLM imports the model class
-from dng_opt.patch import apply_patch
-apply_patch()
-
-# Now hand off to vLLM's normal entrypoint
-from vllm.entrypoints.openai.api_server import run_server
-from vllm.entrypoints.openai.cli_args import make_arg_parser
-
-import argparse
-parser = make_arg_parser(argparse.ArgumentParser())
-args = parser.parse_args([
-    "--model",                    os.environ["MODEL"] if "MODEL" in os.environ else "Qwen/Qwen3.5-30B-A3B",
-    "--tensor-parallel-size",     os.environ.get("TENSOR_PARALLEL_SIZE", "1"),
-    "--max-model-len",            os.environ.get("MAX_MODEL_LEN", "32768"),
-    "--gpu-memory-utilization",   os.environ.get("GPU_MEM_UTIL", "0.90"),
-    "--port",                     os.environ.get("PORT", "8001"),
-    "--mamba-cache-mode",         "align",
-    "--disable-log-requests",
-])
-import asyncio
-asyncio.run(run_server(args))
-EOF
+# Launch via a REAL launcher file (not a stdin heredoc).  vLLM V1 uses the
+# 'spawn' start method once CUDA is initialised, and spawned workers re-import
+# the main module by file path — a heredoc (__file__ == "<stdin>") makes the
+# EngineCore worker die with FileNotFoundError.  The launcher also applies the
+# monkey-patch at module top level so it propagates into every spawned worker.
+exec python "$SCRIPT_DIR/_launch_optimized.py"

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import math
 import zlib
 
 CHARS_PER_TOKEN = 4.0
@@ -50,5 +51,34 @@ def hash_block(text: str) -> int:
     return zlib.crc32(text.encode("utf-8")) & 0xFFFFFF
 
 
-def compute_hash_ids(prompt: str, block_tokens: int = HASH_BLOCK_TOKENS) -> list[int]:
-    return [hash_block(chunk) for chunk in _token_chunks(prompt, block_tokens)]
+def hash_block_count(input_length: int, block_tokens: int = HASH_BLOCK_TOKENS) -> int:
+    """Number of hash blocks AIPerf requires: ceil(input_length / block_tokens).
+
+    AIPerf's mooncake-trace loader validates that
+    ``len(hash_ids) == ceil(input_length / block_size)`` and that the final block
+    size ``input_length - (len - 1) * block_size`` is in ``(0, block_size]``.
+    """
+    return max(1, math.ceil(max(1, input_length) / block_tokens))
+
+
+def compute_hash_ids(
+    prompt: str,
+    input_length: int | None = None,
+    block_tokens: int = HASH_BLOCK_TOKENS,
+) -> list[int]:
+    """Hash-id list for the AIPerf mooncake trace.
+
+    When ``input_length`` is given, the block COUNT is derived from it (not from a
+    separate word/char estimate) so it always satisfies AIPerf's check. The prompt
+    is split at fixed character boundaries so a shared prefix keeps shared hashes.
+    """
+    if input_length is None:
+        return [hash_block(chunk) for chunk in _token_chunks(prompt, block_tokens)]
+
+    n_blocks = hash_block_count(input_length, block_tokens)
+    block_chars = tokens_to_chars(block_tokens)
+    chunks = [prompt[i : i + block_chars] for i in range(0, len(prompt), block_chars)]
+    return [
+        hash_block(chunks[k]) if k < len(chunks) and chunks[k] else hash_block(f"__pad_{k}")
+        for k in range(n_blocks)
+    ]

@@ -1,0 +1,23 @@
+name: phase2_3k_tight
+phase: phase2
+total_requests: 3000
+mix:
+  conversation: 0.31
+  tool_agent: 0.59
+  long_context: 0.10
+arrival: microburst
+arrival_params:
+  wave_min: 3
+  wave_max: 14
+  gap_ms: [50, 350]
+warmup_ratio: 0.10
+probe_slot_ratio: 0.08
+length_profile: realistic
+slo_ttft_ms: 10000
+slo_tbt_ms: 200
+seed: 42
+description: >
+  Phase 2 3k "tight" variant: shorter inter-wave gaps (50-350ms vs 80-600ms)
+  so waves fire more frequently, but smaller wave size (3-14 vs 3-20) keeps peak
+  concurrency moderate — tighter rhythm without making it too hard.
+  Same workload mix and real HF data (LEval + LooGLE) as phase2_3k.

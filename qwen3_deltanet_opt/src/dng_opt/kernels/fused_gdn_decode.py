@@ -7,27 +7,34 @@ In the stock vLLM decode path (``_forward_core_decode_non_spec``), after the
 causal conv1d update the pipeline executes these steps as separate kernels:
 
     1. Split mixed_qkv → q, k, v
-    2. L2-normalise q and k
+    2. L2-normalise q and k, then scale q by ``head_k_dim ** -0.5``
     3. Gate computation  g = -exp(A_log) * softplus(a + dt_bias)
                          beta = sigmoid(b)
-    4. Recurrent delta-rule state update
-           S_new = exp(g) * S + beta * outer(k, v - q@S)
-    5. Output projection   out = q @ S_new
-
-Each step writes intermediate tensors to global memory.  At batch=1 (single-
-token decode) the arithmetic intensity is low, so kernel-launch overhead and
-memory-round-trip cost dominate.
+    4. Recurrent gated-delta-rule state update
+    5. Output projection
 
 This kernel fuses steps 2–5 into one Triton program per (sequence, v-head,
-v-tile) triple using the algebraic shortcut:
+v-tile) triple.
 
-    out = q @ S_new
-        = q @ (exp(g)*S + beta*outer(k, r))      where r = v - q@S
-        = exp(g) * (q@S) + beta * (q·k) * r
-        = exp(g) * o_pre  +  beta * qk * r        (*)
+Exact recurrence (matches vLLM's ``fused_recurrent_gated_delta_rule_packed_decode``)
+------------------------------------------------------------------------------------
+State ``S`` has shape ``[DV, DK]`` (value-major; this is vLLM's temporal-state
+layout ``(num_v_heads, head_v_dim, head_k_dim)``).  For one decode step:
 
-The shortcut (*) avoids writing S_new to global memory before computing
-the output — one less full-state round-trip per head per decode step.
+    S'      = exp(g) * S                        # decay FIRST
+    r       = beta * (v - S' @ k)               # residual read by k, off decayed state
+    S_new   = S' + outer(r, k)                  # rank-1 update with k
+    out     = S_new @ q                         # output read by q
+
+The output is computed without re-reading ``S_new`` from global memory via:
+
+    out = S_new @ q
+        = (S' + outer(r, k)) @ q
+        = (S' @ q) + r * (k · q)                # (*)
+
+so the kernel only needs two mat-vecs against the decayed state (``S'@k`` and
+``S'@q``) plus the scalar ``k·q`` — one less full-state round-trip than writing
+``S_new`` back before projecting.
 
 Layout assumptions (match vLLM Qwen3.5 defaults)
 -------------------------------------------------
@@ -35,8 +42,10 @@ Layout assumptions (match vLLM Qwen3.5 defaults)
                   q_dim = nk * DK,  k_dim = nk * DK,  v_dim = nv * DV
 * a, b       : [T, nv]
 * A_log, dt_bias : [nv]
-* ssm_state  : [max_B, nv, DK, DV]   (state is k-major inside each head)
+* ssm_state  : [max_B, nv, DV, DK]   (value-major: S[v, k])
 * out        : [T, nv, DV]
+* q is L2-normalised then multiplied by ``scale`` (= DK ** -0.5); k is only
+  L2-normalised.
 """
 
 from __future__ import annotations
@@ -71,23 +80,25 @@ if _TRITON_AVAILABLE:
         # -- per-head fixed parameters --
         A_log_ptr,
         dt_bias_ptr,
-        # -- SSM recurrent state --
+        # -- SSM recurrent state  [max_B, NV, DV, DK]  (value-major) --
         state_ptr,
         stride_state_b,  # stride along max-batch slot dim
         stride_state_h,  # stride along head dim
-        stride_state_k,  # stride along DK
-        stride_state_v,  # stride along DV  (innermost, =1 for row-major)
+        stride_state_v,  # stride along DV  (value axis)
+        stride_state_k,  # stride along DK  (key axis, innermost = 1 for row-major)
         state_idx_ptr,   # [T]  batch-slot index for each sequence
         # -- output tensor --
         out_ptr,
         stride_out_t,
         stride_out_h,
         stride_out_v,
+        # -- scalar applied to q after L2-norm (= head_k_dim ** -0.5) --
+        scale,
         # -- compile-time constants --
         NK: tl.constexpr,    # num k-heads per TP rank
         NV: tl.constexpr,    # num v-heads per TP rank
         DK: tl.constexpr,    # head_k_dim
-        DV: tl.constexpr,    # head_v_dim  (must equal BLOCK_V for a single-tile launch)
+        DV: tl.constexpr,    # head_v_dim
         RATIO: tl.constexpr, # NV // NK  (GQA expansion factor)
         BLOCK_V: tl.constexpr,  # tile width along DV axis
     ):
@@ -105,8 +116,8 @@ if _TRITON_AVAILABLE:
         v_start = pid_v * BLOCK_V
 
         # index vectors (compile-time shapes)
-        i = tl.arange(0, DK)           # [DK]  — k dimension
-        j = v_start + tl.arange(0, BLOCK_V)  # [BLOCK_V] — v dimension
+        i = tl.arange(0, DK)                 # [DK]      — key dimension
+        j = v_start + tl.arange(0, BLOCK_V)  # [BLOCK_V] — value dimension
         v_mask = j < DV
 
         # ----------------------------------------------------------------
@@ -132,17 +143,17 @@ if _TRITON_AVAILABLE:
         q_vec = tl.load(mixed_qkv_ptr + qkv_base          + hk * DK + i).to(tl.float32)
         k_vec = tl.load(mixed_qkv_ptr + qkv_base + q_dim  + hk * DK + i).to(tl.float32)
 
-        # L2 normalise in place
-        q_norm = tl.math.sqrt(tl.sum(q_vec * q_vec) + 1e-6)
-        q_vec  = q_vec / q_norm
-        k_norm = tl.math.sqrt(tl.sum(k_vec * k_vec) + 1e-6)
-        k_vec  = k_vec / k_norm
+        # L2 normalise; then scale q (matches vLLM: b_q = l2norm(b_q) * scale,
+        # b_k = l2norm(b_k)).  Only q is scaled.
+        q_vec = q_vec / tl.math.sqrt(tl.sum(q_vec * q_vec) + 1e-6)
+        k_vec = k_vec / tl.math.sqrt(tl.sum(k_vec * k_vec) + 1e-6)
+        q_vec = q_vec * scale
 
         # qk scalar  (used in shortcut output formula)
         qk = tl.sum(q_vec * k_vec)
 
         # ----------------------------------------------------------------
-        # Load v tile
+        # Load v tile  [BLOCK_V]
         # ----------------------------------------------------------------
         v_tile = tl.load(
             mixed_qkv_ptr + qkv_base + q_dim + k_dim + h * DV + j,
@@ -150,53 +161,54 @@ if _TRITON_AVAILABLE:
         ).to(tl.float32)
 
         # ----------------------------------------------------------------
-        # Load state tile  S[0:DK, v_start : v_start+BLOCK_V]
-        # State layout: [max_B, NV, DK, DV]
+        # Load state tile  S[v_start:v_start+BLOCK_V, 0:DK]
+        # State layout: [max_B, NV, DV, DK]   →   S[v, k]
         # ----------------------------------------------------------------
         sidx = tl.load(state_idx_ptr + t)
         state_base = sidx * stride_state_b + h * stride_state_h
 
-        # pointer array [DK, BLOCK_V]
+        # pointer array [BLOCK_V, DK]
         S_tile = tl.load(
             state_ptr + state_base
-                + i[:, None] * stride_state_k
-                + j[None, :] * stride_state_v,
-            mask=v_mask[None, :],
+                + j[:, None] * stride_state_v
+                + i[None, :] * stride_state_k,
+            mask=v_mask[:, None],
             other=0.0,
-        ).to(tl.float32)  # [DK, BLOCK_V]
+        ).to(tl.float32)  # [BLOCK_V, DK]
 
         # ----------------------------------------------------------------
-        # o_pre = q @ S_tile   →   [BLOCK_V]
-        # o_pre[jj] = Σ_i  q[i] * S[i, jj]
+        # Decay state FIRST:  S' = exp(g) * S
         # ----------------------------------------------------------------
-        o_pre_tile = tl.sum(q_vec[:, None] * S_tile, axis=0)  # [BLOCK_V]
+        S_dec = gate * S_tile  # [BLOCK_V, DK]
+
+        # o_pre_k[v] = Σ_k S'[v,k] * k[k]      (read decayed state with k)
+        o_pre_k = tl.sum(S_dec * k_vec[None, :], axis=1)  # [BLOCK_V]
+        # o_pre_q[v] = Σ_k S'[v,k] * q[k]      (read decayed state with q)
+        o_pre_q = tl.sum(S_dec * q_vec[None, :], axis=1)  # [BLOCK_V]
+
+        # residual  r = beta * (v - S'·k)
+        r_tile = beta * (v_tile - o_pre_k)  # [BLOCK_V]
 
         # ----------------------------------------------------------------
-        # Residual  r = v - o_pre
+        # Shortcut output:  out = S_new @ q = (S'@q) + r * (k·q)
         # ----------------------------------------------------------------
-        r_tile = v_tile - o_pre_tile  # [BLOCK_V]
+        out_tile = o_pre_q + r_tile * qk  # [BLOCK_V]
 
         # ----------------------------------------------------------------
-        # Shortcut output  (never re-reads S_new from global memory):
-        #   out = gate * o_pre + beta * qk * r
+        # State update  S_new = S' + outer(r, k)
+        # S_new[v, k] = S'[v, k] + r[v] * k[k]
         # ----------------------------------------------------------------
-        out_tile = gate * o_pre_tile + beta * qk * r_tile  # [BLOCK_V]
-
-        # ----------------------------------------------------------------
-        # State update  S_new = gate * S + beta * outer(k, r)
-        # outer(k, r)[i, jj] = k[i] * r[jj]
-        # ----------------------------------------------------------------
-        S_new = gate * S_tile + beta * k_vec[:, None] * r_tile[None, :]  # [DK, BLOCK_V]
+        S_new = S_dec + r_tile[:, None] * k_vec[None, :]  # [BLOCK_V, DK]
 
         # ----------------------------------------------------------------
         # Write back state tile and output
         # ----------------------------------------------------------------
         tl.store(
             state_ptr + state_base
-                + i[:, None] * stride_state_k
-                + j[None, :] * stride_state_v,
+                + j[:, None] * stride_state_v
+                + i[None, :] * stride_state_k,
             S_new.to(state_ptr.dtype.element_ty),
-            mask=v_mask[None, :],
+            mask=v_mask[:, None],
         )
 
         tl.store(
@@ -216,15 +228,16 @@ def fused_gdn_decode(
     b: torch.Tensor,                  # [T, nv]
     A_log: torch.Tensor,              # [nv]
     dt_bias: torch.Tensor,            # [nv]
-    ssm_state: torch.Tensor,          # [max_B, nv, DK, DV]  mutated in-place
+    ssm_state: torch.Tensor,          # [max_B, nv, DV, DK]  mutated in-place
     ssm_state_indices: torch.Tensor,  # [T]  int32/int64
     nk: int,
     nv: int,
     DK: int,
     DV: int,
+    scale: float | None = None,       # query scale; defaults to DK ** -0.5
 ) -> torch.Tensor:
     """
-    Fused gate + L2-norm + delta-rule recurrent update for a single decode step.
+    Fused gate + L2-norm + q-scale + gated-delta-rule update for one decode step.
 
     Replaces the gate-computation → normalise → recurrent-update → output
     sequence run by ``fused_recurrent_gated_delta_rule_packed_decode`` from FLA.
@@ -241,13 +254,16 @@ def fused_gdn_decode(
     q_dim = nk * DK
     k_dim = nk * DK
     v_dim = nv * DV
+    if scale is None:
+        scale = DK ** -0.5
 
     assert mixed_qkv.shape == (T, q_dim + k_dim + v_dim), (
         f"mixed_qkv shape mismatch: expected ({T}, {q_dim+k_dim+v_dim}), "
         f"got {tuple(mixed_qkv.shape)}"
     )
     assert a.shape == (T, nv) and b.shape == (T, nv)
-    assert ssm_state.shape[1] == nv and ssm_state.shape[2] == DK and ssm_state.shape[3] == DV
+    # state is value-major: [max_B, nv, DV, DK]
+    assert ssm_state.shape[1] == nv and ssm_state.shape[2] == DV and ssm_state.shape[3] == DK
 
     out = torch.empty(T, nv, DV, dtype=mixed_qkv.dtype, device=mixed_qkv.device)
 
@@ -263,6 +279,7 @@ def fused_gdn_decode(
         ssm_state.stride(2), ssm_state.stride(3),
         ssm_state_indices,
         out, out.stride(0), out.stride(1), out.stride(2),
+        scale,
         NK=nk, NV=nv, DK=DK, DV=DV, RATIO=ratio, BLOCK_V=BLOCK_V,
     )
     return out
@@ -278,21 +295,25 @@ def ref_gdn_decode(
     b: torch.Tensor,                  # [T, nv]
     A_log: torch.Tensor,              # [nv]
     dt_bias: torch.Tensor,            # [nv]
-    ssm_state: torch.Tensor,          # [max_B, nv, DK, DV]  mutated in-place
+    ssm_state: torch.Tensor,          # [max_B, nv, DV, DK]  mutated in-place
     ssm_state_indices: torch.Tensor,  # [T]
     nk: int,
     nv: int,
     DK: int,
     DV: int,
+    scale: float | None = None,       # query scale; defaults to DK ** -0.5
 ) -> torch.Tensor:
     """
     Single-step reference implementation of the fused kernel.
-    Mathematically equivalent but uses plain PyTorch.
+    Mathematically equivalent but uses plain PyTorch.  State is value-major
+    ``[max_B, nv, DV, DK]`` — i.e. ``S[v, k]`` — matching vLLM.
     """
     T = mixed_qkv.shape[0]
     ratio = nv // nk
     q_dim = nk * DK
     k_dim = nk * DK
+    if scale is None:
+        scale = DK ** -0.5
 
     orig_dtype = mixed_qkv.dtype
     mv = mixed_qkv.float()
@@ -302,8 +323,8 @@ def ref_gdn_decode(
     k = mv[:, q_dim : q_dim + k_dim].view(T, nk, DK)
     v = mv[:, q_dim + k_dim :].view(T, nv, DV)
 
-    # L2 normalise
-    q = F.normalize(q, dim=-1)
+    # L2 normalise; scale q only (matches vLLM: l2norm then *scale)
+    q = F.normalize(q, dim=-1) * scale
     k = F.normalize(k, dim=-1)
 
     # expand k-heads → v-heads (GQA)
@@ -323,10 +344,10 @@ def ref_gdn_decode(
 
     for t in range(T):
         sidx = ssm_state_indices[t].item()
-        S = ssm_state[sidx].float()  # [nv, DK, DV]
+        S = ssm_state[sidx].float()  # [nv, DV, DK]
 
         for h in range(nv):
-            S_h    = S[h]          # [DK, DV]
+            S_h    = S[h]          # [DV, DK]
             q_h    = q[t, h]       # [DK]
             k_h    = k[t, h]       # [DK]
             v_h    = v[t, h]       # [DV]
@@ -334,14 +355,16 @@ def ref_gdn_decode(
             beta_h = beta[t, h]
             qk_h   = qk[t, h]
 
-            o_pre = q_h @ S_h            # [DV]
-            r     = v_h - o_pre          # [DV]
+            S_dec   = gate_h * S_h          # decay first   [DV, DK]
+            o_pre_k = S_dec @ k_h           # [DV]
+            o_pre_q = S_dec @ q_h           # [DV]
+            r       = beta_h * (v_h - o_pre_k)  # [DV]
 
             # shortcut output (same formula as the Triton kernel)
-            out[t, h] = gate_h * o_pre + beta_h * qk_h * r
+            out[t, h] = o_pre_q + r * qk_h
 
-            # state update  (mutates ssm_state in-place per-slot)
-            S_new = gate_h * S_h + beta_h * torch.outer(k_h, r)
+            # state update  S_new = S' + outer(r, k)
+            S_new = S_dec + torch.outer(r, k_h)
             ssm_state[sidx, h] = S_new.to(ssm_state.dtype)
 
     return out.to(orig_dtype)
