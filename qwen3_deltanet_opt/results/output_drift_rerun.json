@@ -1,0 +1,179 @@
+{
+  "baseline_url": "http://127.0.0.1:8000",
+  "fused_url": "http://127.0.0.1:8001",
+  "model": "Qwen/Qwen3.5-2B",
+  "num_prompts": 12,
+  "exact_matches": 10,
+  "flagged": 0,
+  "mean_similarity": 0.8991410887962612,
+  "results": [
+    {
+      "index": 1,
+      "prompt": "Answer in one short sentence: What is the capital of France?",
+      "exact_match": true,
+      "similarity": 1.0,
+      "flagged": false,
+      "issues": {
+        "baseline": [],
+        "fused": []
+      },
+      "elapsed_ms": 191.27318495884538,
+      "baseline": "The capital of France is Paris.",
+      "fused": "The capital of France is Paris."
+    },
+    {
+      "index": 2,
+      "prompt": "Translate to Vietnamese: The model should return stable results.",
+      "exact_match": true,
+      "similarity": 1.0,
+      "flagged": false,
+      "issues": {
+        "baseline": [],
+        "fused": []
+      },
+      "elapsed_ms": 206.99127903208137,
+      "baseline": "Model cần trả về kết quả ổn định.",
+      "fused": "Model cần trả về kết quả ổn định."
+    },
+    {
+      "index": 3,
+      "prompt": "Solve step by step but keep it brief: If x + 7 = 19, what is x?",
+      "exact_match": true,
+      "similarity": 1.0,
+      "flagged": false,
+      "issues": {
+        "baseline": [],
+        "fused": []
+      },
+      "elapsed_ms": 687.191303120926,
+      "baseline": "To solve for $x$:\n\n1.  Subtract 7 from both sides:\n    $$x = 19 - 7$$\n2.  Calculate the result:\n    $$x = 12$$",
+      "fused": "To solve for $x$:\n\n1.  Subtract 7 from both sides:\n    $$x = 19 - 7$$\n2.  Calculate the result:\n    $$x = 12$$"
+    },
+    {
+      "index": 4,
+      "prompt": "Return valid JSON only with keys city and country for Hanoi.",
+      "exact_match": true,
+      "similarity": 1.0,
+      "flagged": false,
+      "issues": {
+        "baseline": [],
+        "fused": []
+      },
+      "elapsed_ms": 333.3747221622616,
+      "baseline": "{\n  \"city\": \"Hanoi\",\n  \"country\": \"Vietnam\"\n}",
+      "fused": "{\n  \"city\": \"Hanoi\",\n  \"country\": \"Vietnam\"\n}"
+    },
+    {
+      "index": 5,
+      "prompt": "Write a Python function named add_one that returns x + 1.",
+      "exact_match": true,
+      "similarity": 1.0,
+      "flagged": false,
+      "issues": {
+        "baseline": [],
+        "fused": []
+      },
+      "elapsed_ms": 827.5366679299623,
+      "baseline": "```python\ndef add_one(x: int) -> int:\n    \"\"\"Return x + 1.\"\"\"\n    return x + 1\n```\n\nExample usage:\n```python\nprint(add_one(5))   # 6\nprint(add_one(-3))  # -2\n```",
+      "fused": "```python\ndef add_one(x: int) -> int:\n    \"\"\"Return x + 1.\"\"\"\n    return x + 1\n```\n\nExample usage:\n```python\nprint(add_one(5))   # 6\nprint(add_one(-3))  # -2\n```"
+    },
+    {
+      "index": 6,
+      "prompt": "Summarize in two bullet points: DeltaNet uses recurrent state during decoding.",
+      "exact_match": true,
+      "similarity": 1.0,
+      "flagged": false,
+      "issues": {
+        "baseline": [],
+        "fused": []
+      },
+      "elapsed_ms": 671.2347741704434,
+      "baseline": "*   DeltaNet leverages recurrent state mechanisms during the decoding phase to maintain context and refine predictions over time.\n*   This recurrent architecture allows the model to dynamically adjust its output based on previous decoding steps, improving the accuracy of sequence generation.",
+      "fused": "*   DeltaNet leverages recurrent state mechanisms during the decoding phase to maintain context and refine predictions over time.\n*   This recurrent architecture allows the model to dynamically adjust its output based on previous decoding steps, improving the accuracy of sequence generation."
+    },
+    {
+      "index": 7,
+      "prompt": "Hoan thanh cau sau bang tieng Viet: Tri tue nhan tao co the giup lap trinh vien",
+      "exact_match": true,
+      "similarity": 1.0,
+      "flagged": false,
+      "issues": {
+        "baseline": [],
+        "fused": []
+      },
+      "elapsed_ms": 2388.75969289802,
+      "baseline": "Dưới đây là một số cách viết lại câu của bạn đúng chính tả và tự nhiên hơn, tùy thuộc vào ngữ cảnh bạn muốn sử dụng:\n\n**1. Cách viết chuẩn xác nhất (dùng từ \"trình bày\" hoặc \"trình diễn\"):**\n> \"Triều nay nhân dân có thể giúp **trình bày** triển khai\"\n*(Lưu ý: Cụm từ \"trình bày triển khai\" thường dùng khi nói về việc trình bày kế hoạch, báo cáo hoặc thực hiện công việc. Nếu bạn muốn nói về việc thực hiện công việc cụ thể, có thể dùng \"trình diễn\" hoặc \"thực hiện\".)*\n\n**2. Cách diễn đạt tự nhiên và phổ biến hơn:**\n> \"Triều nay nhân dân có thể giúp **thực hiện** việc\"\n> \"Triều nay nhân dân có thể giúp **thực hiện** công việc\"\n\n**3. Nếu",
+      "fused": "Dưới đây là một số cách viết lại câu của bạn đúng chính tả và tự nhiên hơn, tùy thuộc vào ngữ cảnh bạn muốn sử dụng:\n\n**1. Cách viết chuẩn xác nhất (dùng từ \"trình bày\" hoặc \"trình diễn\"):**\n> \"Triều nay nhân dân có thể giúp **trình bày** triển khai\"\n*(Lưu ý: Cụm từ \"trình bày triển khai\" thường dùng khi nói về việc trình bày kế hoạch, báo cáo hoặc thực hiện công việc. Nếu bạn muốn nói về việc thực hiện công việc cụ thể, có thể dùng \"trình diễn\" hoặc \"thực hiện\".)*\n\n**2. Cách diễn đạt tự nhiên và phổ biến hơn:**\n> \"Triều nay nhân dân có thể giúp **thực hiện** việc\"\n> \"Triều nay nhân dân có thể giúp **thực hiện** công việc\"\n\n**3. Nếu"
+    },
+    {
+      "index": 8,
+      "prompt": "Classify the sentiment as positive, negative, or neutral: The latency is lower now.",
+      "exact_match": true,
+      "similarity": 1.0,
+      "flagged": false,
+      "issues": {
+        "baseline": [],
+        "fused": []
+      },
+      "elapsed_ms": 493.6422079335898,
+      "baseline": "The sentiment is **positive**.\n\nThe phrase \"The latency is lower now\" indicates an improvement in performance, which is generally viewed as a positive outcome in technical contexts.",
+      "fused": "The sentiment is **positive**.\n\nThe phrase \"The latency is lower now\" indicates an improvement in performance, which is generally viewed as a positive outcome in technical contexts."
+    },
+    {
+      "index": 9,
+      "prompt": "Write exactly five numbered steps for checking a model-serving benchmark.",
+      "exact_match": true,
+      "similarity": 1.0,
+      "flagged": false,
+      "issues": {
+        "baseline": [],
+        "fused": []
+      },
+      "elapsed_ms": 2389.5183778367937,
+      "baseline": "1. **Define the Evaluation Protocol**: Establish the specific metrics (e.g., accuracy, F1-score, latency) and the test dataset or benchmark suite (e.g., MMLU, GSM8K) that will be used to assess the model's performance.\n\n2. **Prepare the Test Set**: Load the benchmark data into your evaluation framework, ensuring that the input prompts match the exact format and distribution of the original benchmark to avoid distribution shift.\n\n3. **Execute Inference**: Run the model against the prepared test set, generating predictions for each sample while monitoring resource usage and processing time to ensure the benchmark is completed within acceptable latency constraints.\n\n4. **Compute Metrics**: Calculate the required performance scores for each metric, handling any edge cases or null values that may arise during the evaluation process.\n\n5. **Compare and Analyze**: Benchmark the results against the official leaderboard scores or established baselines, identifying gaps in performance and analyzing potential",
+      "fused": "1. **Define the Evaluation Protocol**: Establish the specific metrics (e.g., accuracy, F1-score, latency) and the test dataset or benchmark suite (e.g., MMLU, GSM8K) that will be used to assess the model's performance.\n\n2. **Prepare the Test Set**: Load the benchmark data into your evaluation framework, ensuring that the input prompts match the exact format and distribution of the original benchmark to avoid distribution shift.\n\n3. **Execute Inference**: Run the model against the prepared test set, generating predictions for each sample while monitoring resource usage and processing time to ensure the benchmark is completed within acceptable latency constraints.\n\n4. **Compute Metrics**: Calculate the required performance scores for each metric, handling any edge cases or null values that may arise during the evaluation process.\n\n5. **Compare and Analyze**: Benchmark the results against the official leaderboard scores or established baselines, identifying gaps in performance and analyzing potential"
+    },
+    {
+      "index": 10,
+      "prompt": "Return CSV only with header name,value and three rows for alpha=1, beta=2, gamma=3.",
+      "exact_match": true,
+      "similarity": 1.0,
+      "flagged": false,
+      "issues": {
+        "baseline": [],
+        "fused": []
+      },
+      "elapsed_ms": 310.9344500117004,
+      "baseline": "```csv\nname,value\nalpha,1\nbeta,2\ngamma,3\n```",
+      "fused": "```csv\nname,value\nalpha,1\nbeta,2\ngamma,3\n```"
+    },
+    {
+      "index": 11,
+      "prompt": "Explain in Vietnamese in three sentences: vi sao can so sanh output baseline va fused.",
+      "exact_match": false,
+      "similarity": 0.29708222811671087,
+      "flagged": false,
+      "issues": {
+        "baseline": [],
+        "fused": []
+      },
+      "elapsed_ms": 1111.3123449031264,
+      "baseline": "Vi sao can so sánh giữa output baseline và fused nhằm xác định độ chính xác tuyệt đối của mô hình so với dữ liệu gốc. Phương pháp này giúp phát hiện các sai số hoặc lỗi trong quá trình fusion thông qua việc đo lường sự khác biệt giữa hai đầu ra. Kết quả của việc so sánh này cung cấp thông tin quan trọng để tối ưu hóa quy trình fusion và cải thiện hiệu suất tổng thể của hệ thống.",
+      "fused": "Vi sao can so sánh giữa output baseline và fused nhằm xác định mức độ cải thiện của mô hình fusion so với việc sử dụng riêng lẻ. Phương pháp này giúp đánh giá hiệu quả của việc kết hợp thông tin từ các nguồn khác nhau trong quá trình xử lý dữ liệu. Kết quả so sánh này cung cấp bằng chứng về tính hiệu quả của chiến lược fusion trong việc nâng cao độ chính xác của mô hình."
+    },
+    {
+      "index": 12,
+      "prompt": "Write a short story of about 120 words about a developer debugging GPU memory usage.",
+      "exact_match": false,
+      "similarity": 0.49261083743842365,
+      "flagged": false,
+      "issues": {
+        "baseline": [],
+        "fused": []
+      },
+      "elapsed_ms": 2164.295597933233,
+      "baseline": "Elias stared at the terminal, the screen flashing red like a dying heartbeat. \"Out of memory,\" the error screamed. His fingers flew across the keyboard, typing commands with frantic precision. He traced the memory map, trying to find the leak. The GPU was screaming, its cores overheating under the strain of unallocated buffers.\n\nHe paused, realizing the culprit wasn't a bug, but a forgotten optimization. A single line of code had left a ghost in the machine, consuming gigabytes of RAM. With a deep breath, he rewrote the function, adding a simple check to free up space before the next request.\n\nThe screen turned green. The red lights dimmed. \"Allocated,\" the system confirmed. Elias smiled, feeling the tension leave his shoulders. He had solved the puzzle, one line of code at a time, turning chaos into order.",
+      "fused": "Elias stared at the terminal, the screen flashing red like a dying heartbeat. \"Out of memory,\" the error screamed. His fingers flew across the keyboard, typing commands with frantic precision. He traced the memory map, trying to find the leak. The GPU was screaming, its cores overheating under the strain of unallocated buffers.\n\nHe paused, realizing the culprit wasn't a bug, but a forgotten variable. A single line of code, buried in a legacy script, was holding onto data that should have been freed. With a deep breath, he executed a cleanup routine. The red light faded to green. The system stabilized, the frantic typing replaced by a quiet sigh of relief. He saved the file, knowing the fix would prevent future crashes, but the real victory was the silence in the room as the GPU finally cooled down."
+    }
+  ]
+}

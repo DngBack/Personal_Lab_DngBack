@@ -21,6 +21,7 @@ TAG_B="${2:-fused}"
 
 FILE_A="$RESULTS_DIR/${TAG_A}.json"
 FILE_B="$RESULTS_DIR/${TAG_B}.json"
+PYTHON="${PYTHON:-/home/bachdx2/.conda/envs/personal_lab/bin/python3}"
 
 for f in "$FILE_A" "$FILE_B"; do
     if [[ ! -f "$f" ]]; then
@@ -32,7 +33,7 @@ done
 
 echo "=== dng-opt comparison: $TAG_A vs $TAG_B ==="
 
-python - <<EOF
+$PYTHON - <<EOF
 import json
 from dng_opt.bench.report import BenchReport
 

@@ -101,6 +101,8 @@ class TestRefGdnDecode:
 
         out_manual = torch.zeros(T, nv, DV)
         for t in range(T):
+            if idx[t].item() <= 0:
+                continue
             for h in range(nv):
                 S = state_manual[idx[t], h].float()   # [DV, DK]
                 S_dec = g_decay[t, h] * S              # decay first
@@ -202,3 +204,39 @@ class TestFusedKernelCuda:
         _ = fused_gdn_decode(mq, a, b, A_log, dt_bias, state, idx, nk, nv, DK, DV)
         # state must differ from initial value (it was updated)
         assert not torch.allclose(state, state_before), "State was not updated in-place"
+
+    def test_kernel_matches_vllm_packed_decode(self):
+        """Fused kernel should track vLLM's original packed decode kernel."""
+        from dng_opt.kernels.fused_gdn_decode import fused_gdn_decode
+        from vllm.model_executor.layers.fla.ops import (
+            fused_recurrent_gated_delta_rule_packed_decode,
+        )
+
+        T, nk, nv, DK, DV = 4, 2, 4, 128, 128
+        device, dtype = "cuda", torch.bfloat16
+        mq, a, b, A_log, dt_bias, state_base, _idx = _make_inputs(
+            T, nk, nv, DK, DV, device, dtype, seed=123
+        )
+        idx = torch.arange(1, T + 1, device=device, dtype=torch.int32)
+        state_fla = state_base.clone()
+        state_fused = state_base.clone()
+        out_fla = torch.empty(T, 1, nv, DV, device=device, dtype=dtype)
+
+        fused_recurrent_gated_delta_rule_packed_decode(
+            mixed_qkv=mq,
+            a=a,
+            b=b,
+            A_log=A_log,
+            dt_bias=dt_bias,
+            scale=DK**-0.5,
+            initial_state=state_fla,
+            out=out_fla,
+            ssm_state_indices=idx,
+            use_qk_l2norm_in_kernel=True,
+        )
+        out_fused = fused_gdn_decode(
+            mq, a, b, A_log, dt_bias, state_fused, idx, nk, nv, DK, DV
+        )
+
+        torch.testing.assert_close(out_fused, out_fla.squeeze(1), rtol=1e-2, atol=1e-2)
+        torch.testing.assert_close(state_fused, state_fla, rtol=1e-2, atol=1e-2)

@@ -20,7 +20,7 @@ export PYTHONPATH="$PROJECT_ROOT/src:${PYTHONPATH:-}"
 
 TAG="${1:-baseline}"
 OUTPUT_DIR="${OUTPUT_DIR:-$PROJECT_ROOT/results}"
-MODEL="${MODEL:-Qwen/Qwen3.5-30B-A3B}"
+MODEL="${MODEL:-Qwen/Qwen3.5-2B}"
 
 case "$TAG" in
   baseline)
@@ -37,12 +37,13 @@ esac
 
 BASE_URL="${BASE_URL:-$DEFAULT_URL}"
 OUTPUT_FILE="$OUTPUT_DIR/${TAG}.json"
+PYTHON="${PYTHON:-/home/bachdx2/.conda/envs/personal_lab/bin/python3}"
 
 mkdir -p "$OUTPUT_DIR"
 
 echo "=== dng-opt bench: tag=$TAG  url=$BASE_URL ==="
 
-python - <<EOF
+$PYTHON - <<EOF
 import asyncio, json, os, sys
 from dng_opt.bench.config import BenchConfig
 from dng_opt.bench.runner import BenchRunner
