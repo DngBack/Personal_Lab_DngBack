@@ -82,21 +82,35 @@ def apply_patch(mode: str | None = None) -> None:
     # ------------------------------------------------------------------
     # 1. Patch the name inside qwen3_5.py (where Qwen3_5DecoderLayer
     #    looks it up at model-load time).
+    #
+    #    vLLM ≥0.20 uses GatedDeltaNetAttention (flat gdn_linear_attn);
+    #    earlier local forks used QwenGatedDeltaNetAttention.
     # ------------------------------------------------------------------
     qwen35_mod = importlib.import_module(
         "vllm.model_executor.models.qwen3_5"
     )
-    _ORIGINAL_CLASS = getattr(qwen35_mod, "QwenGatedDeltaNetAttention")
-    setattr(qwen35_mod, "QwenGatedDeltaNetAttention", NewClass)
+    # Support both the upstream flat layout (≥0.20) and the local fork.
+    if hasattr(qwen35_mod, "QwenGatedDeltaNetAttention"):
+        _ORIGINAL_ATTR = "QwenGatedDeltaNetAttention"
+    else:
+        _ORIGINAL_ATTR = "GatedDeltaNetAttention"
+    _ORIGINAL_CLASS = getattr(qwen35_mod, _ORIGINAL_ATTR)
+    setattr(qwen35_mod, _ORIGINAL_ATTR, NewClass)
 
     # ------------------------------------------------------------------
-    # 2. Patch the source module as well, so any code that imports
-    #    directly from qwen_gdn_linear_attn also gets our class.
+    # 2. Patch the source module so any direct import also gets our class.
     # ------------------------------------------------------------------
-    gdn_mod = importlib.import_module(
-        "vllm.model_executor.layers.mamba.gdn.qwen_gdn_linear_attn"
-    )
-    setattr(gdn_mod, "QwenGatedDeltaNetAttention", NewClass)
+    try:
+        gdn_mod = importlib.import_module(
+            "vllm.model_executor.layers.mamba.gdn.qwen_gdn_linear_attn"
+        )
+        setattr(gdn_mod, "QwenGatedDeltaNetAttention", NewClass)
+    except ModuleNotFoundError:
+        # Upstream flat layout — patch gdn_linear_attn instead.
+        gdn_mod = importlib.import_module(
+            "vllm.model_executor.layers.mamba.gdn_linear_attn"
+        )
+        setattr(gdn_mod, "GatedDeltaNetAttention", NewClass)
 
     # ------------------------------------------------------------------
     # 3. Update the PluggableLayer registry (used by torch.compile to
@@ -106,7 +120,12 @@ def apply_patch(mode: str | None = None) -> None:
         from vllm.model_executor.custom_op import PluggableLayer
         registry = getattr(PluggableLayer, "_registry", None)
         if isinstance(registry, dict):
-            registry["qwen_gated_delta_net_attention"] = NewClass
+            # Upstream key is "gated_delta_net_attention"; local fork used
+            # "qwen_gated_delta_net_attention".  Update whichever exists.
+            for key in ("gated_delta_net_attention",
+                        "qwen_gated_delta_net_attention"):
+                if key in registry:
+                    registry[key] = NewClass
             logger.debug("dng_opt: PluggableLayer registry updated.")
     except Exception as exc:  # noqa: BLE001
         logger.debug("dng_opt: Could not update PluggableLayer registry: %s", exc)
@@ -116,24 +135,37 @@ def apply_patch(mode: str | None = None) -> None:
 
 
 def remove_patch() -> None:
-    """Restore the original QwenGatedDeltaNetAttention (useful in tests)."""
+    """Restore the original GatedDeltaNetAttention (useful in tests)."""
     global _ORIGINAL_CLASS, _PATCHED
 
     if not _PATCHED or _ORIGINAL_CLASS is None:
         return
 
     qwen35_mod = importlib.import_module("vllm.model_executor.models.qwen3_5")
-    gdn_mod = importlib.import_module(
-        "vllm.model_executor.layers.mamba.gdn.qwen_gdn_linear_attn"
-    )
-    setattr(qwen35_mod, "QwenGatedDeltaNetAttention", _ORIGINAL_CLASS)
-    setattr(gdn_mod, "QwenGatedDeltaNetAttention", _ORIGINAL_CLASS)
+    attr = ("QwenGatedDeltaNetAttention"
+            if hasattr(qwen35_mod, "QwenGatedDeltaNetAttention")
+            else "GatedDeltaNetAttention")
+    setattr(qwen35_mod, attr, _ORIGINAL_CLASS)
+
+    try:
+        gdn_mod = importlib.import_module(
+            "vllm.model_executor.layers.mamba.gdn.qwen_gdn_linear_attn"
+        )
+        setattr(gdn_mod, "QwenGatedDeltaNetAttention", _ORIGINAL_CLASS)
+    except ModuleNotFoundError:
+        gdn_mod = importlib.import_module(
+            "vllm.model_executor.layers.mamba.gdn_linear_attn"
+        )
+        setattr(gdn_mod, "GatedDeltaNetAttention", _ORIGINAL_CLASS)
 
     try:
         from vllm.model_executor.custom_op import PluggableLayer
         registry = getattr(PluggableLayer, "_registry", None)
         if isinstance(registry, dict):
-            registry["qwen_gated_delta_net_attention"] = _ORIGINAL_CLASS
+            for key in ("gated_delta_net_attention",
+                        "qwen_gated_delta_net_attention"):
+                if key in registry:
+                    registry[key] = _ORIGINAL_CLASS
     except Exception:  # noqa: BLE001
         pass
 

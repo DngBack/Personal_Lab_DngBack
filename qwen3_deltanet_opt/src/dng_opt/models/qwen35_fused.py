@@ -30,9 +30,15 @@ from typing import TYPE_CHECKING
 
 import torch
 
-from vllm.model_executor.layers.mamba.gdn.qwen_gdn_linear_attn import (
-    QwenGatedDeltaNetAttention,
-)
+try:
+    from vllm.model_executor.layers.mamba.gdn.qwen_gdn_linear_attn import (
+        QwenGatedDeltaNetAttention as _GDNBase,
+    )
+except ModuleNotFoundError:
+    # Upstream vLLM ≥0.20 uses the flat layout without a Qwen-specific subclass.
+    from vllm.model_executor.layers.mamba.gdn_linear_attn import (  # type: ignore[no-redef]
+        GatedDeltaNetAttention as _GDNBase,
+    )
 from vllm.model_executor.layers.mamba.mamba_utils import is_conv_state_dim_first
 from vllm.model_executor.layers.mamba.ops.causal_conv1d import causal_conv1d_update
 
@@ -76,7 +82,7 @@ def _record_fused_call() -> None:
 # Instrumented variant  (adds per-stage CUDA event timing)
 # ---------------------------------------------------------------------------
 
-class InstrumentedQwenGDNAttention(QwenGatedDeltaNetAttention):
+class InstrumentedQwenGDNAttention(_GDNBase):
     """
     Wraps each stage of the decode path in CUDA events.
 
@@ -179,7 +185,7 @@ class InstrumentedQwenGDNAttention(QwenGatedDeltaNetAttention):
 # Fused variant  (replaces recurrent step with single Triton kernel)
 # ---------------------------------------------------------------------------
 
-class FusedQwenGDNAttention(QwenGatedDeltaNetAttention):
+class FusedQwenGDNAttention(_GDNBase):
     """
     Replaces the FLA packed-decode kernel with the fused Triton kernel from
     ``dng_opt.kernels.fused_gdn_decode``.

@@ -26,15 +26,9 @@ layout ``(num_v_heads, head_v_dim, head_k_dim)``).  For one decode step:
     S_new   = S' + outer(r, k)                  # rank-1 update with k
     out     = S_new @ q                         # output read by q
 
-The output is computed without re-reading ``S_new`` from global memory via:
-
-    out = S_new @ q
-        = (S' + outer(r, k)) @ q
-        = (S' @ q) + r * (k · q)                # (*)
-
-so the kernel only needs two mat-vecs against the decayed state (``S'@k`` and
-``S'@q``) plus the scalar ``k·q`` — one less full-state round-trip than writing
-``S_new`` back before projecting.
+The output is computed from ``S_new`` while it is still in registers, avoiding
+a global-memory re-read while keeping the same arithmetic order as vLLM's FLA
+packed decode kernel.
 
 Layout assumptions (match vLLM Qwen3.5 defaults)
 -------------------------------------------------
@@ -103,7 +97,7 @@ if _TRITON_AVAILABLE:
         BLOCK_V: tl.constexpr,  # tile width along DV axis
     ):
         """
-        Grid: (T * NV,  DV // BLOCK_V)
+        Grid: (T * NV,  ceil(DV / BLOCK_V))
         Each program handles one (sequence t, head h, v-tile pid_v).
         """
         pid_th = tl.program_id(0)
@@ -134,7 +128,7 @@ if _TRITON_AVAILABLE:
 
         # g = -exp(A_log) * softplus(...) → gate_decay = exp(g)
         gate  = tl.exp(-tl.exp(A_log_h) * softplus_x)
-        beta  = tl.sigmoid(b_th)
+        beta = tl.sigmoid(b_th)  # stay in float32 — no bf16 round-trip
 
         # ----------------------------------------------------------------
         # Load q, k  (full DK vector for the matching k-head)
@@ -145,12 +139,9 @@ if _TRITON_AVAILABLE:
 
         # L2 normalise; then scale q (matches vLLM: b_q = l2norm(b_q) * scale,
         # b_k = l2norm(b_k)).  Only q is scaled.
-        q_vec = q_vec / tl.math.sqrt(tl.sum(q_vec * q_vec) + 1e-6)
-        k_vec = k_vec / tl.math.sqrt(tl.sum(k_vec * k_vec) + 1e-6)
+        q_vec = q_vec / tl.sqrt(tl.sum(q_vec * q_vec) + 1e-6)
+        k_vec = k_vec / tl.sqrt(tl.sum(k_vec * k_vec) + 1e-6)
         q_vec = q_vec * scale
-
-        # qk scalar  (used in shortcut output formula)
-        qk = tl.sum(q_vec * k_vec)
 
         # ----------------------------------------------------------------
         # Load v tile  [BLOCK_V]
@@ -166,6 +157,16 @@ if _TRITON_AVAILABLE:
         # ----------------------------------------------------------------
         sidx = tl.load(state_idx_ptr + t)
         state_base = sidx * stride_state_b + h * stride_state_h
+
+        # Match vLLM's packed decode behavior for NULL_BLOCK_ID=0.
+        if sidx <= 0:
+            zero = tl.zeros([BLOCK_V], dtype=tl.float32).to(out_ptr.dtype.element_ty)
+            tl.store(
+                out_ptr + t * stride_out_t + h * stride_out_h + j,
+                zero,
+                mask=v_mask,
+            )
+            return
 
         # pointer array [BLOCK_V, DK]
         S_tile = tl.load(
@@ -183,22 +184,15 @@ if _TRITON_AVAILABLE:
 
         # o_pre_k[v] = Σ_k S'[v,k] * k[k]      (read decayed state with k)
         o_pre_k = tl.sum(S_dec * k_vec[None, :], axis=1)  # [BLOCK_V]
-        # o_pre_q[v] = Σ_k S'[v,k] * q[k]      (read decayed state with q)
-        o_pre_q = tl.sum(S_dec * q_vec[None, :], axis=1)  # [BLOCK_V]
-
         # residual  r = beta * (v - S'·k)
         r_tile = beta * (v_tile - o_pre_k)  # [BLOCK_V]
-
-        # ----------------------------------------------------------------
-        # Shortcut output:  out = S_new @ q = (S'@q) + r * (k·q)
-        # ----------------------------------------------------------------
-        out_tile = o_pre_q + r_tile * qk  # [BLOCK_V]
 
         # ----------------------------------------------------------------
         # State update  S_new = S' + outer(r, k)
         # S_new[v, k] = S'[v, k] + r[v] * k[k]
         # ----------------------------------------------------------------
         S_new = S_dec + r_tile[:, None] * k_vec[None, :]  # [BLOCK_V, DK]
+        out_tile = tl.sum(S_new * q_vec[None, :], axis=1)  # [BLOCK_V]
 
         # ----------------------------------------------------------------
         # Write back state tile and output
@@ -267,8 +261,8 @@ def fused_gdn_decode(
 
     out = torch.empty(T, nv, DV, dtype=mixed_qkv.dtype, device=mixed_qkv.device)
 
-    BLOCK_V = min(DV, 128)
-    grid = (T * nv, DV // BLOCK_V)
+    BLOCK_V = min(triton.next_power_of_2(DV), 32)
+    grid = (T * nv, triton.cdiv(DV, BLOCK_V))
 
     _fused_gdn_decode_kernel[grid](
         mixed_qkv, mixed_qkv.stride(0), q_dim, k_dim,
@@ -337,13 +331,13 @@ def ref_gdn_decode(
     gate = (-A_log.float().exp().unsqueeze(0) * softplus_x).exp()  # [T, nv]
     beta = b.float().sigmoid()                                       # [T, nv]
 
-    # qk scalar per (t, h)
-    qk = (q * k).sum(-1)  # [T, nv]
-
     out = torch.empty(T, nv, DV, device=mixed_qkv.device, dtype=torch.float32)
 
     for t in range(T):
         sidx = ssm_state_indices[t].item()
+        if sidx <= 0:
+            out[t].zero_()
+            continue
         S = ssm_state[sidx].float()  # [nv, DV, DK]
 
         for h in range(nv):
@@ -353,18 +347,14 @@ def ref_gdn_decode(
             v_h    = v[t, h]       # [DV]
             gate_h = gate[t, h]
             beta_h = beta[t, h]
-            qk_h   = qk[t, h]
 
             S_dec   = gate_h * S_h          # decay first   [DV, DK]
             o_pre_k = S_dec @ k_h           # [DV]
-            o_pre_q = S_dec @ q_h           # [DV]
             r       = beta_h * (v_h - o_pre_k)  # [DV]
-
-            # shortcut output (same formula as the Triton kernel)
-            out[t, h] = o_pre_q + r * qk_h
 
             # state update  S_new = S' + outer(r, k)
             S_new = S_dec + torch.outer(r, k_h)
+            out[t, h] = S_new @ q_h
             ssm_state[sidx, h] = S_new.to(ssm_state.dtype)
 
     return out.to(orig_dtype)

@@ -1,18 +1,12 @@
 """
-Real-file launcher for the dng_opt optimised vLLM server.
+Baseline server launcher — mirrors _launch_optimized.py but applies NO patch.
 
-Why a file instead of a `python - <<EOF` heredoc?
--------------------------------------------------
-vLLM V1 forces the ``spawn`` multiprocessing start method once CUDA is
-initialised.  Under ``spawn`` each worker process re-imports the *main module
-by file path*.  A heredoc has no file path (``__file__`` == ``<stdin>``), so
-the EngineCore worker dies with ``FileNotFoundError: .../<stdin>``.
-
-Putting ``apply_patch()`` at module top level also makes the monkey-patch
-propagate into every spawned worker: the worker re-imports this file as
-``__mp_main__`` (so the top-level code runs and patches the class), while the
-server-launch code below stays guarded by ``if __name__ == "__main__":`` and
-is therefore skipped in workers.
+Why use a file instead of `python -m vllm.entrypoints.openai.api_server`?
+--------------------------------------------------------------------------
+The `__main__` entry-point calls `uvloop.run(run_server(...))`.  On this
+setup, using a real launcher file plus `asyncio.run` gives us explicit control
+over environment variables before vLLM imports and keeps multiprocessing
+`spawn` re-imports pointed at an actual Python file.
 """
 
 from __future__ import annotations
@@ -25,13 +19,6 @@ os.environ.setdefault("VLLM_WORKER_MULTIPROC_METHOD", "spawn")
 os.environ.setdefault("HF_HOME", "/home/bachdx2/hf_cache")
 os.environ.setdefault("HF_HUB_CACHE", os.path.join(os.environ["HF_HOME"], "hub"))
 os.environ.setdefault("TRANSFORMERS_CACHE", os.environ["HF_HUB_CACHE"])
-
-# Runs in the parent AND in every spawned worker (imported as __mp_main__),
-# so the EngineCore subprocess that actually builds the model is patched too.
-from dng_opt.patch import apply_patch
-
-apply_patch()
-
 
 if __name__ == "__main__":
     import argparse
@@ -47,7 +34,7 @@ if __name__ == "__main__":
         "--max-model-len",          os.environ.get("MAX_MODEL_LEN", "4096"),
         "--gpu-memory-utilization", os.environ.get("GPU_MEM_UTIL", "0.50"),
         "--max-num-seqs",           os.environ.get("MAX_NUM_SEQS", "32"),
-        "--port",                   os.environ.get("PORT", "8001"),
+        "--port",                   os.environ.get("PORT", "8000"),
         "--mamba-cache-mode",       "align",
         "--no-enable-log-requests",
     ])
