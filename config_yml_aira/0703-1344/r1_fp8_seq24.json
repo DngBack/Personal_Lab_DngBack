@@ -1,0 +1,46 @@
+{
+  "run_id": "r1_fp8_seq24",
+  "label": "fp8 quant + kv-cache fp8 + async-scheduling + max-num-seqs=24",
+  "graded_at": "2026-07-03T13:44:00",
+  "graded_at_note": "suy từ tên file snapshot docker-compose-air_0703-1344.yml, không phải timestamp chính thức từ BTC",
+  "config_file": "docker-compose-air_0703-1344.yml",
+  "image": "vllm/vllm-openai:v0.24.0-ubuntu2404",
+  "command_flags": {
+    "max-model-len": 32768,
+    "gpu-memory-utilization": 0.95,
+    "tensor-parallel-size": 1,
+    "enable-prefix-caching": true,
+    "enable-chunked-prefill": true,
+    "max-num-batched-tokens": 8192,
+    "max-num-seqs": 24,
+    "max-cudagraph-capture-size": 24,
+    "async-scheduling": true,
+    "kv-cache-dtype": "fp8_e4m3",
+    "quantization": "fp8"
+  },
+  "diff_from_previous_run": [
+    "max-model-len: 262144 -> 32768 (thực tế trace chỉ cần ~20-20.2K token, giảm overhead bookkeeping)",
+    "+enable-chunked-prefill",
+    "+max-num-batched-tokens=8192 (chặn 1 prefill dài đè nguyên step lên decode)",
+    "+max-num-seqs=24 (chặn concurrency, ước lượng thận trọng ban đầu)",
+    "+max-cudagraph-capture-size=24 (khớp max-num-seqs)",
+    "+async-scheduling (overlap CPU scheduling / GPU forward)",
+    "+kv-cache-dtype=fp8_e4m3 (giảm băng thông đọc KV mỗi step)",
+    "+quantization=fp8 (giảm weight 4.24GB -> ~2.2GB, tăng tốc compute Hopper)"
+  ],
+  "metrics": {
+    "final_score": 40.38,
+    "erc": 0.4667,
+    "ers": 40.38,
+    "penalty": 1,
+    "passed_slo": 56,
+    "total_count": 120,
+    "ttft_p50_ms": 3907,
+    "ttft_p95_ms": 5182,
+    "tbt_median_ms": 23,
+    "failed_count": 0,
+    "warmup_count": 0,
+    "accuracy_drop": 0
+  },
+  "diagnosis": "TBT giảm mạnh (53->23ms) nhờ FP8, nhưng ttft_p50 vọt lên 3907ms (vượt trần 1500ms) - max-num-seqs=24 thấp hơn ngưỡng ổn định của hàng đợi bursty, gây tích luỹ backlog qua các đợt."
+}

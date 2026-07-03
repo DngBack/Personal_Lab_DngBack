@@ -1,0 +1,40 @@
+{
+  "run_id": "r2_fp8_seq40",
+  "label": "Như r1 nhưng max-num-seqs 24 -> 40",
+  "graded_at": "2026-07-03T14:28:00",
+  "graded_at_note": "suy từ tên file snapshot docker-compose-air_0703-1428.yml, không phải timestamp chính thức từ BTC",
+  "config_file": "docker-compose-air_0703-1428.yml",
+  "image": "vllm/vllm-openai:v0.24.0-ubuntu2404",
+  "command_flags": {
+    "max-model-len": 32768,
+    "gpu-memory-utilization": 0.95,
+    "tensor-parallel-size": 1,
+    "enable-prefix-caching": true,
+    "enable-chunked-prefill": true,
+    "max-num-batched-tokens": 8192,
+    "max-num-seqs": 40,
+    "max-cudagraph-capture-size": 40,
+    "async-scheduling": true,
+    "kv-cache-dtype": "fp8_e4m3",
+    "quantization": "fp8"
+  },
+  "diff_from_previous_run": [
+    "max-num-seqs: 24 -> 40 (ngoại suy tuyến tính từ TBT=23ms/24-concurrency, còn ~49% ngân sách TPOT -> trần lý thuyết 24*45/23≈47, chọn 40 để có đệm an toàn)",
+    "max-cudagraph-capture-size: 24 -> 40 (khớp max-num-seqs)"
+  ],
+  "metrics": {
+    "final_score": 40.12,
+    "erc": 1.0,
+    "ers": 40.12,
+    "penalty": 1,
+    "passed_slo": 120,
+    "total_count": 120,
+    "ttft_p50_ms": 276,
+    "ttft_p95_ms": 1528,
+    "tbt_median_ms": 35,
+    "failed_count": 0,
+    "warmup_count": 0,
+    "accuracy_drop": 0
+  },
+  "diagnosis": "erc=1.0 (120/120 pass lần đầu) xác nhận giả thuyết queue instability ở r1. Nhưng tbt_median tăng 23->35ms (78% ngân sách), điểm tổng gần như không đổi so với r1 (40.12 vs 40.38) - r1 và r2 là 2 điểm trên cùng 1 đường biên đánh đổi của max-num-seqs, chưa phải cải thiện thực chất. Ước tính ngưỡng ổn định tối thiểu ~28-30 (thấp hơn 40 khá nhiều)."
+}
