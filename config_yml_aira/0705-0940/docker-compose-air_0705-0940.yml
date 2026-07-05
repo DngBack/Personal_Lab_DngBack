@@ -15,15 +15,15 @@ services:
       - --tensor-parallel-size=1
       - --enable-prefix-caching
       - --enable-chunked-prefill
-      - --max-num-batched-tokens=8192
-      - --max-num-seqs=48
+      - --max-num-batched-tokens=${MAX_NUM_BATCHED_TOKENS:-8192}
+      - --max-num-seqs=${MAX_NUM_SEQS:-48}
       - --max-cudagraph-capture-size=48
       - --async-scheduling
       - --kv-cache-dtype=fp8_e4m3
       - --quantization=fp8
-      - --max-num-partial-prefills=2
-      - --max-long-partial-prefills=1
-      - --long-prefill-token-threshold=8192
+      - --max-num-partial-prefills=${MAX_NUM_PARTIAL_PREFILLS:-2}
+      - --max-long-partial-prefills=${MAX_LONG_PARTIAL_PREFILLS:-2}
+      - --long-prefill-token-threshold=${LONG_PREFILL_TOKEN_THRESHOLD:-24576}
     ports:
       - "8000:8000"
     environment:
