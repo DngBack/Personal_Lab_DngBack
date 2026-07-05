@@ -15,9 +15,9 @@ services:
       - --tensor-parallel-size=1
       - --enable-prefix-caching
       - --enable-chunked-prefill
-      - --max-num-batched-tokens=${MAX_NUM_BATCHED_TOKENS:-8192}
+      - --max-num-batched-tokens=${MAX_NUM_BATCHED_TOKENS:-4096}
       - --max-num-seqs=${MAX_NUM_SEQS:-48}
-      - --max-cudagraph-capture-size=48
+      - --max-cudagraph-capture-size=${MAX_CUDAGRAPH_CAPTURE_SIZE:-48}
       - --async-scheduling
       - --kv-cache-dtype=fp8_e4m3
       - --quantization=fp8
