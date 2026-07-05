@@ -399,11 +399,11 @@ def patch_scheduler(vllm_root: Path) -> None:
         text,
         "                request.status = RequestStatus.RUNNING\n"
         "                request.num_computed_tokens = num_computed_tokens\n"
-        "                if pad_spec_decode:\n",
+        "                # Only track requests that will still be prefilling after this chunk.\n",
         "                request.status = RequestStatus.RUNNING\n"
         "                request.num_computed_tokens = num_computed_tokens\n"
         f"{WAITING_RECORD}\n"
-        "                if pad_spec_decode:\n",
+        "                # Only track requests that will still be prefilling after this chunk.\n",
         "waiting prefill record",
     )
     text = replace_once(
