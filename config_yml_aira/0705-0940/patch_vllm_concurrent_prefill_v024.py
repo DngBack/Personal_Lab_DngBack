@@ -4,7 +4,7 @@
 The upstream v0.24.0 image exposes max_num_partial_prefills and
 max_long_partial_prefills in SchedulerConfig, but arg_utils rejects non-default
 values at startup. This patch removes that guard and adds scheduler-side logic
-to let short prefills share a step with one long prefill.
+to chunk multiple active prefills fairly, including all-long tail waves.
 """
 
 from __future__ import annotations
@@ -221,24 +221,28 @@ HELPERS = '''
 
         schedulable_prefills = active_prefills
         planned_long_prefills = active_long_prefills
-        for request in self.waiting:
+        waiting_queues = (self.skipped_waiting, self.waiting)
+        for request_queue in waiting_queues:
+            for request in request_queue:
+                if schedulable_prefills >= max_prefills:
+                    break
+                if self._is_blocked_waiting_status(request.status):
+                    continue
+                prefill_state = self._get_request_prefill_state(
+                    request, request.num_computed_tokens
+                )
+                if not prefill_state.is_prefill:
+                    continue
+                if (
+                    prefill_state.is_long_prefill
+                    and planned_long_prefills >= max_long_prefills
+                ):
+                    continue
+                schedulable_prefills += 1
+                if prefill_state.is_long_prefill:
+                    planned_long_prefills += 1
             if schedulable_prefills >= max_prefills:
                 break
-            if self._is_blocked_waiting_status(request.status):
-                continue
-            prefill_state = self._get_request_prefill_state(
-                request, request.num_computed_tokens
-            )
-            if not prefill_state.is_prefill:
-                continue
-            if (
-                prefill_state.is_long_prefill
-                and planned_long_prefills >= max_long_prefills
-            ):
-                continue
-            schedulable_prefills += 1
-            if prefill_state.is_long_prefill:
-                planned_long_prefills += 1
 
         return PartialPrefillMetadata(
             schedulable_prefills=max(1, min(schedulable_prefills, max_prefills)),
