@@ -1,0 +1,40 @@
+{
+  "run_id": "r3_mtp_chunked",
+  "label": "Nhu r2 nhung them MTP speculative decoding + uu tien chunked-prefill cho request ngan",
+  "graded_at": null,
+  "graded_at_note": "Chua chay/cham diem - day la de xuat, chua co ket qua BTC",
+  "config_file": "docker-compose-air_0705-0940.yml",
+  "image": "dngback/vllm-v0.24.0-ubuntu2404-concurrent-prefill:latest",
+  "command_flags": {
+    "max-model-len": 32768,
+    "gpu-memory-utilization": 0.95,
+    "tensor-parallel-size": 1,
+    "enable-prefix-caching": true,
+    "enable-chunked-prefill": true,
+    "max-num-batched-tokens": 8192,
+    "max-num-seqs": 48,
+    "max-cudagraph-capture-size": 48,
+    "async-scheduling": true,
+    "kv-cache-dtype": "fp8_e4m3",
+    "quantization": "fp8",
+    "max-num-partial-prefills": 2,
+    "max-long-partial-prefills": 1,
+    "long-prefill-token-threshold": 8192,
+    "speculative-config": {
+      "method": "mtp",
+      "num_speculative_tokens": 3
+    }
+  },
+  "diff_from_previous_run": [
+    "+speculative-config={method: mtp, num_speculative_tokens: 3} (dung MTP head co san cua Qwen3.5 de giam TBT truc tiep - r2 cho thay TBT dang la ngan sach chat, 78%, con TTFT con du)",
+    "+max-num-partial-prefills=2, +max-long-partial-prefills=1, +long-prefill-token-threshold=8192 tren image da patch vLLM v0.24.0",
+    "Logic scheduler uu tien short prefill trong wave va chi cho 1 long prefill >8192 token chay dong thoi"
+  ],
+  "open_questions_before_grading": [
+    "Checkpoint model /model co thuc su chua trong so MTP head khong? Neu server tu choi load speculative-config, bo flag nay va chi giu 2 flag chunked-prefill.",
+    "num_speculative_tokens=3 la diem khoi dau thu nghiem, chua do ty le accept - can xem log/metrics acceptance rate sau khi chay de quyet dinh tang/giam (1-3 la khoang hop ly).",
+    "Neu TTFT p95 khong cai thien voi wave trung binh 4k-8k, thu giam long-prefill-token-threshold ve 4096 de uu tien fairness hon throughput."
+  ],
+  "metrics": null,
+  "diagnosis": null
+}

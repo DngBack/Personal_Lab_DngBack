@@ -1,0 +1,11 @@
+ARG BASE_IMAGE=vllm/vllm-openai:v0.24.0-ubuntu2404
+FROM ${BASE_IMAGE}
+
+WORKDIR /opt/dng-vllm-patches
+
+COPY patch_vllm_concurrent_prefill_v024.py ./patch_vllm_concurrent_prefill_v024.py
+
+RUN python3 /opt/dng-vllm-patches/patch_vllm_concurrent_prefill_v024.py \
+    && python3 /opt/dng-vllm-patches/patch_vllm_concurrent_prefill_v024.py --check
+
+ENTRYPOINT ["python3", "-m", "vllm.entrypoints.openai.api_server"]

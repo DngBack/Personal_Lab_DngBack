@@ -1,0 +1,37 @@
+services:
+  model:
+    image: ${VLLM_PARTIAL_PREFILL_IMAGE:-dngback/vllm-v0.24.0-ubuntu2404-concurrent-prefill:latest}
+    entrypoint:
+      - python3 #Don't change this to vllm-server
+      - -m  #Don't change this to vllm-server
+      - vllm.entrypoints.openai.api_server #Don't change this to vllm-server
+    command:
+      - --model=/model #Don't change this to vllm-server
+      - --served-model-name=Qwen3.5-2B #Don't change this to vllm-server
+      - --host=0.0.0.0 #Don't change this to vllm-server
+      - --port=8000 #Don't change this to vllm-server
+      - --max-model-len=32768
+      - --gpu-memory-utilization=0.95
+      - --tensor-parallel-size=1
+      - --enable-prefix-caching
+      - --enable-chunked-prefill
+      - --max-num-batched-tokens=8192
+      - --max-num-seqs=48
+      - --max-cudagraph-capture-size=48
+      - --async-scheduling
+      - --kv-cache-dtype=fp8_e4m3
+      - --quantization=fp8
+      - --max-num-partial-prefills=2
+      - --max-long-partial-prefills=1
+      - --long-prefill-token-threshold=8192
+      - '--speculative-config={"method": "mtp", "num_speculative_tokens": 3}'
+    ports:
+      - "8000:8000"
+    shm_size: "2g"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
