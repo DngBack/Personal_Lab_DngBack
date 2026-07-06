@@ -1,6 +1,6 @@
 services:
   model:
-    image: ${VLLM_PARTIAL_PREFILL_IMAGE:-dngback/vllm-v0.24.0-ubuntu2404-concurrent-prefill:latest}
+    image: ${VLLM_PARTIAL_PREFILL_IMAGE:-dngback/vllm-v0.24.0-ubuntu2404-concurrent-prefill:concurrent-prefill}
     entrypoint:
       - python3 #Don't change this to vllm-server
       - -m  #Don't change this to vllm-server
@@ -10,14 +10,27 @@ services:
       - --served-model-name=${SERVED_MODEL_NAME:-Qwen2.5-1.5B-Instruct} #Don't change this to vllm-server
       - --host=0.0.0.0 #Don't change this to vllm-server
       - --port=8000 #Don't change this to vllm-server
+      # DO NOT reduce below ~28672: measured with the real Qwen3.5-2B tokenizer,
+      # trace-round1's longest prompt is 27,398 tokens (27,598 incl. completion).
+      # The old "~20K tokens" note in earlier commits was a char-count guess and
+      # was wrong - trusting it here would truncate/reject the longest requests.
       - --max-model-len=32768
       - --gpu-memory-utilization=${GPU_MEMORY_UTILIZATION:-0.90}
       - --tensor-parallel-size=1
       - --enable-prefix-caching
       - --enable-chunked-prefill
-      - --max-num-batched-tokens=8192
-      - --max-num-seqs=48
-      - --max-cudagraph-capture-size=48
+      # Trace is text-only (workload_type=conversation, no image content parts) but
+      # Qwen3.5-2B is a VL checkpoint by default: without these two flags vLLM still
+      # reserves an encoder-cache budget and runs a ~27s multimodal warmup at startup.
+      # Verified locally: language-model-only zeroes every mm modality limit (no
+      # correctness risk for a text-only trace) and freed ~1GiB -> KV cache size
+      # 1.84M -> 1.98M tokens (+7.6%), with end-to-end replay numbers unchanged
+      # (noise-level, this trace isn't KV-memory bound) - pure upside, no downside.
+      - --language-model-only
+      - --skip-mm-profiling
+      - --max-num-batched-tokens=${MAX_NUM_BATCHED_TOKENS:-8192}
+      - --max-num-seqs=${MAX_NUM_SEQS:-64}
+      - --max-cudagraph-capture-size=${MAX_CUDAGRAPH_CAPTURE_SIZE:-64}
       - --async-scheduling
       - --kv-cache-dtype=fp8_e4m3
       - --quantization=fp8
