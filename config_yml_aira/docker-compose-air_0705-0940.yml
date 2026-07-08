@@ -10,18 +10,18 @@ services:
       - --served-model-name=Qwen3.5-2B #Don't change this to vllm-server
       - --host=0.0.0.0 #Don't change this to vllm-server
       - --max-model-len=32768
-      - --gpu-memory-utilization=0.90
+      - --gpu-memory-utilization=0.95
       - --tensor-parallel-size=1
       - --enable-prefix-caching
       - --enable-chunked-prefill
       - --max-num-batched-tokens=8192
-      - --max-num-seqs=48
-      - --max-cudagraph-capture-size=48
+      - --max-num-seqs=40
+      - --max-cudagraph-capture-size=40
       - --async-scheduling
-      - --quantization=fp8
       - --max-num-partial-prefills=2
-      - --max-long-partial-prefills=2
+      - --max-long-partial-prefills=1
       - --long-prefill-token-threshold=24576
+      - --default-chat-template-kwargs={"enable_thinking":false}
     ports:
       - "8000:8000"
     shm_size: "2g"
