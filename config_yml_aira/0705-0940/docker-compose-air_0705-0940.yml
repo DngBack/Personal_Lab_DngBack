@@ -6,8 +6,8 @@ services:
       - -m  #Don't change this to vllm-server
       - vllm.entrypoints.openai.api_server #Don't change this to vllm-server
     command:
-      - --model=${MODEL_ID:-Qwen/Qwen2.5-1.5B-Instruct} #Don't change this to vllm-server
-      - --served-model-name=${SERVED_MODEL_NAME:-Qwen2.5-1.5B-Instruct} #Don't change this to vllm-server
+      - --model=/model #Don't change this to vllm-server
+      - --served-model-name=Qwen3.5-2B #Don't change this to vllm-server
       - --host=0.0.0.0 #Don't change this to vllm-server
       - --port=8000 #Don't change this to vllm-server
       # DO NOT reduce below ~28672: measured with the real Qwen3.5-2B tokenizer,
@@ -15,7 +15,7 @@ services:
       # The old "~20K tokens" note in earlier commits was a char-count guess and
       # was wrong - trusting it here would truncate/reject the longest requests.
       - --max-model-len=32768
-      - --gpu-memory-utilization=${GPU_MEMORY_UTILIZATION:-0.90}
+      - --gpu-memory-utilization=0.90
       - --tensor-parallel-size=1
       - --enable-prefix-caching
       - --enable-chunked-prefill
@@ -32,18 +32,12 @@ services:
       - --max-num-seqs=${MAX_NUM_SEQS:-64}
       - --max-cudagraph-capture-size=${MAX_CUDAGRAPH_CAPTURE_SIZE:-64}
       - --async-scheduling
-      - --kv-cache-dtype=fp8_e4m3
       - --quantization=fp8
       - --max-num-partial-prefills=2
-      - --max-long-partial-prefills=1
-      - --long-prefill-token-threshold=8192
+      - --max-long-partial-prefills=2
+      - --long-prefill-token-threshold=24576
     ports:
       - "8000:8000"
-    environment:
-      HF_HOME: /root/.cache/huggingface
-      HUGGING_FACE_HUB_TOKEN: ${HUGGING_FACE_HUB_TOKEN:-}
-    volumes:
-      - ${HF_HOME:-${HOME}/.cache/huggingface}:/root/.cache/huggingface
     shm_size: "2g"
     deploy:
       resources:

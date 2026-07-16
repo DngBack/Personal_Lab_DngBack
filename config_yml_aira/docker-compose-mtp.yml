@@ -1,0 +1,92 @@
+services:
+  model:
+    image: minhlam284/qwen35-mtp-vllm:v4
+    # 8/7: bo VLLM_USE_FLASHINFER_SAMPLER=0 - default cua ban nay la 1 (bat).
+    # Neu boot loi o sampler thi mo lai dong duoi.
+    # environment:
+    #   VLLM_USE_FLASHINFER_SAMPLER: "0"
+    entrypoint:
+      - python3 #Don't change this to vllm-server
+      - -m  #Don't change this to vllm-server
+      - vllm.entrypoints.openai.api_server #Don't change this to vllm-server
+    command:
+      - --model=/model #Don't change this to vllm-server
+      - --served-model-name=Qwen3.5-2B #Don't change this to vllm-server
+      - --host=0.0.0.0 #Don't change this to vllm-server
+      - --port=8000 #Don't change this to vllm-server
+      - --max-model-len=28672 #GIU: turn 6 ~27.3k in + 200 out; dung ha duoi ~28k
+      - --gpu-memory-utilization=0.95
+      - --tensor-parallel-size=1
+      - --enable-prefix-caching
+      ####################################
+      # 8/7: LEVER CHINH cho TTFT. 2048 lam admission tuan tu (1 req prefill do
+      # nuot het budget moi step -> waiting=66/running<=18). Thue MTP tinh theo
+      # step nen 8192 cung giam luon thue MTP ~4x trong storm.
+      # A/B cu: static2048 TTFT p95 3526ms vs static8192 1824ms.
+      - --max-num-batched-tokens=8192
+      # 8/7: cap chunk 1 request de 2 prefill xen ke trong 1 step 8192
+      # (da do -30% TTFT p95, khong lien quan MTP). Phai >= block_size (~576 fp8KV).
+      - --long-prefill-token-threshold=4096
+      ####################################
+      - --max-num-seqs=64
+      - --async-scheduling
+      - --no-enable-log-requests
+      - --quantization=fp8
+      # 8/7: giam 2x bang thong doc KV cho 6 lop full-attn (guard TBT tren MIG).
+      # Replay: mtp_fp8kv8192 4753ms < mtp8192 5344ms. LUU Y: block_size se bi
+      # auto-bump ~576 - doc log boot "Setting attention block size to N tokens",
+      # neu N khong chia het 8192 thi chinh budget ve boi so cua N (vd 8064).
+      - --kv-cache-dtype=fp8_e4m3
+      - --mamba-cache-dtype=bfloat16
+      - --mamba-ssm-cache-dtype=bfloat16
+      - --language-model-only
+      ####################################
+      - --block-size=32
+      - --attention-backend=flash_attn
+      - --gdn-prefill-backend=flashinfer
+      # 8/7: MTP(q_len=3) x 64 seqs = 192 token/step decode thuan; 128 truoc day
+      # lam step decode >42 req roi khoi FULL cudagraph. Neu chuyen K=1 thi 128 du.
+      - --max-cudagraph-capture-size=192
+      - --mamba-cache-mode=align
+      # 8/7: bo --mamba-backend=flashinfer - NO-OP voi model nay (khong co lop
+      # Mamba2 SSU; GDN decode dung FLA kernel co dinh, prefill theo --gdn-prefill-backend)
+      # 8/7: bo --no-disable-cascade-attn - vLLM tu force-disable cascade khi co
+      # spec-decode + async-scheduling (config/vllm.py:1024, warning trong log boot)
+      # 8/7: bo --optimization-level=2 - la default san, O3 giong het O2
+      ####################################
+      # 8/7: hash prefix-cache tren CPU nam tren critical path admission (27k tok/req);
+      # default sha256 -> xxhash re hon nhieu. Da verify import xxhash OK trong image v4.
+      - --prefix-caching-hash-algo=xxhash
+      - --no-scheduler-reserve-full-isl
+      - '--default-chat-template-kwargs={"enable_thinking":false}'
+      ####################################
+      # ARM CHINH (mtp_base): K=2 nhu cu
+      - --speculative-config
+      - '{"method":"qwen3_next_mtp","num_speculative_tokens":2,"attention_backend":"flash_attn"}'
+      # ARM A/B (mtp_k1): K=1 - bo han vong draft tuan tu (early-exit trong proposer),
+      # verify 2 thay vi 3 tok/req; doi lai decode 1+a thay vi 1+a+a^2. Neu dung thi
+      # ha --max-cudagraph-capture-size ve 128.
+      # - '{"method":"qwen3_next_mtp","num_speculative_tokens":1,"attention_backend":"flash_attn"}'
+      # ARM A/B (mtp_dyn): dynamic-K theo so request/step - speculate manh khi it req
+      # (decode nhan), tat khi dong (giua storm). K=0 van con 1 forward sync KV.
+      # Step K<2 chay piecewise cudagraph -> phai sweep tren bench, dung doan range.
+      # - '{"method":"qwen3_next_mtp","num_speculative_tokens":2,"attention_backend":"flash_attn","num_speculative_tokens_per_batch_size":[[1,8,2],[9,20,1],[21,64,0]]}'
+      ####################################
+      # - --collect-detailed-traces=all
+      # - --enable-layerwise-nvtx-tracing
+      # - --cudagraph-metrics
+      # - --enable-log-requests
+      # - --kv-cache-metrics
+      # - --enable-mfu-metrics
+      # - --enable-logging-iteration-details
+      # - --jit-monitor-verbose
+    ports:
+      - "8000:8000"
+    shm_size: "2g"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]

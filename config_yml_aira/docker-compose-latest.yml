@@ -1,0 +1,52 @@
+services:
+  model:
+    image: vllm/vllm-openai:v0.24.0-ubuntu2404
+    environment:
+      VLLM_USE_FLASHINFER_SAMPLER: "0"
+    entrypoint:
+      - python3 #Don't change this to vllm-server
+      - -m  #Don't change this to vllm-server
+      - vllm.entrypoints.openai.api_server #Don't change this to vllm-server
+    command:
+      - --model=/model #Don't change this to vllm-server
+      - --served-model-name=Qwen3.5-2B #Don't change this to vllm-server
+      - --host=0.0.0.0 #Don't change this to vllm-server
+      - --port=8000 #Don't change this to vllm-server
+      - --max-model-len=28672
+      - --gpu-memory-utilization=0.95
+      - --tensor-parallel-size=1
+      - --enable-prefix-caching
+      - --enable-chunked-prefill
+      - --max-num-batched-tokens=8192
+      - --max-num-seqs=64
+      - --async-scheduling
+      - --no-enable-log-requests
+      - --quantization=fp8
+      - --mamba-cache-dtype=bfloat16
+      - --mamba-ssm-cache-dtype=bfloat16
+      - --language-model-only
+      ####################################
+      - --block-size=32
+      - --attention-backend=flash_attn
+      - --gdn-prefill-backend=flashinfer
+      - --mamba-cache-mode=align
+      - --max-cudagraph-capture-size=128
+      ####################################
+      - --max-num-partial-prefills=1
+      - --max-long-partial-prefills=1
+      - --mamba-backend=flashinfer
+      - --optimization-level=2
+      - --prefix-caching-hash-algo=sha256
+      - '--default-chat-template-kwargs={"enable_thinking":false}'
+      - --speculative-config 
+      - '{"method":"qwen3_next_mtp","num_speculative_tokens":2, "attention_backend":"flash_attn"}'
+    ports:
+      - "8000:8000"
+    shm_size: "2g"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]

@@ -1,0 +1,77 @@
+services:
+  model:
+    image: minhlam284/qwen35-mtp-vllm:v6
+    environment:
+      VLLM_USE_FLASHINFER_SAMPLER: "0"
+    entrypoint:
+      - python3 #Don't change this to vllm-server
+      - -m  #Don't change this to vllm-server
+      - vllm.entrypoints.openai.api_server #Don't change this to vllm-server
+    command:
+      - --model=/model #Don't change this to vllm-server
+      - --served-model-name=Qwen3.5-2B #Don't change this to vllm-server
+      - --host=0.0.0.0 #Don't change this to vllm-server
+      - --port=8000 #Don't change this to vllm-server
+      - --max-model-len=28672 #GIU: turn 6 ~27.3k in + 200 out; dung ha duoi ~28k
+      - --gpu-memory-utilization=0.95
+      - --tensor-parallel-size=1
+      - --enable-prefix-caching
+      # - --enable-chunked-prefill
+      # - --max-num-batched-tokens=3072
+      - --max-num-batched-tokens=2048
+      - --max-num-seqs=64
+      - --async-scheduling
+      - --no-enable-log-requests
+      - --quantization=fp8
+      - --mamba-cache-dtype=bfloat16
+      - --mamba-ssm-cache-dtype=bfloat16
+      - --language-model-only
+      ####################################
+      - --block-size=32
+      - --attention-backend=flash_attn
+      - --gdn-prefill-backend=flashinfer
+      - --max-cudagraph-capture-size=128
+      # - --kv-cache-dtype=turboquant_k8v4
+      - --mamba-cache-mode=align
+      # - --mamba-block-size=8
+      - --mamba-backend=flashinfer
+      ####################################
+      #3/7
+      # - --max-num-partial-prefills=1
+      # - --max-long-partial-prefills=1
+      # - --disable-sliding-window
+      - --no-disable-cascade-attn
+      - --optimization-level=2
+      # - --performance-mode=interactivity
+      # - --prefix-caching-hash-algo=xxhash
+      # - --enable-dbo
+      # - --dbo-prefill-token-threshold=16384
+      # - --dbo-decode-token-threshold=64
+      - '--default-chat-template-kwargs={"enable_thinking":false}'
+      - --speculative-config 
+      - '{"method":"qwen3_next_mtp","num_speculative_tokens":2,"draft_sample_method":"probabilistic","attention_backend":"flash_attn"}'
+      #################################### 
+      #4/7
+      # - --no-scheduler-reserve-full-isl
+      # - --enable-flashinfer-autotune
+      # - --compilation-config
+      # - '{"mode":3,"cudagraph_capture_sizes":[1,2,4,8,16,32,64,128]}'
+      ####################################
+      # - --collect-detailed-traces=all
+      # - --enable-layerwise-nvtx-tracing
+      # - --cudagraph-metrics
+      # - --enable-log-requests
+      # - --kv-cache-metrics
+      # - --enable-mfu-metrics
+      # - --enable-logging-iteration-details
+      # - --jit-monitor-verbose
+    ports:
+      - "8000:8000"
+    shm_size: "2g"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
