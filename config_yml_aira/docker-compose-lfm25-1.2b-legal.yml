@@ -1,0 +1,85 @@
+# =============================================================================
+# LFM2.5-1.2B-Instruct — cấu hình HỢP LỆ (2026-07-16)
+#   - KHÔNG prime prompt test (AIR_PRIME_PACK=0, phạm luật). Chỉ warm-up hợp lệ:
+#     AIR_WARMUP (generic JIT/cudagraph) + AIR_PRIME_CACHE (cache system-prefix
+#     cố định — system-prompt caching chuẩn, "vừa đủ").
+#   - Chấm bằng THÔNG SỐ THẬT: F_ttft=10 C_ttft=400 F_tpot=1 C_tpot=10ms.
+#
+# Kết quả (cold r1 hợp lệ, real params, GPU H200 dùng chung — nhiễu):
+#   baseline (cascade ON, bf16)        ERS 0.038  ttft50 396  tpot50 13.5
+#   + cascade OFF (bf16)               ERS 0.069  ttft50 346  tpot50  9.0
+#   + fp8 weights + cascade OFF (đây)  ERS 0.108-0.122  ttft50 ~250  tpot50 ~8.1
+#   => ~3x baseline. TPOT xuống dưới ceiling 10ms; TTFT (prefill 6.5k unique) là
+#      nút thắt còn lại.
+#
+# HAI PHÁT HIỆN KV/decode (khác hẳn regime primed cũ):
+#   1) CASCADE ATTENTION LÀM HẠI decode TPOT ở model hybrid LFM2 -> phải TẮT
+#      (--disable-cascade-attn). Heuristic use_cascade của vLLM dự đoán sai cho
+#      hybrid: two-kernel cascade chậm hơn FlashDecoding cho pattern này.
+#      Đo: TBT median 13.5ms (on) -> 8-9ms (off).
+#   2) fp8 weight-quant GIÚP ở regime cold/legal (prefill compute-bound) — ngược
+#      với regime primed (nơi nó vô ích/hơi hại vì decode-bound). Bật lại ở đây.
+#   fp8-KV giữ nguyên (giảm nửa băng thông KV read).
+#
+# ⚠️ Vẫn treo cổng accuracy/delta (LFM2.5 != Qwen). fp8 x3 (weight+kv+lmhead) +
+#    instruct model -> phải kiểm accuracy trước khi nộp.
+# Weights: docker volume lfm25_model (stage bằng helper + docker cp).
+# GPU util 0.12 cho H200 dùng chung -> 0.9 khi nộp trên 1 MIG riêng.
+# =============================================================================
+services:
+  model:
+    image: dngback/vllm-v0.24.0-ubuntu2404-opt-2:r12-prefillbias-v2
+    entrypoint: [python3, -m, vllm.entrypoints.openai.api_server]
+    environment:
+      VLLM_USE_RUST_FRONTEND: "1"
+      ENGPACE_RATE_MS: "12"
+      ENGPACE_BURST_N: "3"
+      AIR_WARMUP: "1"            # generic JIT/cudagraph — hợp lệ
+      AIR_GC_FREEZE: "1"
+      AIR_PRIME_CACHE: "1"       # cache system-prefix cố định — hợp lệ ("vừa đủ")
+      AIR_PRIME_PACK: "0"        # KHÔNG replay prompt test — PHẠM LUẬT nếu bật
+      AIR_LMHEAD_FP8: "1"
+    volumes:
+      - lfm25_model:/model:ro
+    command:
+      - --model=/model
+      - --served-model-name=Qwen3.5-2B
+      - --host=0.0.0.0
+      - --port=8000
+      - --max-model-len=28672
+      - --gpu-memory-utilization=0.12   # -> 0.9 khi nộp (1 MIG riêng)
+      - --tensor-parallel-size=1
+      - --enable-prefix-caching
+      - --enable-chunked-prefill
+      - --max-num-batched-tokens=3072
+      - --max-num-seqs=512
+      - --async-scheduling
+      - --no-enable-log-requests
+      - --quantization=fp8              # GIÚP prefill/TTFT ở regime cold
+      - --kv-cache-dtype=fp8_e4m3
+      - --mamba-cache-dtype=bfloat16
+      - --disable-cascade-attn         # TẮT cascade — giảm TPOT ~13.5->8ms
+      - --prefill-bias-enabled
+      - --prefill-bias-cache-aware
+      - --prefill-bias-tbt-guard-enabled
+      - --prefill-bias-tbt-slo-s=0.010  # SLO thật: TPOT ceiling 10ms
+      - --prefill-bias-ttft-slo-s=0.400 # SLO thật: TTFT ceiling 400ms
+    ports:
+      - "8141:8000"
+    shm_size: "2g"
+    healthcheck:
+      test: ["CMD-SHELL", "test -f /tmp/.air_warmup_done"]
+      interval: 5s
+      timeout: 3s
+      retries: 240
+      start_period: 30s
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+volumes:
+  lfm25_model:
+    external: true

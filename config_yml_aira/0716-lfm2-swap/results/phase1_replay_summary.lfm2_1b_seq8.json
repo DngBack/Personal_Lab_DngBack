@@ -1,0 +1,27 @@
+{
+  "tag": "lfm2_1b_seq8",
+  "total_count": 120,
+  "failed_count": 0,
+  "ers": 0.4982,
+  "passed_slo": 26,
+  "erc": 0.2167,
+  "ttft_p50_ms": 4131,
+  "ttft_p95_ms": 25972,
+  "ttft_max_ms": 26340,
+  "tbt_median_ms": 16.1,
+  "tbt_p95_ms": 29.3,
+  "tbt_req_mean_p95_ms": 28.3,
+  "wall_time_s": 52.6,
+  "slo": {
+    "ttft_ms": 1500.0,
+    "tbt_mean_ms": 45.0
+  },
+  "ers_params": {
+    "F_ttft": 100.0,
+    "C_ttft": 1500.0,
+    "F_tpot": 20.0,
+    "C_tpot": 45.0,
+    "gamma": 2,
+    "w": 0.5
+  }
+}
