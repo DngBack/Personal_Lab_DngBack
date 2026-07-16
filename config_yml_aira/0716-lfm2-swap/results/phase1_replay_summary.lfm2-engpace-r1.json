@@ -1,0 +1,27 @@
+{
+  "tag": "lfm2-engpace-r1",
+  "total_count": 120,
+  "failed_count": 0,
+  "ers": 0.8759,
+  "passed_slo": 120,
+  "erc": 1.0,
+  "ttft_p50_ms": 125,
+  "ttft_p95_ms": 292,
+  "ttft_max_ms": 575,
+  "tbt_median_ms": 17.0,
+  "tbt_p95_ms": 29.8,
+  "tbt_req_mean_p95_ms": 29.0,
+  "wall_time_s": 30.9,
+  "slo": {
+    "ttft_ms": 1500.0,
+    "tbt_mean_ms": 45.0
+  },
+  "ers_params": {
+    "F_ttft": 100.0,
+    "C_ttft": 1500.0,
+    "F_tpot": 20.0,
+    "C_tpot": 45.0,
+    "gamma": 2,
+    "w": 0.5
+  }
+}

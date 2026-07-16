@@ -1,0 +1,27 @@
+{
+  "tag": "lfm2-flashinfer-req",
+  "total_count": 120,
+  "failed_count": 0,
+  "ers": 0.9883,
+  "passed_slo": 120,
+  "erc": 1.0,
+  "ttft_p50_ms": 98,
+  "ttft_p95_ms": 166,
+  "ttft_max_ms": 200,
+  "tbt_median_ms": 16.5,
+  "tbt_p95_ms": 20.8,
+  "tbt_req_mean_p95_ms": 18.2,
+  "wall_time_s": 28.9,
+  "slo": {
+    "ttft_ms": 1500.0,
+    "tbt_mean_ms": 45.0
+  },
+  "ers_params": {
+    "F_ttft": 100.0,
+    "C_ttft": 1500.0,
+    "F_tpot": 20.0,
+    "C_tpot": 45.0,
+    "gamma": 2,
+    "w": 0.5
+  }
+}

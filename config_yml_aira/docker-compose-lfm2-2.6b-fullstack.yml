@@ -30,7 +30,13 @@ services:
       - --max-num-seqs=512
       - --async-scheduling
       - --no-enable-log-requests
-      - --quantization=fp8
+      # NOTE (2026-07-16 A/B): --quantization=fp8 (backbone weight quant) gives
+      # NO ERS gain in the PRIMED regime — primed is decode/scheduling-bound, not
+      # compute-bound, and fp8 GEMM/dequant overhead slightly RAISES TBT on this
+      # 2.6B model on H200. bf16 backbone matches ERS (~0.991) and is simpler +
+      # accuracy-safer, so it's dropped here. Re-add ONLY for a cold/no-prime
+      # regime (prefill-bound), where fp8 weights speed up prefill.
+      # - --quantization=fp8
       - --kv-cache-dtype=fp8_e4m3
       - --mamba-cache-dtype=bfloat16           # conv-state của LFM2 (KHÔNG có ssm)
       - --no-disable-cascade-attn

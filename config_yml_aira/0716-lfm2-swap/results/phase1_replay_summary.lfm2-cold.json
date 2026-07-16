@@ -1,0 +1,27 @@
+{
+  "tag": "lfm2-cold",
+  "total_count": 120,
+  "failed_count": 0,
+  "ers": 0.642,
+  "passed_slo": 109,
+  "erc": 0.9083,
+  "ttft_p50_ms": 845,
+  "ttft_p95_ms": 2099,
+  "ttft_max_ms": 2780,
+  "tbt_median_ms": 11.1,
+  "tbt_p95_ms": 39.9,
+  "tbt_req_mean_p95_ms": 18.2,
+  "wall_time_s": 29.2,
+  "slo": {
+    "ttft_ms": 1500.0,
+    "tbt_mean_ms": 45.0
+  },
+  "ers_params": {
+    "F_ttft": 100.0,
+    "C_ttft": 1500.0,
+    "F_tpot": 20.0,
+    "C_tpot": 45.0,
+    "gamma": 2,
+    "w": 0.5
+  }
+}

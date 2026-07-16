@@ -1,0 +1,27 @@
+{
+  "tag": "lfm2-bf16-r2",
+  "total_count": 120,
+  "failed_count": 0,
+  "ers": 0.9903,
+  "passed_slo": 120,
+  "erc": 1.0,
+  "ttft_p50_ms": 100,
+  "ttft_p95_ms": 161,
+  "ttft_max_ms": 194,
+  "tbt_median_ms": 16.2,
+  "tbt_p95_ms": 20.4,
+  "tbt_req_mean_p95_ms": 17.6,
+  "wall_time_s": 28.7,
+  "slo": {
+    "ttft_ms": 1500.0,
+    "tbt_mean_ms": 45.0
+  },
+  "ers_params": {
+    "F_ttft": 100.0,
+    "C_ttft": 1500.0,
+    "F_tpot": 20.0,
+    "C_tpot": 45.0,
+    "gamma": 2,
+    "w": 0.5
+  }
+}
