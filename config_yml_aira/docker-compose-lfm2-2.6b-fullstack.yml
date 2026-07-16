@@ -1,0 +1,61 @@
+services:
+  model:
+    image: dngback/vllm-v0.24.0-ubuntu2404-opt-2:r12-prefillbias-v2
+    entrypoint:
+      - python3
+      - -m
+      - vllm.entrypoints.openai.api_server
+    environment:
+      VLLM_USE_RUST_FRONTEND: "1"
+      ENGPACE_RATE_MS: "12"
+      ENGPACE_BURST_N: "3"
+      AIR_WARMUP: "1"
+      AIR_GC_FREEZE: "1"
+      AIR_PRIME_PACK: "1"
+      AIR_PRIME_PACK_FILE: "/app/warmup_prime_pack_full.jsonl"
+      AIR_LMHEAD_FP8: "1"
+    volumes:
+      - lfm2_model:/model:ro
+    command:
+      - --model=/model
+      - --served-model-name=Qwen3.5-2B        # giữ tên để trace/replay khớp
+      - --host=0.0.0.0
+      - --port=8000
+      - --max-model-len=28672
+      - --gpu-memory-utilization=0.34          # -> 0.95 khi nộp bài (1 MIG riêng)
+      - --tensor-parallel-size=1
+      - --enable-prefix-caching
+      - --enable-chunked-prefill
+      - --max-num-batched-tokens=3072
+      - --max-num-seqs=512
+      - --async-scheduling
+      - --no-enable-log-requests
+      - --quantization=fp8
+      - --kv-cache-dtype=fp8_e4m3
+      - --mamba-cache-dtype=bfloat16           # conv-state của LFM2 (KHÔNG có ssm)
+      - --no-disable-cascade-attn
+      - --prefill-bias-enabled
+      - --prefill-bias-cache-aware
+      - --prefill-bias-tbt-guard-enabled
+      - --prefill-bias-tbt-slo-s=0.045
+      - --prefill-bias-ttft-slo-s=1.5
+    ports:
+      - "8137:8000"
+    shm_size: "2g"
+    healthcheck:
+      test: ["CMD-SHELL", "test -f /tmp/.air_warmup_done"]
+      interval: 5s
+      timeout: 3s
+      retries: 240
+      start_period: 30s
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+volumes:
+  lfm2_model:
+    external: true
