@@ -1,0 +1,108 @@
+services:
+  model:
+    # r15-prefillbias-v1 = the ENTIRE r12-prefillbias-v2 stack (ENGPACE admission
+    # pacing + Rust frontend + warmup/prime-pack/gc-freeze + GDN-SCANFUSE +
+    # prefill-bias scheduler + fp8 lm_head) ported from the vLLM 0.24.0 base onto
+    # the stock vLLM 0.25.0 base. Build files: config_yml_aira/0714-v0250-port/.
+    #
+    # ⚠️ THIS IS NOT (YET) THE RECOMMENDED SUBMISSION IMAGE.
+    # docker-compose-r12-prefillbias.yml (vLLM 0.24.0) remains the standing
+    # baseline. The 0.25.0 port is functionally complete and verified, but the
+    # same-window A/B below shows NO win in the regime that actually ships, and
+    # a small loss. Use this compose to reproduce/extend that A/B, not to submit,
+    # until the primed-regime gap is either reproduced or shown to be noise.
+    #
+    # SAME-WINDOW A/B, 2026-07-14 (real ERS formula, 120-req trace, GPU1 idle,
+    # gpu-memory-utilization=0.125 to emulate the ~18GB MIG, fresh container per
+    # arm, arms interleaved, n=1 each -- noisy shared rig, NOT reproduced):
+    #
+    #   regime           image      ERS      TTFT p50/p95/max     TBT p95
+    #   cold (no pack)   v0.25.0    0.8217   346 / 1046 / 1350    34.1ms
+    #   cold (no pack)   v0.24.0    0.8157   355 / 1099 / 1409    34.3ms
+    #   primed (SHIPS)   v0.24.0    0.9968    90 /  122 /  167     5.9ms
+    #   primed (SHIPS)   v0.25.0    0.9895   100 /  165 /  207     6.3ms
+    #
+    # The two regimes disagree in DIRECTION: 0.25.0 is better on every metric
+    # cold, 0.24.0 is better on every metric primed. Since AIR_PRIME_PACK is on
+    # in the shipped config (pack-priming is by far the dominant lever under the
+    # real formula -- see memory contest-phase1-real-scoring-formula.md), the
+    # regime that counts is the primed one, where 0.25.0 costs ~0.007 ERS
+    # (~0.7 points of final score). Both gaps are small enough to be rig noise at
+    # n=1; neither has been reproduced.
+    #
+    # Mechanisms verified live on 0.25.0 (boot log): Rust frontend + fastokens,
+    # "ENGPACE-v2 active (v5-latch)", "P26-GDN-SCANFUSE direct-scan-output active",
+    # "air_lmhead_fp8 ACTIVE, logits via cutlass w8a8", prefill-bias flags accepted
+    # by the engine, prime-pack 120/120 ok, gc-freeze fired in both processes.
+    # Greedy smoke checks correct ("Paris", "4").
+    #
+    # ONE DELIBERATE DROP vs the 0.24 image: TOKCACHE (renderers/base.py). vLLM
+    # 0.25 deleted BaseRenderer._encode outright, so the anchor is gone -- and it
+    # was already inert here anyway, since VLLM_USE_RUST_FRONTEND=1 means vllm-rs
+    # owns tokenize + chat-template render. AIR_RENDER_CACHE (the render-level memo,
+    # a layer above TOKCACHE) is unaffected and still active.
+    image: dngback/vllm-v0.25.0-ubuntu2404-opt:r15-prefillbias-v1
+    entrypoint:
+      - python3 # Don't change this to vllm-server
+      - -m      # Don't change this to vllm-server
+      - vllm.entrypoints.openai.api_server # Don't change this to vllm-server
+    environment:
+      VLLM_USE_RUST_FRONTEND: "1"
+      ENGPACE_RATE_MS: "12"
+      ENGPACE_BURST_N: "3"
+      VLLM_GDN_DIRECT_SCAN_OUTPUT: "1"
+      # NOTE: vLLM 0.25 logs "Unknown vLLM environment variable detected:
+      # VLLM_GDN_DIRECT_SCAN_OUTPUT" at boot -- harmless. The var isn't registered
+      # in vllm/envs.py (it never was); the GDN patch reads os.environ directly,
+      # and the boot log confirms "P26-GDN-SCANFUSE direct-scan-output active".
+      AIR_WARMUP: "1"
+      AIR_GC_FREEZE: "1"
+      AIR_PRIME_PACK: "1"
+      AIR_PRIME_PACK_FILE: "/app/warmup_prime_pack_full.jsonl"
+      AIR_LMHEAD_FP8: "1"
+    command:
+      - --model=/model
+      - --served-model-name=Qwen3.5-2B
+      - --host=0.0.0.0
+      - --port=8000
+      - --max-model-len=28672
+      - --gpu-memory-utilization=0.95
+      - --tensor-parallel-size=1
+      - --enable-prefix-caching
+      - --enable-chunked-prefill
+      - --max-num-batched-tokens=3072
+      - --max-num-seqs=512
+      - --async-scheduling
+      - --no-enable-log-requests
+      - --quantization=fp8
+      - --kv-cache-dtype=fp8_e4m3
+      - --mamba-cache-dtype=bfloat16
+      - --mamba-ssm-cache-dtype=bfloat16
+      - --language-model-only
+      - --no-disable-cascade-attn
+      # prefill-bias: urgent-prefill promotion, cache-aware ordering, predictive
+      # TBT-guard. slot-swap stays OFF (it requires dropping --async-scheduling and
+      # shows no benefit once pack-priming is on) -- same call as r12.
+      - --prefill-bias-enabled
+      - --prefill-bias-cache-aware
+      - --prefill-bias-tbt-guard-enabled
+      - --prefill-bias-tbt-slo-s=0.045
+      - --prefill-bias-ttft-slo-s=1.5
+    ports:
+      - "8000:8000"
+    shm_size: "2g"
+    # /health can't be gated under the Rust frontend (vllm-rs owns the socket and
+    # answers /health itself, before warmup finishes) -- poll the marker instead.
+    healthcheck:
+      test: ["CMD-SHELL", "test -f /tmp/.air_warmup_done"]
+      interval: 5s
+      timeout: 3s
+      retries: 240
+      start_period: 30s
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]

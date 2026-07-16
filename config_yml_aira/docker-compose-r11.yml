@@ -1,0 +1,44 @@
+services:
+  model:
+    image: dngback/vllm-v0.24.0-ubuntu2404-opt-2:r11-engpace-rust-v1
+    entrypoint:
+      - python3 # Don't change this to vllm-server
+      - -m      # Don't change this to vllm-server
+      - vllm.entrypoints.openai.api_server # Don't change this to vllm-server
+    environment:
+      VLLM_USE_RUST_FRONTEND: "1"
+      ENGPACE_RATE_MS: "12"
+      ENGPACE_BURST_N: "3"
+      VLLM_GDN_DIRECT_SCAN_OUTPUT: "1"
+      AIR_WARMUP: "0"
+      AIR_GC_FREEZE: "0"
+    command:
+      - --model=/model
+      - --served-model-name=Qwen3.5-2B
+      - --host=0.0.0.0
+      - --port=8000
+      - --max-model-len=28672
+      - --gpu-memory-utilization=0.95
+      - --tensor-parallel-size=1
+      - --enable-prefix-caching
+      - --enable-chunked-prefill
+      - --max-num-batched-tokens=3072
+      - --max-num-seqs=512
+      - --async-scheduling
+      - --no-enable-log-requests
+      - --quantization=fp8
+      - --kv-cache-dtype=fp8_e4m3
+      - --mamba-cache-dtype=bfloat16
+      - --mamba-ssm-cache-dtype=bfloat16
+      - --language-model-only
+      - --no-disable-cascade-attn
+    ports:
+      - "8000:8000"
+    shm_size: "2g"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]

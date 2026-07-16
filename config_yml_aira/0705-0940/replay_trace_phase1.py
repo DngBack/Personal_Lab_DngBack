@@ -24,6 +24,27 @@ import httpx
 TTFT_SLO_MS = 1500.0
 TBT_SLO_MS = 45.0
 
+# Real contest ERS formula (user-supplied 2026-07-12) -- a smooth per-request
+# score, NOT the binary TTFT<=1500/TBT<=45 pass/fail this file's own erc/
+# passed_slo fields compute below. See memory contest-phase1-real-scoring-formula.md.
+ERS_F_TTFT, ERS_C_TTFT = 100.0, 1500.0
+ERS_F_TPOT, ERS_C_TPOT = 20.0, 45.0
+ERS_GAMMA = 2
+ERS_W = 0.5
+
+
+def _ers_component(x: float, floor: float, ceiling: float) -> float:
+    return max(0.0, min(1.0, (ceiling - x) / (ceiling - floor))) ** ERS_GAMMA
+
+
+def ers_request_score(r: dict) -> float:
+    if r["error"] is not None or r["ttft_ms"] is None:
+        return 0.0
+    tpot_mean = statistics.fmean(r["tbt_ms"]) if r["tbt_ms"] else 0.0
+    s_ttft = _ers_component(r["ttft_ms"], ERS_F_TTFT, ERS_C_TTFT)
+    s_tpot = _ers_component(tpot_mean, ERS_F_TPOT, ERS_C_TPOT)
+    return ERS_W * s_ttft + (1 - ERS_W) * s_tpot
+
 
 def pctl(values: list[float], q: float) -> float:
     if not values:
@@ -136,10 +157,12 @@ async def run(args: argparse.Namespace) -> dict:
         if r["ttft_ms"] <= TTFT_SLO_MS
         and (not r["tbt_ms"] or statistics.fmean(r["tbt_ms"]) <= TBT_SLO_MS)
     ]
+    ers_scores = [ers_request_score(r) for r in results]
     summary = {
         "tag": args.tag,
         "total_count": len(results),
         "failed_count": len(errs),
+        "ers": round(statistics.fmean(ers_scores), 4) if ers_scores else 0.0,
         "passed_slo": len(passed),
         "erc": round(len(passed) / max(1, len(results)), 4),
         "ttft_p50_ms": round(pctl(ttfts, 0.50)),
@@ -150,6 +173,11 @@ async def run(args: argparse.Namespace) -> dict:
         "tbt_req_mean_p95_ms": round(pctl(tbt_means, 0.95), 1),
         "wall_time_s": round(wall_s, 1),
         "slo": {"ttft_ms": TTFT_SLO_MS, "tbt_mean_ms": TBT_SLO_MS},
+        "ers_params": {
+            "F_ttft": ERS_F_TTFT, "C_ttft": ERS_C_TTFT,
+            "F_tpot": ERS_F_TPOT, "C_tpot": ERS_C_TPOT,
+            "gamma": ERS_GAMMA, "w": ERS_W,
+        },
     }
     if errs:
         summary["sample_errors"] = [e["error"] for e in errs[:3]]

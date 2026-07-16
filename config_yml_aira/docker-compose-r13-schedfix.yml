@@ -1,0 +1,75 @@
+services:
+  model:
+    # r13-schedfix-v1 = r11-rustwarm-v1 (ENGPACE admission pacing + Rust
+    # frontend + fixed warmup/pack/gc-freeze, see docker-compose-r11-2.yml)
+    # + ONE source patch, no new CLI flags, no config to A/B:
+    # SchedulerConfig.__post_init__ now self-derives
+    # long_prefill_token_threshold = max_num_batched_tokens // 2 whenever
+    # left at its 0 default -- baked in, always on.
+    #
+    # Why: source-read of vllm/v1/core/sched/scheduler.py in THIS exact
+    # image confirmed a single big-prompt request's chunk is otherwise
+    # capped only by the step's total max_num_batched_tokens (threshold=0 on
+    # every r11 compose so far) -- the first large request in a wave can eat
+    # the entire step budget, starving its wave-mates that step. A STATIC
+    # threshold was historically the single most reproducibly non-negative
+    # lever in this project (never regressed TBT/ERC across every prior
+    # test) -- unlike the adaptive DNG_INTERLEAVE scheme, which was reverted
+    # after a real production regression. This patch stays in that safer,
+    # already-validated family instead of inventing a new dynamic mechanism.
+    # See config_yml_aira/0712-r13-schedfix/patch_sched_threshold_default.py.
+    #
+    # Verified 2026-07-12: builds clean, boots, log confirms
+    # "R13 baked long_prefill_token_threshold=1536 (max_num_batched_tokens=
+    # 3072 // 2)", serves a real chat completion correctly. NOT yet A/B'd on
+    # the trace or graded -- image is LOCAL ONLY, not pushed to Docker Hub.
+    image: dngback/vllm-v0.24.0-ubuntu2404-opt-2:r13-schedfix-v1
+    entrypoint:
+      - python3 # Don't change this to vllm-server
+      - -m      # Don't change this to vllm-server
+      - vllm.entrypoints.openai.api_server # Don't change this to vllm-server
+    environment:
+      VLLM_USE_RUST_FRONTEND: "1"
+      ENGPACE_RATE_MS: "12"
+      ENGPACE_BURST_N: "3"
+      VLLM_GDN_DIRECT_SCAN_OUTPUT: "1"
+      AIR_WARMUP: "1"
+      AIR_GC_FREEZE: "1"
+      AIR_PRIME_PACK: "1"
+      AIR_PRIME_PACK_FILE: "/app/warmup_prime_pack_full.jsonl"
+    command:
+      - --model=/model
+      - --served-model-name=Qwen3.5-2B
+      - --host=0.0.0.0
+      - --port=8000
+      - --max-model-len=28672
+      - --gpu-memory-utilization=0.95
+      - --tensor-parallel-size=1
+      - --enable-prefix-caching
+      - --enable-chunked-prefill
+      - --max-num-batched-tokens=3072
+      - --max-num-seqs=512
+      - --async-scheduling
+      - --no-enable-log-requests
+      - --quantization=fp8
+      - --kv-cache-dtype=fp8_e4m3
+      - --mamba-cache-dtype=bfloat16
+      - --mamba-ssm-cache-dtype=bfloat16
+      - --language-model-only
+      - --no-disable-cascade-attn
+    ports:
+      - "8000:8000"
+    shm_size: "2g"
+    healthcheck:
+      test: ["CMD-SHELL", "test -f /tmp/.air_warmup_done"]
+      interval: 5s
+      timeout: 3s
+      retries: 240
+      start_period: 30s
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
