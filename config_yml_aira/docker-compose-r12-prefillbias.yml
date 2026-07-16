@@ -1,0 +1,112 @@
+services:
+  model:
+    # r12-prefillbias-v1 = r12-rustwarm-v1 (ENGPACE admission pacing + Rust
+    # frontend + fixed warmup/pack/gc-freeze triggering, see
+    # docker-compose-r11-2.yml) + a teammate's SLO-aware "prefill-bias"
+    # scheduler patch, ported from minhlam284/tseb:test
+    # (config_yml_aira/0712-r12-prefillbias/). Hash-verified clean apply onto
+    # this image's stock scheduler.py/scheduler_config.py/arg_utils.py/
+    # kv_cache_manager.py -- zero conflict with the ENGPACE/rust patches.
+    #
+    # IMPORTANT 2026-07-12: this project's own "ERC" (binary TTFT<=1500 AND
+    # TBT<=45 pass/fail) does NOT match the contest's actual scoring formula
+    # (user-supplied, see memory contest-phase1-real-scoring-formula.md): a
+    # smooth convex (gamma=2) per-request score that rewards pushing TTFT
+    # toward the 100ms FLOOR far more than rescuing tail requests near the
+    # 1500ms ceiling. Re-scoring every rig test with the real formula flipped
+    # several earlier conclusions -- read that memory doc before trusting any
+    # ERC/p95/max number anywhere else in this project's history.
+    #
+    # Under the REAL formula, cache/pack priming (AIR_PRIME_PACK) is by far
+    # the dominant lever (ERS ~0.99 primed vs ~0.76-0.80 cold -- dwarfs every
+    # scheduler tweak tested). With pack ON, slot-swap adds NO measurable
+    # benefit and costs giving up --async-scheduling (pack+async+no-swap
+    # ERS 0.9949 vs pack+no-async+slot-swap ERS 0.9933 -- noise-level, async
+    # wins). This compose ships pack + async-scheduling + prefill-bias
+    # WITHOUT slot-swap -- the best-scoring config found so far under the
+    # real formula. slot-swap only showed a real, large win in the COLD
+    # (no-pack) regime (ERS 0.756->0.801) -- keep that as a documented
+    # fallback if pack-priming turns out to be disallowed by the grading
+    # harness, not as the shipped default.
+    #
+    # Single rep per arm on a noisy shared rig -- directionally consistent,
+    # not yet reproduced multiple times or graded. See
+    # memory contest-phase1-prefillbias.md and contest-phase1-real-scoring-formula.md.
+    #
+    # 2026-07-13: rebuilt as v2 on top of r11-rustwarm-v2, adding AIR_LMHEAD_FP8
+    # (fp8 quantized lm_head/logits GEMM, ported from a competitor's tested
+    # technique -- see memory contest-phase1-lmhead-fp8.md). Eager execution,
+    # outside the compiled backbone/decode CUDA graph, auto-falls back to bf16
+    # on any error. Same-window real-ERS A/B (cold regime): 0.7894 -> 0.7959,
+    # better on every metric, never worse. Verified working alongside pack +
+    # prefill-bias with zero conflicts (all three hooks fire independently).
+    image: dngback/vllm-v0.24.0-ubuntu2404-opt-2:r12-prefillbias-v2
+    entrypoint:
+      - python3 # Don't change this to vllm-server
+      - -m      # Don't change this to vllm-server
+      - vllm.entrypoints.openai.api_server # Don't change this to vllm-server
+    environment:
+      VLLM_USE_RUST_FRONTEND: "1"
+      ENGPACE_RATE_MS: "12"
+      ENGPACE_BURST_N: "3"
+      VLLM_GDN_DIRECT_SCAN_OUTPUT: "1"
+      # Warmup/priming safety net -- see docker-compose-r11-2.yml NOTE:
+      # AIR_HEALTH_GATE still can't gate /health under the Rust frontend, so
+      # readiness is checked via the compose healthcheck below instead.
+      AIR_WARMUP: "1"
+      AIR_GC_FREEZE: "1"
+      AIR_PRIME_PACK: "1"
+      AIR_PRIME_PACK_FILE: "/app/warmup_prime_pack_full.jsonl"
+      # fp8 lm_head/logits GEMM -- small, consistent, low-risk win (see note
+      # above). Auto-falls back to bf16 on any error.
+      AIR_LMHEAD_FP8: "1"
+    command:
+      - --model=/model
+      - --served-model-name=Qwen3.5-2B
+      - --host=0.0.0.0
+      - --port=8000
+      - --max-model-len=28672
+      - --gpu-memory-utilization=0.95
+      - --tensor-parallel-size=1
+      - --enable-prefix-caching
+      - --enable-chunked-prefill
+      - --max-num-batched-tokens=3072
+      - --max-num-seqs=512
+      - --async-scheduling
+      - --no-enable-log-requests
+      - --quantization=fp8
+      - --kv-cache-dtype=fp8_e4m3
+      - --mamba-cache-dtype=bfloat16
+      - --mamba-ssm-cache-dtype=bfloat16
+      - --language-model-only
+      - --no-disable-cascade-attn
+      # prefill-bias: urgent-prefill promotion, cache-aware ordering, and a
+      # predictive TBT-guard (never promotes if it would blow the TBT SLO).
+      # slot-swap deliberately NOT enabled here -- see the note above: it
+      # requires dropping --async-scheduling and, under the real ERS
+      # formula, showed no benefit once pack-priming is on (only helps in
+      # the cold/no-pack regime). Real-ERS A/B (pack ON, same-window):
+      # async+this config = 0.9949, no-async+slot-swap = 0.9933.
+      - --prefill-bias-enabled
+      - --prefill-bias-cache-aware
+      - --prefill-bias-tbt-guard-enabled
+      - --prefill-bias-tbt-slo-s=0.045
+      - --prefill-bias-ttft-slo-s=1.5
+    ports:
+      - "8000:8000"
+    shm_size: "2g"
+    # /health can't be gated here (Rust frontend owns the socket) -- check
+    # the warmup marker file directly instead of the port.
+    healthcheck:
+      test: ["CMD-SHELL", "test -f /tmp/.air_warmup_done"]
+      interval: 5s
+      timeout: 3s
+      retries: 240
+      start_period: 30s
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]

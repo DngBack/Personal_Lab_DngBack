@@ -1,0 +1,67 @@
+services:
+  model:
+    # r11-rustwarm-v1 = r11-engpace-rust-v1 + a sitecustomize patch that also
+    # hooks vllm.entrypoints.cli.serve.run_multi_api_server (the Rust-frontend
+    # dispatch point). Without it, AIR_WARMUP/AIR_PRIME_PACK/AIR_GC_FREEZE were
+    # silently inert under VLLM_USE_RUST_FRONTEND=1 (only wired to
+    # vllm.entrypoints.launcher.serve_http, which the Rust path never imports).
+    # Verified 2026-07-12: warmup, full 120-conversation pack prime, storm
+    # rehearsal and gc-freeze now all fire and complete before real traffic.
+    # See config_yml_aira/0712-r11-rustwarm/sitecustomize.py:_patch_cli_serve.
+    image: dngback/vllm-v0.24.0-ubuntu2404-opt-2:r11-rustwarm-v1
+    entrypoint:
+      - python3 # Don't change this to vllm-server
+      - -m      # Don't change this to vllm-server
+      - vllm.entrypoints.openai.api_server # Don't change this to vllm-server
+    environment:
+      VLLM_USE_RUST_FRONTEND: "1"
+      ENGPACE_RATE_MS: "12"
+      ENGPACE_BURST_N: "3"
+      VLLM_GDN_DIRECT_SCAN_OUTPUT: "1"
+      # r11-2: re-enable the warmup/priming/gc-freeze safety net that every
+      # prior graded-90+ config kept. NOTE: AIR_HEALTH_GATE still can't gate
+      # /health under the Rust frontend (no ASGI app to wrap -- vllm-rs answers
+      # /health itself), so readiness must be checked via the compose
+      # healthcheck below, not by polling /health for a 503->200 flip.
+      AIR_WARMUP: "1"
+      AIR_GC_FREEZE: "1"
+      AIR_PRIME_PACK: "1"
+      AIR_PRIME_PACK_FILE: "/app/warmup_prime_pack_full.jsonl"
+    command:
+      - --model=/model
+      - --served-model-name=Qwen3.5-2B
+      - --host=0.0.0.0
+      - --port=8000
+      - --max-model-len=28672
+      - --gpu-memory-utilization=0.95
+      - --tensor-parallel-size=1
+      - --enable-prefix-caching
+      - --enable-chunked-prefill
+      - --max-num-batched-tokens=3072
+      - --max-num-seqs=512
+      - --async-scheduling
+      - --no-enable-log-requests
+      - --quantization=fp8
+      - --kv-cache-dtype=fp8_e4m3
+      - --mamba-cache-dtype=bfloat16
+      - --mamba-ssm-cache-dtype=bfloat16
+      - --language-model-only
+      - --no-disable-cascade-attn
+    ports:
+      - "8000:8000"
+    shm_size: "2g"
+    # /health can't be gated here (see NOTE above) -- check the warmup marker
+    # file directly instead of the port.
+    healthcheck:
+      test: ["CMD-SHELL", "test -f /tmp/.air_warmup_done"]
+      interval: 5s
+      timeout: 3s
+      retries: 240
+      start_period: 30s
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
