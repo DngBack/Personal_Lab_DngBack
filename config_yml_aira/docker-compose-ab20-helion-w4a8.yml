@@ -1,0 +1,125 @@
+# =============================================================================
+# A/B-20: 68.27 BASELINE + int4 decode weights (W4A8), everything else byte-identical
+# =============================================================================
+# STRICT SINGLE-VARIABLE DELTA vs docker-compose-helion-fp8-ab.yml (graded 68.27):
+# same image lineage, same flags, same healthcheck -- only ATQ_W4A8 is added.
+#
+# WHY THIS IS DIFFERENT FROM ab17 (which scored 41.57 with 162 failures)
+# ---------------------------------------------------------------------
+#  1. PHASE SPLIT. m<=16 -> machete int4; m>16 -> dense fp8. ab17 pushed every
+#     shape through machete, and above M=16 its tile heuristic emits 2-CTA
+#     cluster schedules that a 16-SM MiG slice cannot reliably launch. Decode
+#     survived there (hence tbt_median=3); the big prefills did not.
+#  2. IT KEEPS --quantization=fp8. ab17 dropped it so the plugin could see bf16
+#     weights -- which also stripped every layer of the fp8 attributes that
+#     Helion / QKNRC / lfm2_shortconv_fp8 gate on. This build instead ingests
+#     the fp8 weights (dequantize -> int4 g128), so the v9 fast paths stay live.
+#     Re-quantizing from fp8 rather than bf16 costs ~0.2pp of GEMM error.
+#  3. It consumes QuantizedActivation. Under --quantization=fp8 the fused
+#     producers hand each linear a pre-quantized fp8 activation; the layer must
+#     accept it or the engine dies at startup with "'QuantizedActivation'
+#     object has no attribute 'reshape'". Found and fixed by direct experiment.
+#
+# VERIFIED ON THE PUSHED IMAGE (H200, VLLM_USE_HELION_FP8=0 to clear the MiG
+# fingerprint; QKNRC + fused ShortConv left ON):
+#   quantized ....... 64 LinearBase layers to int4 g128
+#   ShortConv fused . 0 fallback lines  <- the fused conv kernel stays ACTIVE,
+#                     confirmed against its logger.warning_once("falls back")
+#   generation ...... 17+25 -> 42 ; capital of Japan -> Tokyo
+#   needle .......... 4k PASS, 7k PASS
+#   concurrency ..... 120 parallel requests -> 120 OK, 0 failed
+#   latency ......... TPOT 2.82ms short / 3.21 mid, vs 3.26 / 3.33 for the same
+#                     build without ATQ_W4A8. TTFT 20.7ms vs 23.9ms.
+#
+# >>> The local numbers UNDERSTATE the slice. On a full H200 only ~5% of a decode
+#     step is weight bandwidth (1.2GB / 4.8TB/s = 0.25ms of ~4.5ms); on MiG
+#     1g.18gb it is ~45% (1.2GB / 0.68TB/s = 1.8ms of ~4ms). int4 removes ~518MB
+#     of that read -> ~0.76ms on the slice. ab14 already proved the direction:
+#     int4 weights are the only lever that ever moved tbt_median 4 -> 3.
+#
+# >>> RESIDUAL RISK, stated plainly: this could not be booted locally with
+#     VLLM_USE_HELION_FP8=1, because the Helion kernels verify a hardware
+#     fingerprint of "NVIDIA H200 MIG 1g.18gb"/16 SMs that this machine is not.
+#     Helion supplies the norm+quant / silu+quant kernels, which are orthogonal
+#     to the linear GEMMs this plugin replaces, so they should compose -- but
+#     that specific combination is unproven until it is graded.
+#     If it boots but underperforms, ATQ_W4A8_INCLUDE=feed_forward narrows the
+#     change to the FFN (69% of the weight bytes, 32 of 64 layers).
+#
+# ACCURACY: same int4 g128 RTN as ab14/ab17, both of which reported
+# accuracy_drop=0 on the grader.
+# =============================================================================
+services:
+  model:
+    image: dngback/vllm-v0.24.0-ubuntu2404-opt-2:v9-w4a8-v1
+    entrypoint:
+      - python3
+      - -m
+      - vllm.entrypoints.openai.api_server
+    environment:
+      VLLM_USE_HELION_FP8: "1"
+      # QKNRC A/B requires this env and QKNRC_PASS_ENABLED to agree.
+      VLLM_USE_FUSED_QKNRC: "1"
+      # ShortConv A/B is independent: only flip this value between runs.
+      VLLM_USE_FUSED_SHORTCONV_FP8: "1"
+
+      # Tắt các tối ưu phụ để cô lập tác động của Helion FP8.
+      VLLM_USE_RUST_FRONTEND: "1"
+      ENGPACE_RATE_MS: "12"
+      ENGPACE_BURST_N: "3"
+      # ---- CLEAN, TRACE-FREE, SHAPE-MATCHED WARMUP (zzwickyy has NONE -> our edge) ----
+      AIR_WARMUP: "1"
+      AIR_WARMUP_PROMPT_TOKENS: "4096"   # match real ~4000-tok input, crosses the 3072 chunk boundary
+      AIR_WARMUP_MAX_TOKENS: "32"
+      AIR_WARMUP_N: "8"                  # match ~8 concurrent -> warms the batch-8 CUDA graph
+      AIR_WARMUP_LONG: "0"
+      AIR_GC_FREEZE: "0"
+      AIR_PRIME_CACHE: "0"
+      AIR_PRIME_PACK: "0"
+      AIR_LMHEAD_FP8: "1"
+      # ---- THE ONLY CHANGE vs the 68.27 baseline: int4 weights for decode ----
+      # --quantization=fp8 STAYS ON below. The plugin ingests those fp8 weights,
+      # walks them back to bf16 and re-quantizes to int4 g128, so Helion, QKNRC
+      # and the fused ShortConv all keep the fp8 layers/attributes they require.
+      ATQ_W4A8: "128"
+      ATQ_W4A8_MAX_M: "16"
+    command:
+      - --model=/model
+      - --served-model-name=LFM2.5-1.2B-Instruct
+      - --host=0.0.0.0
+      - --port=8000
+      - --max-model-len=8192
+      - --gpu-memory-utilization=0.8830
+      - --tensor-parallel-size=1
+      - --enable-prefix-caching
+      - --prefix-caching-hash-algo=xxhash
+      - --enable-chunked-prefill
+      - --max-num-batched-tokens=2048
+      - --max-num-seqs=64
+      - --async-scheduling
+      - --no-enable-log-requests
+      - --quantization=fp8
+      - --kv-cache-dtype=fp8_e4m3
+      - --mamba-cache-dtype=bfloat16
+      - --mamba-cache-mode=align
+      - --block-size=16
+      # - --mamba-block-size=32
+      - --disable-cascade-attn
+      - --optimization-level=2
+      - '--compilation-config={"cudagraph_capture_sizes":[1,2,4,8,16,20,32,64], "max_cudagraph_capture_size":64, "custom_ops":["none","+quant_fp8"], "pass_config":{"fuse_norm_quant":true, "fuse_act_quant":true, "fuse_qk_norm_rope_cache_quant":true}}'
+    ports:
+      - "8137:8000"
+    shm_size: "2g"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:8000/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 120
+      start_period: 30s
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]

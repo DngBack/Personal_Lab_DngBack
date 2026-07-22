@@ -1,0 +1,108 @@
+# int4-v1 = the graded-66.3 fusion-v1 config with ONE swap: fp8 weights -> W4A16
+# machete int4 (online RTN at load, group=128, activations stay bf16).
+#
+# WHY (2026-07-20): the score is TBT-bound (tbt_median=4ms = the whole loss) and
+# EVERY config/env lever is measured dead: the ~3.4ms local TBT floor is per-step
+# HOST overhead, invariant to CPU cores/backend/frontend/stats (see memory
+# contest-phase1-tbt-floor-architectural). The ONLY untested lever that can cut
+# the remaining GPU share ON THE MIG (1/8 bandwidth, weight-read-bound) is int4:
+# halves decode weight bytes 1.17GB -> 0.59GB. hongquant's plugin claims TBT
+# 3.8 -> 2.4-2.6ms on the real pod (~+11-13 ERS) -- UNGRADED, this is the test.
+#
+# EVIDENCE (this session):
+#   - W4A16 engages: 64 LinearBase layers -> machete int4 g128 (log-verified)
+#   - cudagraph FULL decode capture WORKS with machete (server-mode verified)
+#   - accuracy: MMLU-STEM 300Q paired = int4 40.33% vs fp8 41.0% (-0.67pp, in-noise)
+#     BUT the grader's semantic delta vs bf16 is the real gate -- fp8 scored
+#     accuracy_drop=0; int4 adds risk. This submission is a deliberate gamble.
+#   - local full-H200 TBT: int4 3.80ms vs fp8 3.67ms same-window (slightly SLOWER
+#     locally -- expected: dequant cost with abundant bandwidth; the bet is MIG).
+#
+# DELTAS vs docker-compose-lfm25-1.2b-fusion-v1.yml (everything else identical):
+#   1. image -> r18-atq-v1 (r12 + vllm_w4a16 plugin; layer_drop present, OFF)
+#   2. + ATQ_W4A16=128, removed --quantization=fp8 (W4A16 replaces it)
+#   3. AIR_LMHEAD_FP8 1 -> 0  (accuracy-tested combo; don't stack lossy levers)
+#   4. compilation-config: dropped +quant_fp8/fusion passes (acts are bf16 now,
+#      the fp8-act fusion passes are inert/invalid) -- kept cudagraph sizes
+# =============================================================================
+# ab14 = ab13(int4) + 2 tinh chỉnh dựa trên phát hiện batch=1:
+#  (1) AIR_LMHEAD_FP8 0 -> 1. ab13 để lm_head ở bf16 = 0.27GB, chiếm 27% ngân
+#      sách byte SAU khi blocks đã int4 hoá. Bật fp8 -> 0.13GB, tiết kiệm
+#      0.22ms/token (~+2 diem). Ở batch=1 mọi byte đọc đều là TBT.
+#  (2) max-num-seqs 512 -> 8. Mô phỏng trace: batch decode thực tế 1-2 (88%),
+#      không bao giờ tới 512 -> giải phóng bộ nhớ cudagraph cho KV/prefix-cache.
+# NGÂN SÁCH BYTE: 1.57GB (fp8 baseline) -> 0.85GB  => weight-read 2.56 -> 1.39ms
+#   => TBT ~3.96 -> ~2.79ms  => ERS dự phóng ~78 (mô hình đã tự kiểm chứng khớp
+#      baseline: dự đoán 68.6 vs thực đo 68.27).
+# ⚠️ LOSSY x2 (int4 weights + fp8 lm_head). Nộp ONLINE để đo ERS thì an toàn,
+#    nhưng TUYỆT ĐỐI phải đo GPQA trước khi đưa vào 5-gate.
+# =============================================================================
+services:
+  model:
+    image: dngback/vllm-v0.24.0-ubuntu2404-opt-2:r18-atq-v1
+    entrypoint:
+      - python3 #Don't change this to vllm-server
+      - -m  #Don't change this to vllm-server
+      - vllm.entrypoints.openai.api_server #Don't change this to vllm-server
+    environment:
+      VLLM_USE_RUST_FRONTEND: "1"
+      ENGPACE_RATE_MS: "12"
+      ENGPACE_BURST_N: "3"
+      AIR_WARMUP: "1"
+      AIR_WARMUP_PROMPT_TOKENS: "4096"
+      AIR_WARMUP_MAX_TOKENS: "32"
+      AIR_WARMUP_N: "8"
+      AIR_WARMUP_LONG: "0"
+      AIR_GC_FREEZE: "0"
+      AIR_PRIME_CACHE: "0"
+      AIR_PRIME_PACK: "0"
+      AIR_LMHEAD_FP8: "1"
+      # ---- THE ONE LEVER: online W4A16 int4 via machete, group size 128 ----
+      ATQ_W4A16: "128"
+    volumes:
+      - lfm25_model:/model:ro
+    command:
+      - --model=/model #Don't change this to vllm-server
+      - --served-model-name=LFM2.5-1.2B-Instruct #Don't change this to vllm-server
+      - --host=0.0.0.0 #Don't change this to vllm-server
+      - --port=8000 #Don't change this to vllm-server
+      - --max-model-len=8192
+      - --gpu-memory-utilization=0.88
+      - --tensor-parallel-size=1
+      - --enable-prefix-caching
+      - --enable-chunked-prefill
+      - --max-num-batched-tokens=3072
+      - --max-num-seqs=8
+      - --async-scheduling
+      - --no-enable-log-requests
+      # NO --quantization flag: ATQ_W4A16 hooks process_weights_after_loading
+      - --kv-cache-dtype=fp8_e4m3
+      - --mamba-cache-dtype=bfloat16
+      - --mamba-cache-mode=align
+      - --attention-backend=FLASHINFER
+      - --disable-cascade-attn
+      - '--compilation-config={"cudagraph_capture_sizes":[1,2,4,8,12,16,24,32,48,64]}'
+      - --prefill-bias-enabled
+      - --prefill-bias-cache-aware
+      - --prefill-bias-tbt-guard-enabled
+      - --prefill-bias-tbt-slo-s=0.010
+      - --prefill-bias-ttft-slo-s=0.400
+    ports:
+      - "8137:8000"
+    shm_size: "2g"
+    healthcheck:
+      test: ["CMD-SHELL", "test -f /tmp/.air_warmup_done"]
+      interval: 5s
+      timeout: 3s
+      retries: 240
+      start_period: 30s
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+volumes:
+  lfm25_model:
+    external: true

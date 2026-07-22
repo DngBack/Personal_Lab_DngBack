@@ -1,0 +1,85 @@
+services:
+  model:
+    image: minhlam284/hello:v9
+    entrypoint:
+      - python3
+      - -m
+      - vllm.entrypoints.openai.api_server
+
+    environment:
+      VLLM_USE_HELION_FP8: "1"
+      VLLM_USE_FUSED_QKNRC: "1"
+      VLLM_USE_FUSED_SHORTCONV_FP8: "1"
+      VLLM_USE_RUST_FRONTEND: "1"
+
+      ENGPACE_RATE_MS: "12"
+      ENGPACE_BURST_N: "3"
+
+      AIR_WARMUP: "1"
+      AIR_WARMUP_PROMPT_TOKENS: "4096"
+      AIR_WARMUP_MAX_TOKENS: "100"
+      AIR_WARMUP_N: "16"
+      AIR_WARMUP_LONG: "0"
+
+      AIR_GC_FREEZE: "0"
+      AIR_PRIME_CACHE: "0"
+      AIR_PRIME_PACK: "0"
+      AIR_LMHEAD_FP8: "1"
+
+    command:
+      - --model=/model
+      - --served-model-name=LFM2.5-1.2B-Instruct
+      - --host=0.0.0.0
+      - --port=8000
+
+      - --max-model-len=8192
+      - --gpu-memory-utilization=0.8830
+      - --tensor-parallel-size=1
+
+      - --enable-prefix-caching
+      - --prefix-caching-hash-algo=xxhash
+
+      - --enable-chunked-prefill
+      - --max-num-batched-tokens=1024
+      - --max-num-seqs=32
+
+      - --async-scheduling
+      - --no-enable-log-requests
+
+      - --quantization=fp8
+      - --kv-cache-dtype=fp8_e4m3
+      - --mamba-cache-dtype=bfloat16
+      - --mamba-cache-mode=align
+
+      - --block-size=16
+
+      # Shared system prefix workload: opt in.
+      - --no-disable-cascade-attn
+
+      # Hopper baseline: force FA3-compatible backend.
+      - --attention-backend=FLASH_ATTN
+
+      - --performance-mode=interactivity
+      - --optimization-level=2
+
+      - '--compilation-config={"max_cudagraph_capture_size":32,"custom_ops":["none","+quant_fp8"],"pass_config":{"fuse_norm_quant":true,"fuse_act_quant":true,"fuse_qk_norm_rope_cache_quant":true}}'
+
+    ports:
+      - "8137:8000"
+
+    shm_size: "2g"
+
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:8000/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 120
+      start_period: 30s
+
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]

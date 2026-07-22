@@ -11,18 +11,20 @@ services:
       ENGPACE_BURST_N: "3"
       AIR_WARMUP: "1"
       AIR_GC_FREEZE: "1"
-      AIR_PRIME_PACK: "1"
-      AIR_PRIME_PACK_FILE: "/app/warmup_prime_pack_full.jsonl"
+      # Keep synthetic kernel/JIT warm-up, but never prime caches with
+      # benchmark/exam prompts embedded in the image.
+      AIR_PRIME_CACHE: "0"
+      AIR_PRIME_PACK: "0"
       AIR_LMHEAD_FP8: "1"
     volumes:
       - lfm2_model:/model:ro
     command:
       - --model=/model
-      - --served-model-name=Qwen3.5-2B        # giữ tên để trace/replay khớp
+      - --served-model-name=Qwen3.5-2B       
       - --host=0.0.0.0
       - --port=8000
       - --max-model-len=28672
-      - --gpu-memory-utilization=0.34          # -> 0.95 khi nộp bài (1 MIG riêng)
+      - --gpu-memory-utilization=0.95
       - --tensor-parallel-size=1
       - --enable-prefix-caching
       - --enable-chunked-prefill
@@ -30,15 +32,8 @@ services:
       - --max-num-seqs=512
       - --async-scheduling
       - --no-enable-log-requests
-      # NOTE (2026-07-16 A/B): --quantization=fp8 (backbone weight quant) gives
-      # NO ERS gain in the PRIMED regime — primed is decode/scheduling-bound, not
-      # compute-bound, and fp8 GEMM/dequant overhead slightly RAISES TBT on this
-      # 2.6B model on H200. bf16 backbone matches ERS (~0.991) and is simpler +
-      # accuracy-safer, so it's dropped here. Re-add ONLY for a cold/no-prime
-      # regime (prefill-bound), where fp8 weights speed up prefill.
-      # - --quantization=fp8
       - --kv-cache-dtype=fp8_e4m3
-      - --mamba-cache-dtype=bfloat16           # conv-state của LFM2 (KHÔNG có ssm)
+      - --mamba-cache-dtype=bfloat16       
       - --no-disable-cascade-attn
       - --prefill-bias-enabled
       - --prefill-bias-cache-aware

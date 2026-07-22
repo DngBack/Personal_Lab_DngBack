@@ -1,0 +1,98 @@
+# =============================================================================
+# A/B-18: W4A8 FFN-ONLY — same custom kernels as ab17, half the overhead
+# =============================================================================
+# STRICT SINGLE-VARIABLE DELTA vs ab17: adds ATQ_W4A8_INCLUDE=feed_forward.
+# Nothing else differs. Submit this only AFTER ab17 has a graded number, so the
+# comparison stays clean.
+#
+# WHY: every quantized layer pays 2 kernels the fork's fused dense-fp8 path does
+# not -- a per-token fp8 activation quant and an f16->bf16 output cast (the
+# compiled QQQ kernels only emit f16). The FFN holds ~77% of the model's weight
+# bytes but is only 32 of the 64 quantizable linears, so restricting the swap to
+# `feed_forward` keeps the large majority of the bandwidth win for HALF the
+# extra kernels. Verified locally: 32 layers quantized, 42 skipped.
+#
+# USE THIS IF ab17 lands BELOW ab14 (65.88). That outcome would mean the added
+# per-layer work outweighs the byte saving on the MiG slice, and this config is
+# the direct remedy -- it keeps the bandwidth lever and cuts the overhead in half.
+# If ab17 instead lands ABOVE 68.27, prefer pushing ab17 further (e.g. g256)
+# rather than trimming coverage.
+#
+# Everything else (image, kernels, accuracy profile, needle-12k pass) is exactly
+# as documented in ab17 -- see that file for the full build + verification log.
+# =============================================================================
+services:
+  model:
+    image: dngback/vllm-v0.24.0-ubuntu2404-opt-2:r18-w4a8-v1
+    entrypoint:
+      - python3 #Don't change this to vllm-server
+      - -m  #Don't change this to vllm-server
+      - vllm.entrypoints.openai.api_server #Don't change this to vllm-server
+    environment:
+      VLLM_USE_RUST_FRONTEND: "1"
+      ENGPACE_RATE_MS: "12"
+      ENGPACE_BURST_N: "3"
+      AIR_WARMUP: "1"
+      AIR_WARMUP_PROMPT_TOKENS: "4096"
+      AIR_WARMUP_MAX_TOKENS: "32"
+      AIR_WARMUP_N: "8"
+      AIR_WARMUP_LONG: "0"
+      AIR_GC_FREEZE: "0"
+      AIR_PRIME_CACHE: "0"
+      AIR_PRIME_PACK: "0"
+      AIR_LMHEAD_FP8: "1"
+      # ---- THE ONE CHANGE vs ab14: W4A16 (bf16 acts) -> W4A8 (fp8 acts) ----
+      # The plugin RAISES if it cannot quantize a single layer, so a silently
+      # unpatched run is impossible: a broken build fails the healthcheck
+      # instead of quietly serving an unquantized model.
+      ATQ_W4A8: "128"
+      # ---- THE ONE CHANGE vs ab17: restrict the swap to the FFN linears ----
+      ATQ_W4A8_INCLUDE: "feed_forward"
+    volumes:
+      - lfm25_model:/model:ro
+    command:
+      - --model=/model #Don't change this to vllm-server
+      - --served-model-name=LFM2.5-1.2B-Instruct #Don't change this to vllm-server
+      - --host=0.0.0.0 #Don't change this to vllm-server
+      - --port=8000 #Don't change this to vllm-server
+      - --max-model-len=8192
+      - --gpu-memory-utilization=0.88
+      - --tensor-parallel-size=1
+      - --enable-prefix-caching
+      - --enable-chunked-prefill
+      - --max-num-batched-tokens=2048
+      - --max-num-seqs=8
+      - --async-scheduling
+      - --no-enable-log-requests
+      # NO --quantization flag: weights must land in bf16 so the plugin can
+      # quantize them itself in process_weights_after_loading.
+      - --kv-cache-dtype=fp8_e4m3
+      - --mamba-cache-dtype=bfloat16
+      - --mamba-cache-mode=align
+      - --attention-backend=FLASHINFER
+      - --disable-cascade-attn
+      - '--compilation-config={"cudagraph_capture_sizes":[1,2,4,8,12,16,24,32,48,64]}'
+      - --prefill-bias-enabled
+      - --prefill-bias-cache-aware
+      - --prefill-bias-tbt-guard-enabled
+      - --prefill-bias-tbt-slo-s=0.010
+      - --prefill-bias-ttft-slo-s=0.400
+    ports:
+      - "8137:8000"
+    shm_size: "2g"
+    healthcheck:
+      test: ["CMD-SHELL", "test -f /tmp/.air_warmup_done"]
+      interval: 5s
+      timeout: 3s
+      retries: 240
+      start_period: 30s
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+volumes:
+  lfm25_model:
+    external: true

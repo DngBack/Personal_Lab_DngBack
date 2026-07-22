@@ -1,0 +1,74 @@
+# QKNRC A/B: chỉ đổi VLLM_USE_FUSED_QKNRC và QKNRC_PASS_ENABLED.
+# Giữ VLLM_USE_HELION_FP8 ở cùng một giá trị giữa hai lượt.
+
+services:
+  model:
+    image: minhlam284/hello:v9
+    entrypoint:
+      - python3
+      - -m
+      - vllm.entrypoints.openai.api_server
+    environment:
+      VLLM_USE_HELION_FP8: "1"
+      # QKNRC A/B requires this env and QKNRC_PASS_ENABLED to agree.
+      VLLM_USE_FUSED_QKNRC: "1"
+      # ShortConv A/B is independent: only flip this value between runs.
+      VLLM_USE_FUSED_SHORTCONV_FP8: "1"
+
+      # Tắt các tối ưu phụ để cô lập tác động của Helion FP8.
+      VLLM_USE_RUST_FRONTEND: "1"
+      ENGPACE_RATE_MS: "12"
+      ENGPACE_BURST_N: "3"
+      # ---- CLEAN, TRACE-FREE, SHAPE-MATCHED WARMUP (zzwickyy has NONE -> our edge) ----
+      AIR_WARMUP: "1"
+      AIR_WARMUP_PROMPT_TOKENS: "4096"   # match real ~4000-tok input, crosses the 3072 chunk boundary
+      AIR_WARMUP_MAX_TOKENS: "32"
+      AIR_WARMUP_N: "8"                  # match ~8 concurrent -> warms the batch-8 CUDA graph
+      AIR_WARMUP_LONG: "0"
+      AIR_GC_FREEZE: "0"
+      AIR_PRIME_CACHE: "0"
+      AIR_PRIME_PACK: "0"
+      AIR_LMHEAD_FP8: "1"
+    command:
+      - --model=/model
+      - --served-model-name=LFM2.5-1.2B-Instruct
+      - --host=0.0.0.0
+      - --port=8000
+      - --max-model-len=8192
+      #8192
+      - --gpu-memory-utilization=0.8830
+      - --tensor-parallel-size=1
+      - --enable-prefix-caching
+      - --prefix-caching-hash-algo=xxhash
+      - --enable-chunked-prefill
+      - --max-num-batched-tokens=2048
+      #3072
+      - --max-num-seqs=64
+      - --async-scheduling
+      - --no-enable-log-requests
+      - --quantization=fp8
+      - --kv-cache-dtype=fp8_e4m3
+      - --mamba-cache-dtype=bfloat16
+      - --mamba-cache-mode=align
+      - --block-size=16
+      # - --mamba-block-size=32
+      - --disable-cascade-attn
+      - --optimization-level=2
+      # - '--speculative-config={"method":"ngram_gpu","num_speculative_tokens":2,"prompt_lookup_min":2,"prompt_lookup_max":3}, "draft_sample_method":"probabilistic","rejection_sample_method":"synthetic", "synthetic_acceptance_rates":[0.9,0.9]}'
+      - '--compilation-config={"cudagraph_capture_sizes":[1,2,4,8,16,20,32,64],"max_cudagraph_capture_size":64,"custom_ops":["none","+quant_fp8"],"pass_config":{"fuse_norm_quant":true,"fuse_act_quant":true,"fuse_qk_norm_rope_cache_quant":true}}'
+    ports:
+      - "8137:8000"
+    shm_size: "2g"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:8000/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 120
+      start_period: 30s
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
